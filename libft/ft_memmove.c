@@ -1,43 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/24 12:08:18 by vvasiuko          #+#    #+#             */
-/*   Updated: 2024/10/12 14:23:09 by vvasiuko         ###   ########.fr       */
+/*   Created: 2024/10/10 11:31:23 by vvasiuko          #+#    #+#             */
+/*   Updated: 2024/10/15 13:36:51 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *src)
+void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	char	*dest;
-	int		len;
+	char		*udst;
+	char		*usrc;
 
-	len = ft_strlen (src);
-	dest = malloc ((sizeof (char)) * (len + 1));
-	if (!dest)
-		return (NULL);
-	dest[len] = '\0';
-	len--;
-	while (len >= 0)
+	if (!dst && !src)
+		return (dst);
+	if (dst < src)
+		return (ft_memcpy (dst, src, len));
+	udst = (char *)dst;
+	usrc = (char *)src;
+	while (len > 0)
 	{
-		dest[len] = src[len];
 		len--;
+		udst[len] = usrc[len];
 	}
-	return (dest);
+	return (dst);
 }
 
-// int	main(void)
-// {
-// 	char	*s1;
-// 	char	*s2;
-
-// 	s1 = "String";
-// 	s2 = ft_strdup (s1);
-// 	printf ("%s\n", s2);
-// 	free (s2);
-// }
+// int main() 
+// { 
+// 	char csrc[100] = "Geeksfor"; 
+// 	ft_memmove(csrc+5, csrc, strlen(csrc)+1); 
+// 	printf("%s", csrc); 
+// 	return 0; 
+// } 

@@ -6,11 +6,11 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 12:41:00 by vvasiuko          #+#    #+#             */
-/*   Updated: 2024/10/15 14:12:06 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2024/11/15 11:58:40 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/pipex.h"
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {

@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/18 12:40:39 by vvasiuko          #+#    #+#             */
-/*   Updated: 2024/10/10 18:56:29 by vvasiuko         ###   ########.fr       */
+/*   Created: 2024/04/16 11:18:45 by vvasiuko          #+#    #+#             */
+/*   Updated: 2024/10/12 13:50:17 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *str)
+int	ft_toupper(int i)
 {
-	size_t	len;
-
-	len = 0;
-	while (str[len])
-		len++;
-	return (len);
+	if (i >= 'a' && i <= 'z')
+		return (i -= 32);
+	return (i);
 }
 
-// int	main(void)
+// int main(void)
 // {
-// 	printf("%d", ft_strlen("Hallo"));
+// 	char	src = 'e';
+
+// 	printf ("%d", ft_toupper (src));
+// 	printf ("%s", "\n");
+// 	printf ("%d", toupper (src));
 // 	return (0);
 // }

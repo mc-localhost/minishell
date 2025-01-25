@@ -6,11 +6,11 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 16:26:35 by vvasiuko          #+#    #+#             */
-/*   Updated: 2024/10/12 16:40:43 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2024/11/15 11:58:45 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/pipex.h"
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {

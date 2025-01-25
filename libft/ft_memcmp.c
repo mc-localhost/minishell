@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/16 16:26:35 by vvasiuko          #+#    #+#             */
-/*   Updated: 2024/10/12 16:40:43 by vvasiuko         ###   ########.fr       */
+/*   Created: 2024/10/08 16:23:16 by vvasiuko          #+#    #+#             */
+/*   Updated: 2024/10/12 14:46:16 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
 	size_t	i;
 
@@ -20,17 +20,22 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	if (n == 0)
 		return (0);
 	while ((*(unsigned char *)(s1 + i) == *(unsigned char *)(s2 + i))
-			&& i < n - 1 && *(unsigned char *)(s1 + i) != '\0'
-			&& *(unsigned char *)(s2 + i) != '\0')
+			&& i < n - 1)
 		i++;
 	return (*(unsigned char *)(s1 + i) - *(unsigned char *)(s2 + i));
 }
-// int main(void)
+
+// int main()
 // {
-// 	char string1[] = "I hate this";
-// 	char string2[] = "I hate this task";
-// 	printf("%d", ft_strncmp(string1, string2, 50));
-// 	printf("%s","\n");
-// 	printf("%d", strncmp(string1, string2, 50));
-// 	return (0);
+// 	char myStr1[] = "ABCD";
+// 	char myStr2[] = "ABCD";
+// 	int cmp = ft_memcmp(myStr1, myStr2, 4);
+
+// 	if (cmp > 0) {
+// 	printf("%s is greater than %s\n", myStr1, myStr2);
+// 	} else if (cmp < 0) {
+// 	printf("%s is greater than %s\n", myStr2, myStr1);
+// 	} else {
+// 	printf("%s is equal to %s\n", myStr1, myStr2);
+// 	}
 // }

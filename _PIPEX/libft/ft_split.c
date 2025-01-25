@@ -6,11 +6,11 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 17:23:01 by vvasiuko          #+#    #+#             */
-/*   Updated: 2024/10/15 13:45:23 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2024/11/15 11:58:32 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/pipex.h"
 
 static int	ft_free(char **arr, size_t size)
 {
