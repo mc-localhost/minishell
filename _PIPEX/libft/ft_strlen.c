@@ -6,11 +6,11 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 12:40:39 by vvasiuko          #+#    #+#             */
-/*   Updated: 2024/10/10 18:56:29 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2024/11/15 11:58:43 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/pipex.h"
 
 size_t	ft_strlen(const char *str)
 {

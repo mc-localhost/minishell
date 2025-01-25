@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/18 12:40:39 by vvasiuko          #+#    #+#             */
-/*   Updated: 2024/10/10 18:56:29 by vvasiuko         ###   ########.fr       */
+/*   Created: 2024/04/16 11:18:45 by vvasiuko          #+#    #+#             */
+/*   Updated: 2024/10/10 18:41:12 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strlen(const char *str)
+int	ft_isprint(int i)
 {
-	size_t	len;
-
-	len = 0;
-	while (str[len])
-		len++;
-	return (len);
+	if (i >= 32 && i <= 126)
+		return (1);
+	else
+		return (0);
 }
 
-// int	main(void)
+// int main(void)
 // {
-// 	printf("%d", ft_strlen("Hallo"));
+// 	char	src = ' ';
+
+// 	printf ("%d", ft_isprint (src));
+// 	printf ("%s", "\n");
+// 	printf ("%d", isprint (src));
 // 	return (0);
 // }
