@@ -6,16 +6,17 @@
 #    By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/10 15:49:58 by vvasiuko          #+#    #+#              #
-#    Updated: 2025/01/25 14:17:14 by vvasiuko         ###   ########.fr        #
+#    Updated: 2025/01/28 11:28:03 by vvasiuko         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 NAME_BONUS = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Iincludes -Ilibft -g
+CFLAGS = -Wall -Wextra -Werror -Iincludes -Ilibft -g -fsanitize=address
 LFLAGS = -lreadline -Llibft -lft
-SRC = main.c garbage_collector.c environment.c
+SRC = main.c garbage_collector.c environment.c \
+	parser/scanner.c
 OBJ = $(SRC:.c=.o)
 RM = rm -f
 
@@ -31,7 +32,7 @@ $(NAME): $(LIBFT) $(OBJ)
 $(LIBFT):
 	@make -C $(LIBFT_PATH)
 
-%.o: %.c minishell.h
+%.o: %.c includes/minishell.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
