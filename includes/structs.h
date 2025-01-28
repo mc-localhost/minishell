@@ -1,3 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   structs.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/28 18:05:01 by vvasiuko          #+#    #+#             */
+/*   Updated: 2025/01/28 18:05:07 by vvasiuko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef STRUCTS_H
+# define STRUCTS_H
+# include "minishell.h"
+
 /*	FOR GARBAGE COLLECTOR	*/
 
 typedef struct s_alloc_node
@@ -40,6 +56,8 @@ typedef struct s_token
 	char				**args;
 	// for redirections
 	char				*file;
+	struct s_token		*prev;
+	struct s_token		*next;
 }						t_token;
 
 /*	FOR STORING VARS AND COMMANDS	*/
@@ -49,3 +67,5 @@ typedef struct s_data
 	t_token				*tokens;
 	t_env_node			*envs;
 }						t_data;
+
+#endif
