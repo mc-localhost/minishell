@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/01/28 11:04:39 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/01/28 16:35:16 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 
 # define PROMPT "minishell> "
 
-/*	GLOBAL	*/
+/*	G	L	O	B	A	L		V	A	R	I	A	B	L	E	S	*/
 int				g_last_exit_code;
 t_alloc_node	*g_garbage_list;
 
@@ -55,6 +55,11 @@ void			delete_env_var(t_env_node **head, const char *key);
 void			envp_to_list(t_data *data, char **envp, int i);
 void			print_env_list(t_env_node *current);
 
+/*	PARSER	*/
+t_token			*create_token(t_token_type type, char *value, char **args, char *file);
+void			add_token(t_token **head, t_token *new_token);
+void			print_tokens(t_token *current);
+int				scan(char *str, t_data *data);
 /*	MAIN	*/
 
 #endif
