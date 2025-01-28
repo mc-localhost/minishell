@@ -6,11 +6,11 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 12:19:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/01/25 16:58:45 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/01/28 11:57:49 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "includes/minishell.h"
 
 t_env_node	*create_env_var(char *key, char *value)
 {
@@ -40,6 +40,8 @@ void	add_env_var(t_env_node **head, t_env_node *new_node) //but what happens whe
 	}
 }
 
+//this should suffice to not print it and not check it while searching
+// and the garbage collector will deal with the freeing
 void	delete_env_var(t_env_node **head, const char *key)
 {
 	t_env_node	*temp;
@@ -51,13 +53,8 @@ void	delete_env_var(t_env_node **head, const char *key)
 	{
 		if (ft_strcmp(temp->key, key) == 0)
 		{
-			if (prev == NULL)
-				*head = temp->next;
-			else
-				prev->next = temp->next;
-			free(temp->key);
-			free(temp->value);
-			free(temp);
+			temp->key = NULL;
+			temp->value = NULL;
 			return ;
 		}
 		prev = temp;
@@ -87,7 +84,7 @@ void	change_env_var(t_env_node **head, const char *key, const char *value)
 	printf("no such key '%s'\n", key); // change to smth else
 }
 
-void	envp_to_list(char **envp, int i) // int i 'cause only 5 vars allowed
+void	envp_to_list(t_data *data, char **envp, int i) // int i 'cause only 5 vars allowed
 {
 	t_env_node *env_list;
 	char *equal_sign;
@@ -102,21 +99,20 @@ void	envp_to_list(char **envp, int i) // int i 'cause only 5 vars allowed
 		key_len = equal_sign - envp[i];
 		key = safe_malloc((key_len + 1) * sizeof(char));
 		ft_strlcpy(key, envp[i], key_len + 1);
+		// change to safe_malloc
 		value = ft_strdup(equal_sign + 1);
 		// change to safe_malloc
 		add_env_var(&env_list, create_env_var(key, value));
 		i++;
 	}
-	g_ast.envs = env_list;
+	data->envs = env_list;
 }
 
 void	print_env_list(t_env_node *current)
 {
 	while (current)
 	{
-		if (!current->value)
-			printf("%s=%s\n", current->key, "(null)");
-		else
+		if (current->key && current->value)
 			printf("%s=%s\n", current->key, current->value);
 		current = current->next;
 	}

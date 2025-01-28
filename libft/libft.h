@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 14:45:08 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/01/25 13:22:36 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/01/25 18:14:16 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 
 int					ft_atoi(const char *str);
+int					ft_isspace(char c);
 int					ft_isalnum(int i);
 int					ft_isalpha(int i);
 int					ft_isascii(int i);

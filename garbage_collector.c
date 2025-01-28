@@ -6,11 +6,11 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:36:24 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/01/25 17:02:47 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/01/28 11:43:54 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "includes/minishell.h"
 
 static void	add_allocation(void *ptr)
 {
@@ -49,10 +49,14 @@ void	free_all(void)
 	current = g_garbage_list;
 	while (current)
 	{
-		free(current->ptr);
-		tmp = current;
-		current = current->next;
-		free(tmp);
+		tmp = current->next;
+		if (current->ptr)
+		{
+			free(current->ptr);
+			current->ptr = NULL;
+		}
+		free(current);
+		current = tmp;
 	}
 	g_garbage_list = NULL;
 }
