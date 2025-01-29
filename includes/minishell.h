@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/01/28 16:35:16 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/01/29 14:34:09 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ t_token			*create_token(t_token_type type, char *value, char **args, char *file)
 void			add_token(t_token **head, t_token *new_token);
 void			print_tokens(t_token *current);
 int				scan(char *str, t_data *data);
+const char		*expand(const char *str, t_data *data);
+
 /*	MAIN	*/
 
 #endif
