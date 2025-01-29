@@ -6,7 +6,7 @@
 #    By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/10 15:49:58 by vvasiuko          #+#    #+#              #
-#    Updated: 2025/01/28 16:38:58 by vvasiuko         ###   ########.fr        #
+#    Updated: 2025/01/29 16:39:08 by vvasiuko         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -Iincludes -Ilibft -g -fsanitize=address
 LFLAGS = -lreadline -Llibft -lft
 SRC = main.c garbage_collector.c environment.c \
-	parser/scanner.c parser/tokens.c parser/syntax.c
+	parser/scanner.c parser/tokens.c parser/expander.c parser/syntax.c
 OBJ = $(SRC:.c=.o)
 RM = rm -f
 

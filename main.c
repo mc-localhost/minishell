@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/01/28 17:16:52 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/01/29 16:36:24 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	main(int argc, char **argv, char **envp)
 	char	*input;
 	char	*trimmed;
 
+	g_last_exit_code = 0; //remove?
 	(void)argv;
 	if (argc != 1)
 	{
@@ -47,8 +48,8 @@ int	main(int argc, char **argv, char **envp)
 	g_garbage_list = NULL;
 	ft_memset(&data, 0, sizeof(data));
 	envp_to_list(&data, envp, 0);
-	print_env_list(data.envs);
-	printf("\n**********************\n");
+	// print_env_list(data.envs);
+	// printf("\n**********************\n");
 
 	// change_env_var(&data.envs, "USER", "changed");
 	// printf("\n changed USER var\n");
@@ -79,8 +80,8 @@ int	main(int argc, char **argv, char **envp)
 		if (*input)
 			add_history(input);
 		printf("input: %s\n", input);
-		printf("scanning...\n");
-		scan(input, &data);
+		// scan(input, &data);
+		expand(input, &data);
 		free(input);
 	}
 	free_all();
