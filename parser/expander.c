@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 16:38:12 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/01/29 16:41:44 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/01/31 15:34:23 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ const char *expand(const char *str, t_data *data)
 		till_dollar = safe_malloc(till_dollar_len + 1);
 		ft_strlcpy(till_dollar, str, till_dollar_len + 1);
 		printf("till_dollar: %s\n", till_dollar);
-
 		i = till_dollar_len + 1;
 		if (str[i] && str[i] == '?')
 		{
@@ -65,6 +64,12 @@ const char *expand(const char *str, t_data *data)
 			printf("after joining before dollar with expansion: %s\n", res);
 			res = ft_strjoin(res, &str[i + 1]);
 			printf("res after second join: %s\n", res);
+			expand(res, data);
+		}
+		else if (str[i] && (ft_isspace(str[i]) || ft_strchr("$|<>\"'", str[i])))
+		{
+			printf("just leaving it be\n");
+			//maybe replace it with " and replace back at the very end?
 			expand(res, data);
 		}
 		else
