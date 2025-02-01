@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/01/29 16:36:24 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/01 02:28:05 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ int	main(int argc, char **argv, char **envp)
 		if (*input)
 			add_history(input);
 		printf("input: %s\n", input);
+		if (ft_strcmp(input, "env") == 0)
+			print_env_list(data.envs);
 		// scan(input, &data);
 		expand(input, &data);
 		free(input);
