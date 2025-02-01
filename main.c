@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/01 02:40:39 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/01 02:42:22 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ int	main(int argc, char **argv, char **envp)
 			add_history(input);
 		if (ft_strcmp(input, "env") == 0 || ft_strcmp(input, "export") == 0)
 			print_env_list(data.envs);
-		else if (ft_strcmp(input, "clear") == 0)
-			printf("\033[H\033[J"); // or system("clear");
+		else if (ft_strcmp(input, "clear") == 0 || ft_strcmp(input, "cls") == 0)
+			printf("\033[H\033[J"); // or system(input);
 		else
 			printf("input: %s\n", input);
 		// scan(input, &data);
