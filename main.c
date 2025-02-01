@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/01 02:35:52 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/01 02:38:28 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ int	main(int argc, char **argv, char **envp)
 		printf("input: %s\n", input);
 		if (ft_strcmp(input, "env") == 0 || ft_strcmp(input, "export") == 0)
 			print_env_list(data.envs);
+		if (ft_strcmp(input, "clear") == 0)
+			printf("\033[H\033[J"); // or system("clear");
 		// scan(input, &data);
 		expand(input, &data);
 		free(input);
