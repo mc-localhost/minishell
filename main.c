@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/01 02:42:22 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/01 02:46:09 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,15 @@ unset			= delete_env_var(&data.envs, "VAR_NAME");
 exit			= exit(), do not handle options
 
 */
+
+void pwd() {
+	char cwd[1024];
+    if (getcwd(cwd, sizeof(cwd)) != NULL) {
+        printf("%s\n", cwd);
+    } else {
+        perror("getcwd() error");
+    }
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -85,6 +94,8 @@ int	main(int argc, char **argv, char **envp)
 			print_env_list(data.envs);
 		else if (ft_strcmp(input, "clear") == 0 || ft_strcmp(input, "cls") == 0)
 			printf("\033[H\033[J"); // or system(input);
+		else if (ft_strcmp(input, "pwd") == 0 )
+			pwd();
 		else
 			printf("input: %s\n", input);
 		// scan(input, &data);
