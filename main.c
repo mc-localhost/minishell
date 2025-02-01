@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/01 02:46:09 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/01 02:51:23 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	main(int argc, char **argv, char **envp)
 	// print_env_list(data.envs); //cmd = env or export
 	// printf("\n**********************\n");
 
-	// change_env_var(&data.envs, "USER", "changed"); cmd = export VAR_NAME="value"
+	// change_env_var(&data.envs, "USER", "changed"); cmd = export VAR_NAME="value"  use ft_split and ignore when you adding" (add and change is the same the difference is if the key exist in list we change it, if it's not in the list we add)
 	// printf("\n changed USER var\n");
 	// print_env_list(data.envs);
 	// printf(" **********************\n");
@@ -70,7 +70,7 @@ int	main(int argc, char **argv, char **envp)
 	// print_env_list(data.envs);
 	// printf("**********************\n");
 
-	// add_env_var(&data.envs, create_env_var("newUSER", "I'VE JUST BEEN CREATED")); cmd = export VAR_NAME="value"
+	// add_env_var(&data.envs, create_env_var("newUSER", "I'VE JUST BEEN CREATED")); cmd = export VAR_NAME="value" use ft_split and ignore when you adding" (add and change is the same the difference is if the key exist in list we change it, if it's not in the list we add)
 	// //but what happens when the var already exists?
 	// printf("\n added newUSER var to the end\n");
 	// print_env_list(data.envs);
