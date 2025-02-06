@@ -15,6 +15,7 @@
 t_token	*create_token(t_token_type type, char *value, char **args, char *file)
 {
 	t_token	*new_token;
+	int	i;
 
 	new_token = safe_malloc(sizeof(t_token));
 	if (!new_token)
@@ -25,7 +26,14 @@ t_token	*create_token(t_token_type type, char *value, char **args, char *file)
 	}
 	new_token->type = type;
 	new_token->value = value;
-	new_token->args = args;
+	if (args)
+	{
+		new_token->args = args;
+		i = 0;
+		while (args[i])
+			i++;
+		new_token->args_count = i;
+	}
 	new_token->file = file;
 	new_token->prev = NULL;
 	new_token->next = NULL;
@@ -50,10 +58,18 @@ void	add_token(t_token **head, t_token *new_token)
 
 void	print_tokens(t_token *current)
 {
+	int	i;
+
 	while (current)
 	{
 		printf("Type: %d, Value: %s, File: %s\n", current->type, current->value,
 			current->file);
+		i = 0;
+		while (i < current->args_count)
+		{
+			printf("%i arg: %s\n", i, current->args[i]);
+			i++;
+		}
 		current = current->next;
 	}
 }

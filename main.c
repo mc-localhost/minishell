@@ -12,33 +12,10 @@
 
 #include "includes/minishell.h"
 
-/*
-char *builtins[] = {
-  "cd",
-  "pwd",
-  "env",
-  "export",
-  "unset"
-};
-
-echo, echo -n 	= print all args, add '\n' in the end if there is no -n flag
-cd				= chdir(path)
-pwd				= printf(getcwd())
-env				= print_env_list(data.envs);
-export			= change_env_var(&data.envs, "VAR_NAME", "NEW VALUE");
-unset			= delete_env_var(&data.envs, "VAR_NAME");
------	already implemented in main, sorta	-----
-exit			= exit(), do not handle options
-
-*/
-
-void pwd() {
-	char cwd[1024];
-    if (getcwd(cwd, sizeof(cwd)) != NULL) {
-        printf("%s\n", cwd);
-    } else {
-        perror("getcwd() error");
-    }
+static void init_global(void)
+{
+	g_last_exit_code = 0;
+	g_garbage_list = NULL;
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -47,14 +24,13 @@ int	main(int argc, char **argv, char **envp)
 	char	*input;
 	char	*trimmed;
 
-	g_last_exit_code = 0; //remove?
 	(void)argv;
 	if (argc != 1)
 	{
 		printf("This program doesn't take any arguments.\n");
 		exit(EXIT_FAILURE);
 	}
-	g_garbage_list = NULL;
+	init_global();
 	ft_memset(&data, 0, sizeof(data));
 	envp_to_list(&data, envp, 0);
 	// print_env_list(data.envs); //cmd = env or export
@@ -81,6 +57,8 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		input = readline(PROMPT);
+		
+		//remove later
 		trimmed = ft_strtrim(input, "\t\n\v\f\r ");
 		if (ft_strncmp("exit", trimmed, 4) == 0)
 		{
@@ -88,18 +66,22 @@ int	main(int argc, char **argv, char **envp)
 			free(input);
 			break ;
 		}
+		//end of remove
+		
 		if (*input)
+		{
 			add_history(input);
-		if (ft_strcmp(input, "env") == 0 || ft_strcmp(input, "export") == 0)
-			print_env_list(data.envs);
-		else if (ft_strcmp(input, "clear") == 0 || ft_strcmp(input, "cls") == 0)
-			printf("\033[H\033[J"); // or system(input);
-		else if (ft_strcmp(input, "pwd") == 0 )
-			pwd();
-		else
-			printf("input: %s\n", input);
-		// scan(input, &data);
-		expand(input, &data);
+			data.input = input;
+			data.input_copy = ft_strdup(input); //needs safe malloc
+			parse(&data);
+		}
+		t_token *current = data.tokens;
+		while (current)
+		{
+			if (current->type == TOKEN_BUILTIN)
+				handle_builtin(current, &data);
+			current = current->next;
+		}
 		free(input);
 	}
 	free_all();

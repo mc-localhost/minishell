@@ -19,23 +19,6 @@
 	// 	exit(EXIT_FAILURE);
 	// }
 
-static char	*find_env_var(t_env_node **head, const char *str)
-{
-	t_env_node	*temp;
-	t_env_node	*prev;
-
-	temp = *head;
-	prev = NULL;
-	while (temp)
-	{
-		printf("comparing %s with %s\n", temp->key, str);
-		if (ft_strcmp(temp->key, str) == 0)
-			return (temp->value);
-		prev = temp;
-		temp = temp->next;
-	}
-	return (NULL);
-}
 
 const char *expand(const char *str, t_data *data)
 {

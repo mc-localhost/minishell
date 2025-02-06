@@ -13,10 +13,13 @@
 NAME = minishell
 NAME_BONUS = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Iincludes -Ilibft -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -Iincludes -Ilibft -g
+# -fsanitize=address
 LFLAGS = -lreadline -Llibft -lft
 SRC = main.c garbage_collector.c environment.c \
-	parser/scanner.c parser/tokens.c parser/expander.c parser/syntax.c
+	parser/parser.c parser/scanner.c parser/tokens.c parser/expander.c parser/syntax.c \
+	builtins/builtin_exec.c builtins/cd.c  builtins/pwd.c builtins/echo.c builtins/env.c builtins/export.c builtins/unset.c \
+	test.c
 OBJ = $(SRC:.c=.o)
 RM = rm -f
 

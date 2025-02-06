@@ -54,6 +54,7 @@ typedef struct s_token
 	char				*value;
 	// for command flags and etc.
 	char				**args;
+	int					args_count;
 	// for redirections
 	char				*file;
 	struct s_token		*prev;
@@ -64,6 +65,8 @@ typedef struct s_token
 
 typedef struct s_data
 {
+	char				*input;
+	char				*input_copy;
 	t_token				*tokens;
 	t_env_node			*envs;
 }						t_data;

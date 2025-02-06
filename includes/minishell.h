@@ -47,6 +47,7 @@ void			*safe_malloc(size_t size);
 void			free_all(void);
 
 /*	ENVIRONMENT	*/
+char			*find_env_var(t_env_node **head, const char *str);
 t_env_node		*create_env_var(char *key, char *value);
 void			add_env_var(t_env_node **head, t_env_node *new_node);
 void			change_env_var(t_env_node **head, const char *key,
@@ -56,12 +57,22 @@ void			envp_to_list(t_data *data, char **envp, int i);
 void			print_env_list(t_env_node *current);
 
 /*	PARSER	*/
+int parse(t_data *data);
 t_token			*create_token(t_token_type type, char *value, char **args, char *file);
 void			add_token(t_token **head, t_token *new_token);
 void			print_tokens(t_token *current);
 int				scan(char *str, t_data *data);
 const char		*expand(const char *str, t_data *data);
 
+/*	BUILTINS	*/
+void			handle_builtin(t_token *token, t_data *data);
+void			env(t_data *data);
+void			pwd(t_data *data);
+void			echo(t_token *token);
+
 /*	MAIN	*/
+
+/********** FOR TESTING ************/
+void create_mock_token_list(t_data *data);
 
 #endif
