@@ -62,7 +62,7 @@ t_token			*create_token(t_token_type type, char *value, char **args, char *file)
 void			add_token(t_token **head, t_token *new_token);
 void			print_tokens(t_token *current);
 int				scan(t_data *data);
-const char		*expand(const char *str, t_data *data);
+char	*expand(char *str, t_data *data);
 
 /*	BUILTINS	*/
 void			handle_builtin(t_token *token, t_data *data);

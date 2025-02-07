@@ -12,73 +12,50 @@
 
 #include "../includes/minishell.h"
 
-
-const char *expand(const char *str, t_data *data)
+static char	*expanded(char *start, char *end, t_data *data)
 {
-	const char	*res;
-	char	*till_dollar;
-	char	*dollar;
-	int till_dollar_len;
-	int	i;
+	if (start == end)
+		return (ft_strdup("$")); // safe malloc needed
+	else if (end - start == 1 && *start == '?')
+		return (ft_itoa(g_last_exit_code)); // safe malloc needed
+	else
+		return (find_env_var(&data->envs, ft_substr(start, 0, end - start)));
+			// safe malloc needed
+}
 
-	i = 0;
-	res = str;
-	dollar = ft_strchr(str, '$');
-	if (dollar)
+static char	*dollar_end(char *str)
+{
+	if (*str == '?')
+		return (str + 1);
+	while (*str && (ft_isalnum(*str) || *str == '_'))
+		str++;
+	return (str); // returns next char after the end of the dollar token
+}
+
+char	*expand(char *str, t_data *data)
+{
+	char	*res;
+	char	*temp;
+	char	*start;
+	char	*end;
+
+	res = ft_strdup("");
+	while (*str)
 	{
-		printf("\n$ FOUND\n");
-		till_dollar_len = dollar - str;
-		printf("till_dolar_len: %i\n", till_dollar_len);
-		till_dollar = safe_malloc(till_dollar_len + 1);
-		ft_strlcpy(till_dollar, str, till_dollar_len + 1);
-		printf("till_dollar: %s\n", till_dollar);
-		i = till_dollar_len + 1;
-		if (str[i] && str[i] == '?')
+		temp = str;
+		while (*str && *str != '$')
+			str++;
+		res = ft_strjoin(res, ft_substr(temp, 0, str - temp));
+			// safe malloc needed
+		if (*str == '$')
 		{
-			printf("replacing with exit code");
-			res = ft_strjoin(till_dollar, ft_itoa(g_last_exit_code)); //safe_malloc needed
-			printf("after joining before dollar with expansion: %s\n", res);
-			res = ft_strjoin(res, &str[i + 1]);
-			printf("res after second join: %s\n", res);
-			expand(res, data);
+			str++; // skipped dollar itself
+			start = str;
+			end = dollar_end(str);
+			res = ft_strjoin(res, expanded(start, end, data));
+				// safe malloc needed
+			str = end;
 		}
-		else if (str[i] && (ft_isspace(str[i]) || ft_strchr("$|<>\"'", str[i])))
-		{
-			printf("just leaving it be\n");
-			//maybe replace it with " and replace back at the very end?
-			expand(res, data);
-		}
-		else
-		{
-			printf("starting from index %i\n", i);
-			while (str[i] && !ft_isspace(str[i]) && !ft_strchr("$|<>\"'", str[i]))
-				i++;
-			printf("dollar part stops at index %i\n", i);
-			printf("and has length of %i\n", i - till_dollar_len - 1);
-			dollar = safe_malloc(i - till_dollar_len);
-			ft_strlcpy(dollar, &str[till_dollar_len + 1], i - till_dollar_len);
-			printf("will be attempting to find \"%s\" in env vars...\n", dollar);
-			dollar = find_env_var(&data->envs, dollar);
-			if (dollar)
-			{
-				printf("found in vars: %s\n", dollar);
-				printf("len of expansion is %i\n", (int)ft_strlen(dollar));
-				res = ft_strjoin(till_dollar, dollar); //safe_malloc needed
-				printf("after joining before dollar with expansion: %s\n", res);
-				res = ft_strjoin(res, &str[i]);
-				printf("res after second join: %s\n", res);
-			}
-			else
-			{
-				printf("couldn't find replacement in env vars\n");
-				if (str[i])
-					res = ft_strjoin(till_dollar, &str[i]);
-				else
-					res = till_dollar;
-			}
-		}
-		printf("result: %s\n", res);
-		expand(res, data);
 	}
 	return (res);
 }

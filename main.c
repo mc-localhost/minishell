@@ -74,6 +74,7 @@ int	main(int argc, char **argv, char **envp)
 			data.input = input;
 			data.input_copy = ft_strdup(input); //needs safe malloc
 			parse(&data);
+			// printf("%s\n", expand(input, &data));
 		}
 		t_token *current = data.tokens;
 		while (current)

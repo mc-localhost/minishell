@@ -19,7 +19,7 @@ char	*find_env_var(t_env_node **head, const char *str)
 	temp = *head;
 	while (temp)
 	{
-		printf("comparing %s with %s\n", temp->key, str);
+		// printf("comparing %s with %s\n", temp->key, str);
 		if (ft_strcmp(temp->key, str) == 0)
 			return (temp->value);
 		temp = temp->next;
