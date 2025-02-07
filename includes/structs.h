@@ -36,6 +36,8 @@ typedef struct s_env_node
 typedef enum e_token_type
 {
 	TOKEN_STRING,
+	TOKEN_STRING_SINGLQ,
+	TOKEN_SPACE,
 	TOKEN_CMD,
 	TOKEN_BUILTIN,
 	TOKEN_PIPE,

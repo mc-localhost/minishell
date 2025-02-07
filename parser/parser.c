@@ -26,6 +26,8 @@
 
 int parse(t_data *data)
 {
-	create_mock_token_list(data);
+	// create_mock_token_list(data);
+	scan(data);
+	print_tokens(data->tokens);
 	return(EXIT_SUCCESS);
 }

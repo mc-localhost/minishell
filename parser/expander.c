@@ -12,13 +12,6 @@
 
 #include "../includes/minishell.h"
 
-	// if (ft_strcmp("|", scanned[0]) == 0)
-	// {
-	// 	printf("syntax error near unexpected token '|'\n"); //same for when nothing after |
-	// 	free_all();
-	// 	exit(EXIT_FAILURE);
-	// }
-
 
 const char *expand(const char *str, t_data *data)
 {

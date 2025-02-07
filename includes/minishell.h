@@ -61,7 +61,7 @@ int parse(t_data *data);
 t_token			*create_token(t_token_type type, char *value, char **args, char *file);
 void			add_token(t_token **head, t_token *new_token);
 void			print_tokens(t_token *current);
-int				scan(char *str, t_data *data);
+int				scan(t_data *data);
 const char		*expand(const char *str, t_data *data);
 
 /*	BUILTINS	*/

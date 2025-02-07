@@ -12,131 +12,228 @@
 
 #include "../includes/minishell.h"
 
-static int	handle_pipe(int i, t_data *data)
+// static void handle_pipe(t_data *data)
+// {
+// 	printf("found TOKEN_PIPE\n");
+// 	add_token(&data->tokens, create_token(TOKEN_PIPE, ft_strdup("|"), NULL, NULL)); //safe malloc needed
+// }
+
+// static void	handle_q_string(char *str, t_data *data, char q_type)
+// {
+// 	char	*token_start;
+// 	t_token_type type;
+
+// 	str++;
+// 	token_start = str;
+// 	while (*str != q_type)
+// 		str++;
+// 	if (q_type == '\'') //special token type because $ won't expand
+// 		type = TOKEN_STRING_SINGLQ;
+// 	else
+// 		type = TOKEN_STRING;
+// 	add_token(&data->tokens, create_token(type, strndup(token_start, str - token_start - 1), NULL, NULL));
+		//replace strndup with custom ft_substr
+// }
+
+// static void	handle_string(char *str, t_data *data)
+// {
+// 	char	*token_start;
+
+// 	token_start = str;
+// 	while (*str && !ft_isspace(*str) && !ft_strchr("|<>\"'", *str))
+// 		str++;
+// 	add_token(&data->tokens, create_token(TOKEN_STRING, strndup(token_start, str - token_start), NULL, NULL)); //replace strndup with custom
+// }
+
+// static void heredoc(char *str, t_data *data)
+// {
+// 	// handle input redirection
+// 	printf("found TOKEN_REDIRECT_IN\n");
+// 	str++;
+// 	if (*str && *str == '<')
+// 	{
+// 		str++;
+// 		printf("heredoc\n");
+// 	}
+// 	add_token(&data->tokens, create_token(TOKEN_REDIRECT_IN, ft_strdup("<"), NULL, NULL)); //safe malloc needed
+// }
+
+// static void append(char *str, t_data *data)
+// {
+// 	// handle output redirection
+// 	printf("found TOKEN_REDIRECT_OUT\n");
+// 	str++;
+// 	if (*str && *str == '>')
+// 	{
+// 		str++;
+// 		printf("append\n");
+// 	}
+// 	add_token(&data->tokens, create_token(TOKEN_REDIRECT_OUT, ft_strdup(">"), NULL, NULL)); //safe malloc needed
+// }
+
+// static void handle_special(char *str, t_data *data)
+// {
+// 	if (*str && ft_strchr("|<>\"'", *str))
+// 	{
+// 		if (*str == '<')
+// 			heredoc(str, data);
+// 		else if (*str == '|')
+// 			handle_pipe(data);
+// 		else if (*str == '>')
+// 			append(str, data);
+// 		else if (*str == '\"' || *str == '\'')
+// 			handle_q_string(str, data, *str);
+// 	}
+// }
+
+// static int skip_whitespace(char *str)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	while (*str && ft_isspace(*str))
+// 	{
+// 		str++;
+// 		i++;
+// 	}
+// 	return (i);
+// }
+
+// int	scan(t_data *data)
+// {
+// 	char 	*str;
+
+// 	str = data->input_copy;
+// 	skip_whitespace(str);
+// 	while (*str)
+// 	{
+// 		if (skip_whitespace(str) > 0)
+// 			add_token(&data->tokens, create_token(TOKEN_SPACE, ft_strdup(" "), NULL, NULL)); //safe malloc needed
+// 		if (*str == '\0')
+// 			break ;
+// 		handle_string(str, data);
+// 		handle_special(str, data);
+// 	}
+// 	return (EXIT_SUCCESS);
+// }
+
+static void	handle_pipe(char **str, t_data *data)
 {
-	printf("found TOKEN_PIPE at index %i\n", i);
-	add_token(&data->tokens, create_token(TOKEN_PIPE, "|", NULL, NULL));
-	return (i + 1);
+	printf("found TOKEN_PIPE\n");
+	add_token(&data->tokens, create_token(TOKEN_PIPE, ft_strdup("|"), NULL,
+			NULL));
+	(*str)++;
 }
 
-static int	handle_q_string(int i, char *str, t_data *data, char c)
+static void	handle_q_string(char **str, t_data *data, char q_type)
 {
-	int		str_start_i;
-	int		str_end_i;
-	char	*string;
+	char			*token_start;
+	t_token_type	type;
 
-	str_start_i = i;
-	i++;
-	while (str[i] && str[i] != c)
+	(*str)++;
+	token_start = *str;
+	while (**str && **str != q_type)
+		(*str)++;
+	if (**str == q_type)
 	{
-		printf("char: %c\n", str[i]);
-		i++;
+		if (q_type == '\'')
+			type = TOKEN_STRING_SINGLQ;
+		else
+			type = TOKEN_STRING;
+		add_token(&data->tokens, create_token(type, ft_substr(token_start, 0,
+					*str - token_start), NULL, NULL));  //change to safe malloc
+		(*str)++;
 	}
-	str_end_i = i;
-	if (str_end_i > str_start_i)
-	{
-		printf("reached end with char %c at index %i\n", str[str_end_i],
-			str_end_i);
-		printf("start index %i, end index %i, end-start+1= %i\n", str_start_i,
-			str_end_i, str_end_i - str_start_i + 1);
-		string = ft_substr(str, str_start_i, str_end_i - str_start_i + 1);
-		// safe_malloc needed
-		printf("quoted string: %s\n\n", string);
-		add_token(&data->tokens, create_token(TOKEN_STRING, "", NULL, NULL));
-		free(string);
-	}
-	return (i + 1);
 }
 
-static int	handle_string(int i, char *str, t_data *data)
+static void	handle_string(char **str, t_data *data)
 {
-	int		str_start_i;
-	int		str_end_i;
-	char	*string;
+	char	*token_start;
 
-	str_start_i = i;
-	while (str[i] && !ft_isspace(str[i]) && !ft_strchr("|<>\"'", str[i]))
-	{
-		printf("char: %c\n", str[i]);
-		i++;
-	}
-	str_end_i = i - 1;
-	if (str_end_i >= str_start_i)
-	{
-		printf("reached end with char %c at index %i\n", str[str_end_i],
-			str_end_i);
-		printf("start index %i, end index %i, end-start+1= %i\n", str_start_i,
-			str_end_i, str_end_i - str_start_i + 1);
-		string = ft_substr(str, str_start_i, str_end_i - str_start_i + 1);
-		// safe_malloc needed
-		printf("string: %s\n\n", string);
-		add_token(&data->tokens, create_token(TOKEN_STRING, "", NULL, NULL));
-		free(string);
-	}
-	return (i);
+	token_start = *str;
+	while (**str && !ft_isspace(**str) && !ft_strchr("|<>\"'", **str))
+		(*str)++;
+	add_token(&data->tokens, create_token(TOKEN_STRING, ft_substr(token_start,
+				0, *str - token_start), NULL, NULL));  //change to safe malloc
 }
 
-static int	heredoc(int i, char *str, t_data *data)
+static void	heredoc(char **str, t_data *data)
 {
-	// handle input redirection
-	printf("found TOKEN_REDIRECT_IN at index %i\n", i);
-	i++;
-	if (str[i] && str[i] == '<')
+	printf("found TOKEN_REDIRECT_IN\n");
+	(*str)++;
+	if (**str && **str == '<')
 	{
-		i++;
+		(*str)++;
 		printf("heredoc\n");
+		add_token(&data->tokens, create_token(TOKEN_HEREDOC, ft_strdup("<<"),
+				NULL, NULL));
 	}
-	add_token(&data->tokens, create_token(TOKEN_REDIRECT_IN, "<", NULL, NULL));
-	return (i);
+	else
+		add_token(&data->tokens, create_token(TOKEN_REDIRECT_IN, ft_strdup("<"),
+				NULL, NULL));
 }
 
-static int	append(int i, char *str, t_data *data)
+static void	append(char **str, t_data *data)
 {
-	// handle output redirection
-	printf("found TOKEN_REDIRECT_OUT at index %i\n", i);
-	i++;
-	if (str[i] && str[i] == '>')
+	printf("found TOKEN_REDIRECT_OUT\n");
+	(*str)++;
+	if (**str && **str == '>')
 	{
-		i++;
+		(*str)++;
 		printf("append\n");
+		add_token(&data->tokens, create_token(TOKEN_APPEND, ft_strdup(">>"),
+				NULL, NULL));
 	}
-	add_token(&data->tokens, create_token(TOKEN_REDIRECT_OUT, ">", NULL, NULL));
-	return (i);
+	else
+		add_token(&data->tokens, create_token(TOKEN_REDIRECT_OUT,
+				ft_strdup(">"), NULL, NULL));
 }
 
-static int	handle_special(int i, char *str, t_data *data)
+static void	handle_special(char **str, t_data *data)
 {
-	if (str[i] && ft_strchr("|<>\"'", str[i]))
+	if (**str && ft_strchr("|<>\"'", **str))
 	{
-		if (str[i] == '<')
-			i = heredoc(i, str, data);
-		else if (str[i] == '|')
-			i = handle_pipe(i, data);
-		else if (str[i] == '>')
-			i = append(i, str, data);
-		else if (str[i] == '\"' || str[i] == '\'')
-			i = handle_q_string(i, str, data, str[i]);
+		if (**str == '<')
+			heredoc(str, data);
+		else if (**str == '|')
+			handle_pipe(str, data);
+		else if (**str == '>')
+			append(str, data);
+		else if (**str == '\"' || **str == '\'')
+			handle_q_string(str, data, **str);
 	}
-	return (i);
 }
 
-int	scan(char *str, t_data *data)
+static int	skip_whitespace(char **str)
 {
-	int		i;
-	t_token	*token_list;
+	int	i;
 
 	i = 0;
-	token_list = NULL;
-	data->tokens = token_list;
-	while (1)
+	while (**str && ft_isspace(**str))
 	{
-		// maybe it's better to pass pointer to i but i get confused with *
-		while (ft_isspace(str[i]))
-			i++;
-		i = handle_string(i, str, data);
-		i = handle_special(i, str, data);
-		if (!str[i])
+		(*str)++;
+		i++;
+	}
+	return (i);
+}
+
+int	scan(t_data *data)
+{
+	char	*str;
+
+	str = data->input_copy;
+	skip_whitespace(&str);
+	while (*str)
+	{
+		if (skip_whitespace(&str) > 0)
+			add_token(&data->tokens, create_token(TOKEN_SPACE, ft_strdup(" "),
+					NULL, NULL));
+		if (*str == '\0')
 			break ;
+		if (ft_strchr("|<>\"'", *str))
+			handle_special(&str, data);
+		else
+			handle_string(&str, data);
 	}
 	return (EXIT_SUCCESS);
 }
