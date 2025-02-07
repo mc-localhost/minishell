@@ -60,8 +60,10 @@ void			print_env_list(t_env_node *current);
 int parse(t_data *data);
 t_token			*create_token(t_token_type type, char *value, char **args, char *file);
 void			add_token(t_token **head, t_token *new_token);
-void			print_tokens(t_token *current);
+void	iterate_tokens(t_token *current, void (*func)(t_token *));
+void			print_token(t_token *token);
 int				scan(t_data *data);
+void	builtin_token(t_token *token);
 char	*expand(char *str, t_data *data);
 
 /*	BUILTINS	*/

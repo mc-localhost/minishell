@@ -73,16 +73,20 @@ int	main(int argc, char **argv, char **envp)
 			add_history(input);
 			data.input = input;
 			data.input_copy = ft_strdup(input); //needs safe malloc
+			//create_mock_token_list(&data);
 			parse(&data);
-			// printf("%s\n", expand(input, &data));
 		}
+
+		//change to iterate_tokens(data.tokens, execute_function)
 		t_token *current = data.tokens;
-		while (current)
+		while (current) 
 		{
 			if (current->type == TOKEN_BUILTIN)
 				handle_builtin(current, &data);
 			current = current->next;
 		}
+		//
+
 		free(input);
 	}
 	free_all();
