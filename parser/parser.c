@@ -1,19 +1,21 @@
 
 #include "../includes/minishell.h"
 
-void	expand_token_value(t_token *token)
+void	expand_token_values(t_token *token, t_data *data)
 {
 	if (token->type != TOKEN_STRING)
 		return ;
-	
+	token->value = expand(token->value, data);
 }
 
-void	builtin_token(t_token *token)
+void	builtin_token(t_token *token, t_data *data)
 {
 	int		i;
 	int		num_builtins;
-	char	*builtins[7] = {"cd", "echo", "pwd", "env", "export", "unset", "exit"};
+	char	*builtins[7] = {"cd", "echo", "pwd", "env", "export", "unset",
+			"exit"};
 
+	(void)data;
 	if (token->type != TOKEN_CMD)
 		return ;
 	num_builtins = 7;
@@ -36,12 +38,13 @@ int	parse(t_data *data)
 
 	// deal with pipes and redirections
 
-	// set builtin commands as TOKEN_BUILTIN
-	iterate_tokens(data->tokens, print_token);
-	iterate_tokens(data->tokens, builtin_token);
-	iterate_tokens(data->tokens, print_token);
-
-	// expand strings
-	// printf("%s\n", expand(data->input_copy, data));
+	printf("***		printing scanned	***\n\n");
+	iterate_tokens(data, print_token);
+	iterate_tokens(data, expand_token_values);
+	printf("***		printing expanded	***\n\n");
+	iterate_tokens(data, print_token);
+	iterate_tokens(data, builtin_token);
+	printf("***		printing builtin type change	***\n\n");
+	iterate_tokens(data, print_token);
 	return (EXIT_SUCCESS);
 }

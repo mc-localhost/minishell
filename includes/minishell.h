@@ -57,14 +57,17 @@ void			envp_to_list(t_data *data, char **envp, int i);
 void			print_env_list(t_env_node *current);
 
 /*	PARSER	*/
-int parse(t_data *data);
-t_token			*create_token(t_token_type type, char *value, char **args, char *file);
+int				parse(t_data *data);
+t_token			*create_token(t_token_type type, char *value, char **args,
+					char *file);
 void			add_token(t_token **head, t_token *new_token);
-void	iterate_tokens(t_token *current, void (*func)(t_token *));
-void			print_token(t_token *token);
+typedef void	(*token_func)(t_token *, t_data *);
+void			iterate_tokens(t_data *data, token_func func);
+void			expand_token_values(t_token *token, t_data *data);
+void			builtin_token(t_token *token, t_data *data);
+void			print_token(t_token *token, t_data *data);
 int				scan(t_data *data);
-void	builtin_token(t_token *token);
-char	*expand(char *str, t_data *data);
+char			*expand(char *str, t_data *data);
 
 /*	BUILTINS	*/
 void			handle_builtin(t_token *token, t_data *data);
@@ -75,6 +78,6 @@ void			echo(t_token *token);
 /*	MAIN	*/
 
 /********** FOR TESTING ************/
-void create_mock_token_list(t_data *data);
+void			create_mock_token_list(t_data *data);
 
 #endif

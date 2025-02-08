@@ -77,7 +77,7 @@ int	main(int argc, char **argv, char **envp)
 			parse(&data);
 		}
 
-		//change to iterate_tokens(data.tokens, execute_function)
+		//change to iterate_tokens(data, execute_function)
 		t_token *current = data.tokens;
 		while (current) 
 		{

@@ -57,19 +57,23 @@ void	add_token(t_token **head, t_token *new_token)
 	}
 }
 
-void	iterate_tokens(t_token *current, void (*func)(t_token *))
+void	iterate_tokens(t_data *data, token_func func)
 {
+	t_token	*current;
+
+	current = data->tokens;
 	while (current)
 	{
-		func(current);
+		func(current, data);
 		current = current->next;
 	}
 }
 
-void	print_token(t_token *token)
+void	print_token(t_token *token, t_data *data)
 {
 	int	i;
 
+	(void)data; // Unused parameter
 	printf("Type: %d, Value: %s, File: %s\n", token->type, token->value,
 		token->file);
 	i = 0;
