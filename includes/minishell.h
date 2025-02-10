@@ -35,6 +35,7 @@
 # include <readline/history.h>
 
 # define PROMPT "minishell> "
+# define HEREDOC_PROMPT "> "
 
 /*	G	L	O	B	A	L		V	A	R	I	A	B	L	E	S	*/
 int				g_last_exit_code;
@@ -56,18 +57,30 @@ void			delete_env_var(t_env_node **head, const char *key);
 void			envp_to_list(t_data *data, char **envp, int i);
 void			print_env_list(t_env_node *current);
 
-/*	PARSER	*/
-int				parse(t_data *data);
-t_token			*create_token(t_token_type type, char *value, char **args,
-					char *file);
+/*	TOKENS	*/
+t_token			*init_token(void);
+t_token			*create_token(t_token_type type, char *value);
 void			add_token(t_token **head, t_token *new_token);
+
+/*	SCANNER	*/
+int				scan(t_data *data);
+void			handle_pipe(char **str, t_data *data);
+void			handle_q_string(char **str, t_data *data, char q_type);
+void			handle_string(char **str, t_data *data);
+void			heredoc(char **str, t_data *data);
+void			append(char **str, t_data *data);
+
+/*	PARSER	*/
+char			*expand(char *str, t_data *data);
+void			process_tokens(t_data *data);
+int				parse(t_data *data);
+
+/*	ITERATIONS	*/
 typedef void	(*token_func)(t_token *, t_data *);
 void			iterate_tokens(t_data *data, token_func func);
+void			iterate_final_tokens(t_data *data, token_func func);
 void			expand_token_values(t_token *token, t_data *data);
-void			builtin_token(t_token *token, t_data *data);
 void			print_token(t_token *token, t_data *data);
-int				scan(t_data *data);
-char			*expand(char *str, t_data *data);
 
 /*	BUILTINS	*/
 void			handle_builtin(t_token *token, t_data *data);

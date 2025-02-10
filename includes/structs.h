@@ -37,6 +37,7 @@ typedef enum e_token_type
 {
 	TOKEN_STRING,
 	TOKEN_STRING_SINGLQ,
+	TOKEN_STRING_DOUBLEQ, //important for heredoc
 	TOKEN_SPACE,
 	TOKEN_CMD,
 	TOKEN_BUILTIN,
@@ -48,6 +49,13 @@ typedef enum e_token_type
 	TOKEN_INVALID
 }						t_token_type;
 
+typedef struct s_redirection
+{
+	t_token_type	type;
+	char			*file;
+	struct s_redirection *next;
+}						t_redirection;
+
 typedef struct s_token
 {
 	t_token_type		type;
@@ -57,7 +65,8 @@ typedef struct s_token
 	char				**args;
 	int					args_count;
 	// for redirections
-	char				*file;
+	t_redirection		*redirections_in;
+	t_redirection		*redirections_out;
 	struct s_token		*prev;
 	struct s_token		*next;
 }						t_token;
@@ -69,6 +78,8 @@ typedef struct s_data
 	char				*input;
 	char				*input_copy;
 	t_token				*tokens;
+	t_token				*final_tokens;
+	int					num_pipes;
 	t_env_node			*envs;
 }						t_data;
 

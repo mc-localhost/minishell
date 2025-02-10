@@ -73,12 +73,11 @@ int	main(int argc, char **argv, char **envp)
 			add_history(input);
 			data.input = input;
 			data.input_copy = ft_strdup(input); //needs safe malloc
-			//create_mock_token_list(&data);
 			parse(&data);
 		}
 
-		//change to iterate_tokens(data, execute_function)
-		t_token *current = data.tokens;
+		//change to iterate_final_tokens(data, execute_function)
+		t_token *current = data.final_tokens;
 		while (current) 
 		{
 			if (current->type == TOKEN_BUILTIN)
@@ -87,8 +86,10 @@ int	main(int argc, char **argv, char **envp)
 		}
 		//
 
+		//clean tokens and final tokens after execution
+		
 		free(input);
 	}
-	free_all();
+	// free_all();
 	return (EXIT_SUCCESS);
 }

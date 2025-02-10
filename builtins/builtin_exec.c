@@ -15,7 +15,10 @@ void handle_builtin(t_token *token, t_data *data)
     if (!ft_strcmp(token->value, "cd"))
         printf("executing cd\n");
     else if (!ft_strcmp(token->value, "echo"))
+	{
+		printf("executing echo\n");
         echo(token);
+	}
     else if (!ft_strcmp(token->value, "env"))
         env(data);
     else if (!ft_strcmp(token->value, "export"))

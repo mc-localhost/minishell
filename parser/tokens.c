@@ -12,10 +12,29 @@
 
 #include "../includes/minishell.h"
 
-t_token	*create_token(t_token_type type, char *value, char **args, char *file)
+t_token	*init_token(void)
 {
-	t_token	*new_token;
-	int		i;
+	t_token	*token;
+
+	token = safe_malloc(sizeof(t_token));
+	if (!token)
+	{
+		printf("malloc failed for token creation\n");
+		free_all();
+		exit(EXIT_FAILURE);
+	}
+	token->value = NULL;
+	token->args = NULL;
+	token->args_count = 0;
+	token->file = NULL;
+	token->prev = NULL;
+	token->next = NULL;
+	return (token);
+}
+
+t_token	*create_token(t_token_type type, char *value)
+{
+	t_token *new_token;
 
 	new_token = safe_malloc(sizeof(t_token));
 	if (!new_token)
@@ -26,16 +45,9 @@ t_token	*create_token(t_token_type type, char *value, char **args, char *file)
 	}
 	new_token->type = type;
 	new_token->value = value;
+	new_token->args = NULL;
 	new_token->args_count = 0;
-	if (args)
-	{
-		new_token->args = args;
-		i = 0;
-		while (args[i])
-			i++;
-		new_token->args_count = i;
-	}
-	new_token->file = file;
+	new_token->file = NULL;
 	new_token->prev = NULL;
 	new_token->next = NULL;
 	return (new_token);
@@ -57,29 +69,3 @@ void	add_token(t_token **head, t_token *new_token)
 	}
 }
 
-void	iterate_tokens(t_data *data, token_func func)
-{
-	t_token	*current;
-
-	current = data->tokens;
-	while (current)
-	{
-		func(current, data);
-		current = current->next;
-	}
-}
-
-void	print_token(t_token *token, t_data *data)
-{
-	int	i;
-
-	(void)data; // Unused parameter
-	printf("Type: %d, Value: %s, File: %s\n", token->type, token->value,
-		token->file);
-	i = 0;
-	while (i < token->args_count)
-	{
-		printf("%i arg: %s\n", i, token->args[i]);
-		i++;
-	}
-}

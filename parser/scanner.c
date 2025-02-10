@@ -12,78 +12,17 @@
 
 #include "../includes/minishell.h"
 
-static void	handle_pipe(char **str, t_data *data)
+static int	skip_whitespace(char **str)
 {
-	printf("found TOKEN_PIPE\n");
-	add_token(&data->tokens, create_token(TOKEN_PIPE, ft_strdup("|"), NULL,
-			NULL));
-	(*str)++;
-}
+	int	i;
 
-static void	handle_q_string(char **str, t_data *data, char q_type)
-{
-	char			*token_start;
-	t_token_type	type;
-
-	(*str)++;
-	token_start = *str;
-	while (**str && **str != q_type)
-		(*str)++;
-	if (**str == q_type)
-	{
-		if (q_type == '\'')
-			type = TOKEN_STRING_SINGLQ;
-		else
-			type = TOKEN_STRING;
-		add_token(&data->tokens, create_token(type, ft_substr(token_start, 0,
-					*str - token_start), NULL, NULL));  //change to safe malloc
-		(*str)++;
-	}
-	else //if unclosed quote
-		add_token(&data->tokens, create_token(TOKEN_INVALID, NULL, NULL, NULL));
-}
-
-static void	handle_string(char **str, t_data *data)
-{
-	char	*token_start;
-
-	token_start = *str;
-	while (**str && !ft_isspace(**str) && !ft_strchr("|<>\"'", **str))
-		(*str)++;
-	add_token(&data->tokens, create_token(TOKEN_STRING, ft_substr(token_start,
-				0, *str - token_start), NULL, NULL));  //change to safe malloc
-}
-
-static void	heredoc(char **str, t_data *data)
-{
-	printf("found TOKEN_REDIRECT_IN\n");
-	(*str)++;
-	if (**str && **str == '<')
+	i = 0;
+	while (**str && ft_isspace(**str))
 	{
 		(*str)++;
-		printf("heredoc\n");
-		add_token(&data->tokens, create_token(TOKEN_HEREDOC, ft_strdup("<<"),
-				NULL, NULL));
+		i++;
 	}
-	else
-		add_token(&data->tokens, create_token(TOKEN_REDIRECT_IN, ft_strdup("<"),
-				NULL, NULL));
-}
-
-static void	append(char **str, t_data *data)
-{
-	printf("found TOKEN_REDIRECT_OUT\n");
-	(*str)++;
-	if (**str && **str == '>')
-	{
-		(*str)++;
-		printf("append\n");
-		add_token(&data->tokens, create_token(TOKEN_APPEND, ft_strdup(">>"),
-				NULL, NULL));
-	}
-	else
-		add_token(&data->tokens, create_token(TOKEN_REDIRECT_OUT,
-				ft_strdup(">"), NULL, NULL));
+	return (i);
 }
 
 static void	handle_special(char **str, t_data *data)
@@ -101,19 +40,6 @@ static void	handle_special(char **str, t_data *data)
 	}
 }
 
-static int	skip_whitespace(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (**str && ft_isspace(**str))
-	{
-		(*str)++;
-		i++;
-	}
-	return (i);
-}
-
 int	scan(t_data *data)
 {
 	char	*str;
@@ -123,8 +49,7 @@ int	scan(t_data *data)
 	while (*str)
 	{
 		if (skip_whitespace(&str) > 0)
-			add_token(&data->tokens, create_token(TOKEN_SPACE, ft_strdup(" "),
-					NULL, NULL));
+			add_token(&data->tokens, create_token(TOKEN_SPACE, ft_strdup(" ")));
 		if (*str == '\0')
 			break ;
 		if (ft_strchr("|<>\"'", *str))
