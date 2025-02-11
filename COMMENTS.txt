@@ -61,9 +61,10 @@ i'm storing spaces as separate tokens right now as it's crucial for proper echo 
 
 to summarize what's not yet implemented:
 - haven't extensively tested final_list.c functions
-- redirections are stored in the wrong order
 - syntax errors
-- extra spaces as command arguments
-- heredoc 
+- heredoc delimeter gets expanded if containing $
+- extra spaces as command arguments (probably not a big deal - to test with execve)
+- heredoc (maybe should be handled by execution to work with signals and etc.)
+- norminette
 --------
 - garbage collection as a separate thing (rn nothing is freed)

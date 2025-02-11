@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:09:03 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/11 15:09:10 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/11 15:21:47 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	handle_string(char **str, t_data *data)
 				0, *str - token_start))); // change to safe malloc
 }
 
-void	heredoc(char **str, t_data *data)
+void	handle_in(char **str, t_data *data)
 {
 	(*str)++;
 	if (**str && **str == '<')
@@ -64,7 +64,7 @@ void	heredoc(char **str, t_data *data)
 		add_token(&data->tokens, create_token(TOKEN_REDIRECT_IN, NULL));
 }
 
-void	append(char **str, t_data *data)
+void	handle_out(char **str, t_data *data)
 {
 	(*str)++;
 	if (**str && **str == '>')

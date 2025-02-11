@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 17:56:33 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/11 15:09:27 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/11 15:23:57 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,23 @@ static void	handle_special(char **str, t_data *data)
 	if (**str && ft_strchr("|<>\"'", **str))
 	{
 		if (**str == '<')
-			heredoc(str, data);
+			handle_in(str, data);
+		else if (**str == '>')
+			handle_out(str, data);
 		else if (**str == '|')
 			handle_pipe(str, data);
-		else if (**str == '>')
-			append(str, data);
 		else if (**str == '\"' || **str == '\'')
 			handle_q_string(str, data, **str);
 	}
 }
+
+/*
+Scanner is looping through the input character by character
+not skipping spaces but rather creating a token for any sequence of spaces.
+
+Strings quoted with "", '' and unquoted are handled separately. 
+Each redirection has its own token type as well. 
+*/
 
 int	scan(t_data *data)
 {
