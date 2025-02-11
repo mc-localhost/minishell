@@ -73,6 +73,7 @@ void			append(char **str, t_data *data);
 /*	PARSER	*/
 char			*expand(char *str, t_data *data);
 void			process_tokens(t_data *data);
+char			*handle_heredoc(t_token *token, t_data *data);
 int				parse(t_data *data);
 
 /*	ITERATIONS	*/

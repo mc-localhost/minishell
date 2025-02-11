@@ -74,7 +74,7 @@ static void	add_redir_to_end(t_redirection **head, t_redirection *new_redir)
 	}
 }
 
-static void	add_redirection_to_cmd(t_token *cmd, t_token **current_ptr)
+static void	add_redirection_to_cmd(t_token *cmd, t_token **current_ptr, t_data *data)
 {
 	t_token			*current;
 	t_redirection	*redir;
@@ -90,8 +90,10 @@ static void	add_redirection_to_cmd(t_token *cmd, t_token **current_ptr)
 	}
 	if (current && is_string(current->type))
 	{
-		// a bit more complex for heredoc
-		redir->file = ft_strdup(current->value);
+        if (redir->type == TOKEN_HEREDOC)
+            redir->file = handle_heredoc(current, data);
+        else 
+        	redir->file = ft_strdup(current->value);
 		current->type = PROCESSED;
 	}
 	else
@@ -148,7 +150,7 @@ void	process_tokens(t_data *data)
 			current_cmd->type = TOKEN_CMD;
 		}
 		if (is_redirection(current->type))
-			add_redirection_to_cmd(current_cmd, &current);
+			add_redirection_to_cmd(current_cmd, &current, data);
 		else if (is_string(current->type))
 		{
 			if (current_cmd->value == NULL)
