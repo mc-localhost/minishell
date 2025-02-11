@@ -1,5 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   iter.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/11 15:07:38 by vvasiuko          #+#    #+#             */
+/*   Updated: 2025/02/11 15:29:13 by vvasiuko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+/*
+These are helper functions for looping through
+tokens and final tokens. The most obvious use case is printing out
+the tokens.
+*/
 
 void	iterate_tokens(t_data *data, token_func func)
 {
@@ -25,12 +42,12 @@ void	iterate_final_tokens(t_data *data, token_func func)
 	}
 }
 
-void	print_token(t_token *token, t_data *data)
+void	print_token(t_token *token, t_data *data) //rewrite to pass norm
 {
-	int	i;
-	t_redirection *redir;
+	int				i;
+	t_redirection	*redir;
 
-	(void)data; // Unused parameter
+	(void)data;
 	printf("Type: %d, Value: %s\n", token->type, token->value);
 	i = 0;
 	while (i < token->args_count)
@@ -57,13 +74,12 @@ void	print_token(t_token *token, t_data *data)
 			printf("type %d: %s\n", redir->type, redir->file);
 			redir = redir->next;
 		}
-	}	
+	}
 }
 
-void	expand_token_values(t_token *token, t_data *data)
+void	expand_token_values(t_token *token, t_data *data) //maybe expand when adding arguments so that heredoc delim doesn't get expanded
 {
 	if (token->type != TOKEN_STRING && token->type != TOKEN_STRING_DOUBLEQ)
 		return ;
 	token->value = expand(token->value, data);
 }
-

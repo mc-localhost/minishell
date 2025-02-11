@@ -61,9 +61,17 @@ i'm storing spaces as separate tokens right now as it's crucial for proper echo 
 
 to summarize what's not yet implemented:
 - haven't extensively tested final_list.c functions
-- redirections are stored in the wrong order
 - syntax errors
-- extra spaces as command arguments
-- heredoc 
+- heredoc delimeter gets expanded if containing $
+- extra spaces as command arguments (probably not a big deal - to test with execve)
+- heredoc (maybe should be handled by execution to work with signals and etc.)
+- norminette
+- check forbidden functions: nm -g ./minishell | grep " U " (from https://github.com/jotavare/minishell)
+- stuff around reassigning env vars like $USER = "new"
+- $? not adding comments if exit code was error. example:
+bash-3.2$ cmd1 lalaal
+bash: cmd1: command not found
+bash-3.2$ $?
+bash: 127: command not found
 --------
 - garbage collection as a separate thing (rn nothing is freed)

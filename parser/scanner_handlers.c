@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   scanner_handlers.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/11 15:09:03 by vvasiuko          #+#    #+#             */
+/*   Updated: 2025/02/11 15:21:47 by vvasiuko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
@@ -22,7 +33,8 @@ void	handle_q_string(char **str, t_data *data, char q_type)
 			type = TOKEN_STRING_SINGLQ;
 		else
 			type = TOKEN_STRING_DOUBLEQ;
-		add_token(&data->tokens, create_token(type, ft_substr(token_start, 0, *str - token_start))); // change to safe malloc
+		add_token(&data->tokens, create_token(type, ft_substr(token_start, 0,
+					*str - token_start))); // change to safe malloc
 		(*str)++;
 	}
 	else // if unclosed quote
@@ -40,7 +52,7 @@ void	handle_string(char **str, t_data *data)
 				0, *str - token_start))); // change to safe malloc
 }
 
-void	heredoc(char **str, t_data *data)
+void	handle_in(char **str, t_data *data)
 {
 	(*str)++;
 	if (**str && **str == '<')
@@ -52,7 +64,7 @@ void	heredoc(char **str, t_data *data)
 		add_token(&data->tokens, create_token(TOKEN_REDIRECT_IN, NULL));
 }
 
-void	append(char **str, t_data *data)
+void	handle_out(char **str, t_data *data)
 {
 	(*str)++;
 	if (**str && **str == '>')

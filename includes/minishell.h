@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/01/29 14:34:09 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/11 16:20:25 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,23 @@ int				scan(t_data *data);
 void			handle_pipe(char **str, t_data *data);
 void			handle_q_string(char **str, t_data *data, char q_type);
 void			handle_string(char **str, t_data *data);
-void			heredoc(char **str, t_data *data);
-void			append(char **str, t_data *data);
+void			handle_in(char **str, t_data *data);
+void			handle_out(char **str, t_data *data);
 
 /*	PARSER	*/
 char			*expand(char *str, t_data *data);
+int				is_string(t_token_type type);
 void			process_tokens(t_data *data);
 char			*handle_heredoc(t_token *token, t_data *data);
 int				parse(t_data *data);
+
+/*	FINAL TOKENS	*/
+int				is_redirection(t_token_type type);
+t_redirection	*init_redir(t_token *current);
+void			add_redir_to_end(t_redirection **head,
+					t_redirection *new_redir);
+void			add_redirection_to_cmd(t_token *cmd, t_token **current_ptr,
+					t_data *data);
 
 /*	ITERATIONS	*/
 typedef void	(*token_func)(t_token *, t_data *);
@@ -90,8 +99,5 @@ void			pwd(t_data *data);
 void			echo(t_token *token);
 
 /*	MAIN	*/
-
-/********** FOR TESTING ************/
-void			create_mock_token_list(t_data *data);
 
 #endif

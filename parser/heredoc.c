@@ -1,8 +1,29 @@
 
 #include "../includes/minishell.h"
 
-//delimeter doesn't get expanded, quotes get removed
-//all quotes inside input are saved
+/*
+When << is found in input it is first parsed as
+redirection of type TOKEN_HEREDOC.
+Heredoc handler reads user input line by line before specified delimeter
+and writes everything into a temporary heredoc file. 
+
+If delimeter is quoted (' or "), nothing inside heredoc gets expanded.
+
+bash-3.2$ cat << "don't expand"
+> $USER stays $USER
+> don't expand
+$USER stays $USER
+
+Delimeter itself doesn't get expanded. But everything inside is,
+no matter the quotations.
+
+bash-3.2$ cat << $USER
+> some text
+> 'some text with $USER'
+> $USER
+some text
+'some text with vvasiuko'
+*/
 
 char *handle_heredoc(t_token *token, t_data *data)
 {

@@ -1,12 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   final_tokens.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/11 15:07:12 by vvasiuko          #+#    #+#             */
+/*   Updated: 2025/02/11 16:20:01 by vvasiuko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	is_string(t_token_type type)
+{
+	if (type == TOKEN_STRING || type == TOKEN_STRING_SINGLQ
+		|| type == TOKEN_STRING_DOUBLEQ)
+		return (1);
+	return (0);
+}
 
 static void	builtin_token(t_token *token)
 {
 	int		i;
 	int		num_builtins;
-	char	*builtins[7] = {"cd", "echo", "pwd", "env", "export", "unset",
-			"exit"};
+	char	*builtins[7] = {"cd", "echo", "pwd", "env", "export", "unset", "exit"}; //fix to pass norm
 
 	num_builtins = 7;
 	i = 0;
@@ -27,87 +45,9 @@ static void	add_pipe_token(t_data *data)
 
 	pipe_token = init_token();
 	pipe_token->type = TOKEN_PIPE;
-	pipe_token->value = "|"; // unnecessary
+	pipe_token->value = "|"; //just useful when printing, can be removed
 	add_token(&data->final_tokens, pipe_token);
 	data->num_pipes++;
-}
-
-static int	is_redirection(t_token_type type)
-{
-	if (type == TOKEN_REDIRECT_IN || type == TOKEN_REDIRECT_OUT
-		|| type == TOKEN_APPEND || type == TOKEN_HEREDOC)
-		return (1);
-	return (0);
-}
-
-static int	is_string(t_token_type type)
-{
-	if (type == TOKEN_STRING || type == TOKEN_STRING_SINGLQ
-		|| type == TOKEN_STRING_DOUBLEQ)
-		return (1);
-	return (0);
-}
-
-static t_redirection	*init_redir(t_token *current)
-{
-	t_redirection	*redir;
-
-	redir = safe_malloc(sizeof(t_redirection));
-	redir->type = current->type;
-	redir->file = NULL;
-	redir->next = NULL;
-	return (redir);
-}
-
-static void	add_redir_to_end(t_redirection **head, t_redirection *new_redir)
-{
-	t_redirection	*current;
-
-	if (!*head)
-		*head = new_redir;
-	else
-	{
-		current = *head;
-		while (current->next)
-			current = current->next;
-		current->next = new_redir;
-	}
-}
-
-static void	add_redirection_to_cmd(t_token *cmd, t_token **current_ptr, t_data *data)
-{
-	t_token			*current;
-	t_redirection	*redir;
-
-	current = *current_ptr;
-	redir = init_redir(current);
-	current->type = PROCESSED;
-	current = current->next;
-	while (current && current->type == TOKEN_SPACE)
-	{
-		current->type = PROCESSED;
-		current = current->next;
-	}
-	if (current && is_string(current->type))
-	{
-        if (redir->type == TOKEN_HEREDOC)
-            redir->file = handle_heredoc(current, data);
-        else 
-        	redir->file = ft_strdup(current->value);
-		current->type = PROCESSED;
-	}
-	else
-	{
-		// syntax errors should go into syntax.c
-		printf("minishell: syntax error near unexpected token `%s'\n",
-			current->value); // get back to it to handle new_line and stuff
-		exit(EXIT_FAILURE);
-	}
-	if (redir->type == TOKEN_REDIRECT_IN || redir->type == TOKEN_HEREDOC)
-		add_redir_to_end(&cmd->redirections_in, redir);
-	else
-		add_redir_to_end(&cmd->redirections_out, redir);
-	*current_ptr = current;
 }
 
 static void	finalize_command(t_token *cmd, t_token **current_ptr, t_data *data)
@@ -134,6 +74,19 @@ static void	finalize_command(t_token *cmd, t_token **current_ptr, t_data *data)
 	add_token(&data->final_tokens, cmd);
 	*current_ptr = current;
 }
+
+/*
+Process tokens loops through data.tokens to collect all the commands
+with respective arguments and redirections, so that the list
+passed to execution looks like:
+TOKEN_CMD or TOKEN_BUILTIN, TOKEN_PIPE, TOKEN_CMD or TOKEN_BUILTIN ...
+
+When token gets processed its type get changed to PROCESSED for
+easier args collection. Everything between pipes is considered to be
+1 command with all redirections with filenames stored in linked lists
+for that particular command, and the rest of the tokens - in cmd.args
+array.
+*/
 
 void	process_tokens(t_data *data)
 {
