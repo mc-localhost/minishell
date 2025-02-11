@@ -12,6 +12,21 @@
 
 #include "includes/minishell.h"
 
+char	*find_env_var(t_env_node **head, const char *str)
+{
+	t_env_node	*temp;
+
+	temp = *head;
+	while (temp)
+	{
+		// printf("comparing %s with %s\n", temp->key, str);
+		if (ft_strcmp(temp->key, str) == 0)
+			return (temp->value);
+		temp = temp->next;
+	}
+	return (NULL);
+}
+
 t_env_node	*create_env_var(char *key, char *value)
 {
 	t_env_node	*new_node;
@@ -45,10 +60,8 @@ void	add_env_var(t_env_node **head, t_env_node *new_node) //but what happens whe
 void	delete_env_var(t_env_node **head, const char *key)
 {
 	t_env_node	*temp;
-	t_env_node	*prev;
 
 	temp = *head;
-	prev = NULL;
 	while (temp)
 	{
 		if (ft_strcmp(temp->key, key) == 0)
@@ -57,7 +70,6 @@ void	delete_env_var(t_env_node **head, const char *key)
 			temp->value = NULL;
 			return ;
 		}
-		prev = temp;
 		temp = temp->next;
 	}
 	printf("no such key '%s'\n", key); // change to smth else
@@ -66,10 +78,8 @@ void	delete_env_var(t_env_node **head, const char *key)
 void	change_env_var(t_env_node **head, const char *key, const char *value)
 {
 	t_env_node	*temp;
-	t_env_node	*prev;
 
 	temp = *head;
-	prev = NULL;
 	while (temp)
 	{
 		if (ft_strcmp(temp->key, key) == 0)
@@ -78,7 +88,6 @@ void	change_env_var(t_env_node **head, const char *key, const char *value)
 			temp->value = ft_strdup(value); // change to safe_malloc
 			return ;
 		}
-		prev = temp;
 		temp = temp->next;
 	}
 	printf("no such key '%s'\n", key); // change to smth else

@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/01/29 14:34:09 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/11 15:06:12 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 # include <readline/history.h>
 
 # define PROMPT "minishell> "
+# define HEREDOC_PROMPT "> "
 
 /*	G	L	O	B	A	L		V	A	R	I	A	B	L	E	S	*/
 int				g_last_exit_code;
@@ -47,6 +48,7 @@ void			*safe_malloc(size_t size);
 void			free_all(void);
 
 /*	ENVIRONMENT	*/
+char			*find_env_var(t_env_node **head, const char *str);
 t_env_node		*create_env_var(char *key, char *value);
 void			add_env_var(t_env_node **head, t_env_node *new_node);
 void			change_env_var(t_env_node **head, const char *key,
@@ -55,13 +57,41 @@ void			delete_env_var(t_env_node **head, const char *key);
 void			envp_to_list(t_data *data, char **envp, int i);
 void			print_env_list(t_env_node *current);
 
-/*	PARSER	*/
-t_token			*create_token(t_token_type type, char *value, char **args, char *file);
+/*	TOKENS	*/
+t_token			*init_token(void);
+t_token			*create_token(t_token_type type, char *value);
 void			add_token(t_token **head, t_token *new_token);
-void			print_tokens(t_token *current);
-int				scan(char *str, t_data *data);
-const char		*expand(const char *str, t_data *data);
+
+/*	SCANNER	*/
+int				scan(t_data *data);
+void			handle_pipe(char **str, t_data *data);
+void			handle_q_string(char **str, t_data *data, char q_type);
+void			handle_string(char **str, t_data *data);
+void			heredoc(char **str, t_data *data);
+void			append(char **str, t_data *data);
+
+/*	PARSER	*/
+char			*expand(char *str, t_data *data);
+void			process_tokens(t_data *data);
+char			*handle_heredoc(t_token *token, t_data *data);
+int				parse(t_data *data);
+
+/*	ITERATIONS	*/
+typedef void	(*token_func)(t_token *, t_data *);
+void			iterate_tokens(t_data *data, token_func func);
+void			iterate_final_tokens(t_data *data, token_func func);
+void			expand_token_values(t_token *token, t_data *data);
+void			print_token(t_token *token, t_data *data);
+
+/*	BUILTINS	*/
+void			handle_builtin(t_token *token, t_data *data);
+void			env(t_data *data);
+void			pwd(t_data *data);
+void			echo(t_token *token);
 
 /*	MAIN	*/
+
+/********** FOR TESTING ************/
+void			create_mock_token_list(t_data *data);
 
 #endif
