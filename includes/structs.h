@@ -46,7 +46,8 @@ typedef enum e_token_type
 	TOKEN_REDIRECT_OUT,
 	TOKEN_APPEND,
 	TOKEN_HEREDOC,
-	TOKEN_INVALID
+	TOKEN_INVALID,
+	PROCESSED
 }						t_token_type;
 
 typedef struct s_redirection

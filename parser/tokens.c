@@ -26,7 +26,6 @@ t_token	*init_token(void)
 	token->value = NULL;
 	token->args = NULL;
 	token->args_count = 0;
-	token->file = NULL;
 	token->prev = NULL;
 	token->next = NULL;
 	return (token);
@@ -47,7 +46,6 @@ t_token	*create_token(t_token_type type, char *value)
 	new_token->value = value;
 	new_token->args = NULL;
 	new_token->args_count = 0;
-	new_token->file = NULL;
 	new_token->prev = NULL;
 	new_token->next = NULL;
 	return (new_token);
