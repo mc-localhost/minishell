@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 12:38:13 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/11 15:25:15 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/11 16:18:20 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_token	*create_token(t_token_type type, char *value)
 
 	new_token = init_token();
 	new_token->value = value;
+	new_token->type = type;
 	return (new_token);
 }
 

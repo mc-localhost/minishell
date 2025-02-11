@@ -6,11 +6,19 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:07:12 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/11 16:00:52 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/11 16:20:01 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	is_string(t_token_type type)
+{
+	if (type == TOKEN_STRING || type == TOKEN_STRING_SINGLQ
+		|| type == TOKEN_STRING_DOUBLEQ)
+		return (1);
+	return (0);
+}
 
 static void	builtin_token(t_token *token)
 {
@@ -40,14 +48,6 @@ static void	add_pipe_token(t_data *data)
 	pipe_token->value = "|"; //just useful when printing, can be removed
 	add_token(&data->final_tokens, pipe_token);
 	data->num_pipes++;
-}
-
-static int	is_string(t_token_type type)
-{
-	if (type == TOKEN_STRING || type == TOKEN_STRING_SINGLQ
-		|| type == TOKEN_STRING_DOUBLEQ)
-		return (1);
-	return (0);
 }
 
 static void	finalize_command(t_token *cmd, t_token **current_ptr, t_data *data)

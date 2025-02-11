@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/11 15:41:54 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/11 16:20:25 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void			handle_out(char **str, t_data *data);
 
 /*	PARSER	*/
 char			*expand(char *str, t_data *data);
+int				is_string(t_token_type type);
 void			process_tokens(t_data *data);
 char			*handle_heredoc(t_token *token, t_data *data);
 int				parse(t_data *data);

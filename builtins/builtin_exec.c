@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:05:34 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/11 15:05:46 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/11 16:26:30 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,3 +41,5 @@ void	handle_builtin(t_token *token, t_data *data)
 	else if (!ft_strcmp(token->value, "exit"))
 		printf("executing exit\n");
 }
+
+// tests for builitns: https://github.com/jotavare/minishell?tab=readme-ov-file#export-env-and-unset
