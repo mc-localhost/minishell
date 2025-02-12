@@ -60,11 +60,11 @@ and so on
 i'm storing spaces as separate tokens right now as it's crucial for proper echo implementation but i'm planing on removing extra spaces later
 
 to summarize what's not yet implemented:
-- haven't extensively tested final_list.c functions
-- syntax errors
+- expansions should be before the parsing
 - heredoc delimeter gets expanded if containing $
-- extra spaces as command arguments (probably not a big deal - to test with execve)
-- heredoc (maybe should be handled by execution to work with signals and etc.)
+- syntax errors
+- extra spaces as command arguments (big deal for execve)
+- heredoc testing (maybe should be handled by execution to work with signals and etc.)
 - norminette
 - check forbidden functions: nm -g ./minishell | grep " U " (from https://github.com/jotavare/minishell)
 - stuff around reassigning env vars like $USER = "new"

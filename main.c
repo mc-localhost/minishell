@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/01 02:51:23 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/12 12:49:17 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ int	main(int argc, char **argv, char **envp)
 		{
 			if (current->type == TOKEN_BUILTIN)
 				handle_builtin(current, &data);
+			// else if (current->type == TOKEN_CMD)
+			// 	execvp(current->value, current->args); //used for testing args with spaces - doesn't work, need to remove them
 			current = current->next;
 		}
 		//
@@ -89,6 +91,7 @@ int	main(int argc, char **argv, char **envp)
 		//clean tokens and final tokens after execution
 		
 		free(input);
+		//delete heredoc file
 	}
 	// free_all();
 	return (EXIT_SUCCESS);
