@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 12:19:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/01/28 13:14:35 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/14 22:18:25 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,22 +57,30 @@ void	add_env_var(t_env_node **head, t_env_node *new_node) //but what happens whe
 
 //this should suffice to not print it and not check it while searching
 // and the garbage collector will deal with the freeing
-void	delete_env_var(t_env_node **head, const char *key)
+void delete_env_var(t_env_node **head, const char *key)
 {
-	t_env_node	*temp;
+	t_env_node *temp = *head;
+	t_env_node *prev = NULL;
 
-	temp = *head;
 	while (temp)
 	{
 		if (ft_strcmp(temp->key, key) == 0)
 		{
-			temp->key = NULL;
-			temp->value = NULL;
-			return ;
-		}
-		temp = temp->next;
-	}
-	printf("no such key '%s'\n", key); // change to smth else
+        	if (prev)
+				prev->next = temp->next;
+			else
+            	*head = temp->next;
+            free(temp->key);
+            free(temp->value);
+            free(temp);
+            return;
+        }
+        prev = temp;
+        temp = temp->next;
+    }
+	// write(STDERR_FILENO, "No such key: ", 13);//I don't think we need to output anythig here as bash don't do this
+	// write(STDERR_FILENO, key, strlen(key));
+	// write(STDERR_FILENO, "\n", 1);
 }
 
 void	change_env_var(t_env_node **head, const char *key, const char *value)
