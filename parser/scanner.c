@@ -6,13 +6,13 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 17:56:33 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/11 15:23:57 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/14 13:37:05 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	skip_whitespace(char **str)
+int	skip_whitespace(char **str)
 {
 	int	i;
 

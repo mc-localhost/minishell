@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/12 12:14:06 by vvasiuko          #+#    #+#             */
+/*   Updated: 2025/02/12 12:51:07 by vvasiuko         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
@@ -5,7 +16,7 @@
 When << is found in input it is first parsed as
 redirection of type TOKEN_HEREDOC.
 Heredoc handler reads user input line by line before specified delimeter
-and writes everything into a temporary heredoc file. 
+and writes everything into a temporary heredoc file.
 
 If delimeter is quoted (' or "), nothing inside heredoc gets expanded.
 
@@ -25,21 +36,19 @@ some text
 'some text with vvasiuko'
 */
 
-char *handle_heredoc(t_token *token, t_data *data)
+char	*handle_heredoc(t_token *token, t_data *data)
 {
-	char *delim;
-	char *input;
-	char *filename;
-	int to_expand;
-	int fd;
+	char	*delim;
+	char	*input;
+	char	*filename;
+	int		to_expand;
+	int		fd;
 
-	delim = token->value; 
-	//delim cannot contain spaces ("    EOF" won't work) - FIX!
-	filename = ".heredoc_file_SOME_ID"; //figure out a name specific for the command
-	//create and open file, if exists -> write a new one
+	delim = token->value;
+	filename = ".heredoc_file";
 	fd = open(filename, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	to_expand = 1;
-	if (token->type != TOKEN_STRING) //means there were quotes and we should not expand $
+	if (token->type != TOKEN_STRING)
 		to_expand = 0;
 	input = readline(HEREDOC_PROMPT);
 	while (input && ft_strcmp(input, delim))

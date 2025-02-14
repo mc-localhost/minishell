@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/11 16:20:25 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/14 13:37:25 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ t_token			*create_token(t_token_type type, char *value);
 void			add_token(t_token **head, t_token *new_token);
 
 /*	SCANNER	*/
+int				skip_whitespace(char **str);
 int				scan(t_data *data);
 void			handle_pipe(char **str, t_data *data);
 void			handle_q_string(char **str, t_data *data, char q_type);
