@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/12 12:49:17 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/14 19:18:05 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,18 @@ static void init_global(void)
 	g_garbage_list = NULL;
 }
 
+void	leaks(void)
+{
+	system("leaks minishell");
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 	char	*input;
 	char	*trimmed;
 
+	atexit(&leaks);
 	(void)argv;
 	if (argc != 1)
 	{
