@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:05:34 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/11 16:26:30 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/14 18:31:00 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 void	handle_builtin(t_token *token, t_data *data)
 {
 	if (!ft_strcmp(token->value, "cd"))
-		printf("executing cd\n");
+		cd(token);
 	else if (!ft_strcmp(token->value, "echo"))
 	{
 		printf("executing echo\n");
