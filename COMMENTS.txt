@@ -59,6 +59,7 @@ and so on
 
 to summarize what's not yet implemented:
 - echo broke
+- lowercase cmd names?
 - garbage collection as a separate thing (rn nothing is freed)
 - syntax errors
 - heredoc testing + heredoc $ delim expansion (maybe should be handled by execution to work with signals and etc.)
