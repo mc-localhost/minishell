@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:05:34 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/14 19:44:34 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/14 21:04:34 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	handle_builtin(t_token *token, t_data *data)
 		echo(token);
 	}
 	else if (!ft_strcmp(token->value, "env"))
-		env(data);
+		env(token, data);
 	else if (!ft_strcmp(token->value, "export"))
 		printf("executing export\n");
 	else if (!ft_strcmp(token->value, "pwd"))
