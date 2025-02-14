@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:05:34 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/14 18:31:00 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/14 18:34:18 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 void	handle_builtin(t_token *token, t_data *data)
 {
 	if (!ft_strcmp(token->value, "cd"))
-		cd(token);
+		cd(token, data);
 	else if (!ft_strcmp(token->value, "echo"))
 	{
 		printf("executing echo\n");
