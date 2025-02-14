@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   final_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:07:12 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/14 16:53:24 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/14 22:20:52 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	builtin_token(t_token *token)
 {
 	int		i;
 	int		num_builtins;
-	char	*builtins[7] = {"cd", "echo", "pwd", "env", "export", "unset", "exit"}; //fix to pass norm
+	char	*builtins[7] = {"cd", "echo", "pwd", "env", "export", "unset", "exit", "clear", "cls"}; //fix to pass norm
 
 	num_builtins = 7;
 	i = 0;

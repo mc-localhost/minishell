@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:05:34 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/14 22:07:43 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/14 22:22:04 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	handle_builtin(t_token *token, t_data *data)
 		return (unset(token, data));
 	else if (!ft_strcmp(token->value, "exit"))
 		return (999999);
+	else if (!ft_strcmp(token->value, "clear") || !ft_strcmp(token->value, "cls"))
+		printf("\033[H\033[J");
 	return (0);
 }
 
