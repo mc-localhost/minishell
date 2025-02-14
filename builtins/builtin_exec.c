@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:05:34 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/14 18:34:18 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/14 19:44:34 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 // else
 // 	printf("input: %s\n", input);
 
-void	handle_builtin(t_token *token, t_data *data)
+int	handle_builtin(t_token *token, t_data *data)
 {
 	if (!ft_strcmp(token->value, "cd"))
 		cd(token, data);
@@ -39,7 +39,8 @@ void	handle_builtin(t_token *token, t_data *data)
 	else if (!ft_strcmp(token->value, "unset"))
 		printf("executing unset\n");
 	else if (!ft_strcmp(token->value, "exit"))
-		printf("executing exit\n");
+		return (999999);
+	return (0);
 }
 
 // tests for builitns: https://github.com/jotavare/minishell?tab=readme-ov-file#export-env-and-unset

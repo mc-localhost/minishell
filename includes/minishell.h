@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/14 18:34:32 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/14 19:43:54 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void			expand_token_values(t_token *token, t_data *data);
 void			print_token(t_token *token, t_data *data);
 
 /*	BUILTINS	*/
-void			handle_builtin(t_token *token, t_data *data);
+int				handle_builtin(t_token *token, t_data *data);
 void			env(t_data *data);
 void			pwd(t_data *data);
 void			echo(t_token *token);

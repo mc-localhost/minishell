@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/14 19:26:49 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/14 19:50:26 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 	char	*input;
-	char	*trimmed;
+	//char	*trimmed;
+	int		active;
 
 	atexit(&leaks);
 	(void)argv;
@@ -60,19 +61,13 @@ int	main(int argc, char **argv, char **envp)
 
 	//echo $MY_VAR is to print the value of MY_VAR
 
-	while (1)
+	active = 1;
+	while (active == 1)
 	{
 		input = readline(PROMPT);
 		
 		//remove later
-		trimmed = ft_strtrim(input, "\t\n\v\f\r ");
-		if (ft_strncmp("exit", trimmed, 4) == 0)
-		{
-			free(trimmed);
-			free(input);
-			break ;
-		}
-		//end of remove
+		//trimmed = ft_strtrim(input, "\t\n\v\f\r ");
 		
 		if (*input)
 		{
@@ -88,7 +83,13 @@ int	main(int argc, char **argv, char **envp)
 		while (current) 
 		{
 			if (current->type == TOKEN_BUILTIN)
-				handle_builtin(current, &data);
+			{
+				if (handle_builtin(current, &data) == 999999)
+				{
+					active = 0;
+					break;
+				}
+			}
 			// else if (current->type == TOKEN_CMD)
 			// 	execvp(current->value, current->args); //used for testing args with spaces - doesn't work, need to remove them
 			current = current->next;
@@ -97,7 +98,7 @@ int	main(int argc, char **argv, char **envp)
 
 		//clean tokens and final tokens after execution
 		
-		free(trimmed);
+		//free(trimmed);
 		free(input);
 		//we need here function to free data and it's tokens
 		//delete heredoc file
