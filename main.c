@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/14 19:18:05 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/14 19:26:49 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int	main(int argc, char **argv, char **envp)
 			data.input = input;
 			data.input_copy = ft_strdup(input); //needs safe malloc
 			parse(&data);
+			free(data.input_copy);
 		}
 
 		//change to iterate_final_tokens(data, execute_function)
@@ -96,7 +97,9 @@ int	main(int argc, char **argv, char **envp)
 
 		//clean tokens and final tokens after execution
 		
+		free(trimmed);
 		free(input);
+		//we need here function to free data and it's tokens
 		//delete heredoc file
 	}
 	// free_all();
