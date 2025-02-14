@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:07:38 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/11 15:29:13 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/14 15:25:11 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	print_token(t_token *token, t_data *data) //rewrite to pass norm
 	t_redirection	*redir;
 
 	(void)data;
+	if (token->type == PROCESSED)
+		return ;
 	printf("Type: %d, Value: %s\n", token->type, token->value);
 	i = 0;
 	while (i < token->args_count)
@@ -77,9 +79,9 @@ void	print_token(t_token *token, t_data *data) //rewrite to pass norm
 	}
 }
 
-void	expand_token_values(t_token *token, t_data *data) //maybe expand when adding arguments so that heredoc delim doesn't get expanded
-{
-	if (token->type != TOKEN_STRING && token->type != TOKEN_STRING_DOUBLEQ)
-		return ;
-	token->value = expand(token->value, data);
-}
+// void	expand_token_values(t_token *token, t_data *data) //WRONG
+// {
+// 	if (token->type != TOKEN_STRING && token->type != TOKEN_STRING_DOUBLEQ)
+// 		return ;
+// 	token->value = expand(token->value, data);
+// }

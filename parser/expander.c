@@ -6,31 +6,11 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 16:38:12 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/11 15:45:47 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/14 15:26:02 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-static char	*expanded(char *start, char *end, t_data *data)
-{
-	if (start == end)
-		return (ft_strdup("$")); // safe malloc needed
-	else if (end - start == 1 && *start == '?')
-		return (ft_itoa(g_last_exit_code)); // safe malloc needed
-	else
-		return (find_env_var(&data->envs, ft_substr(start, 0, end - start)));
-	// safe malloc needed
-}
-
-static char	*dollar_end(char *str)
-{
-	if (*str == '?')
-		return (str + 1);
-	while (*str && (ft_isalnum(*str) || *str == '_'))
-		str++;
-	return (str); // returns next char after the end of the dollar token
-}
 
 /*
 Expander expands
@@ -42,7 +22,32 @@ Expander expands
 
 Regular bash also handles cases like $$, $0
 but they are out of scope of this project.
+
+When expanding double-quoted string, the token remains.
+When expanding just string, the expansion from the environment variable
+gets split by sequences of spaces and turns into several SINGLE_Q tokens
+and SPACE tokens, the rest of STRING gets saved, too. The initial token
+is marked as PROCESSED.
 */
+
+static char	*expanded(char *start, char *end, t_data *data)
+{
+	if (start == end)            // and if end + 1 = ' ' or '\0' - FIX!
+		return (ft_strdup("$"));
+	else if (end - start == 1 && *start == '?')
+		return (ft_itoa(g_last_exit_code));
+	else
+		return (find_env_var(&data->envs, ft_substr(start, 0, end - start)));
+}
+
+static char	*dollar_end(char *str)
+{
+	if (*str == '?')
+		return (str + 1);
+	while (*str && (ft_isalnum(*str) || *str == '_'))
+		str++;
+	return (str);
+}
 
 char	*expand(char *str, t_data *data)
 {
@@ -58,16 +63,104 @@ char	*expand(char *str, t_data *data)
 		while (*str && *str != '$')
 			str++;
 		res = ft_strjoin(res, ft_substr(temp, 0, str - temp));
-		// safe malloc needed
 		if (*str == '$')
 		{
-			str++; // skipped dollar itself
+			str++;
 			start = str;
 			end = dollar_end(str);
 			res = ft_strjoin(res, expanded(start, end, data));
-			// safe malloc needed
 			str = end;
 		}
 	}
 	return (res);
+}
+
+static void	insert_after(t_token *current, t_token *new_token)
+{
+	t_token	*next_token;
+
+	if (!current || !new_token)
+		return ;
+	next_token = current->next;
+	current->next = new_token;
+	new_token->prev = current;
+	if (next_token)
+	{
+		new_token->next = next_token;
+		next_token->prev = new_token;
+	}
+	else
+		new_token->next = NULL;
+}
+
+static void	new_single_string(char **str, t_token *token)
+{
+	char	*token_start;
+	char	*new_string;
+
+	token_start = *str;
+	while (**str && !ft_isspace(**str))
+		(*str)++;
+	new_string = ft_substr(token_start, 0, *str - token_start);
+	printf("new SINGLE token:%s\n", new_string);
+	insert_after(token, create_token(TOKEN_STRING_SINGLQ, new_string));
+}
+
+static void	expand_to_more(t_token *token, t_data *data)
+{
+	char	*str;
+	t_token	*last_inserted;
+
+	last_inserted = token;
+	// first it expands $ inline so that &USER! => echo hello!
+	str = expand(token->value, data);
+	printf("expanded STRING:%s\n", str);
+	skip_whitespace(&str);
+	// makes n SINGLEQ tokens and SPACE tokens
+	// + remains of the STRING token
+	while (*str)
+	{
+		if (skip_whitespace(&str) > 0)
+		{
+			insert_after(last_inserted, create_token(TOKEN_SPACE, ft_strdup(" ")));
+			printf("found and added SPACE\n");
+			last_inserted = last_inserted->next;
+		}
+		if (*str == '\0')
+			break ;
+		else
+		{
+			new_single_string(&str, last_inserted);
+			printf("added new SINGLE token\n");
+			last_inserted = last_inserted->next;
+		}
+	}
+	token->type = PROCESSED;
+	printf("PROCESSED initial token\n");
+}
+
+void	expand_token_values(t_token *token, t_data *data)
+{
+	// HEREDOC delimeter shouldn't get expanded - needs more testing
+	if (token->prev && token->prev->type == TOKEN_HEREDOC)
+		return ;
+	if (token->prev && token->prev->prev && token->prev->prev->type == TOKEN_HEREDOC)
+		return ;
+	printf("checked for HEREDOC\n");
+	if (token->type == TOKEN_STRING_DOUBLEQ)
+	{
+		if (!ft_strchr(token->value, '$'))
+			return ;
+		token->value = expand(token->value, data);
+		printf("expanded double quoted token to \"%s\"\n", token->value);
+	}
+	else if (token->type == TOKEN_STRING)
+	{
+		if (!ft_strchr(token->value, '$'))
+			return ;
+		printf("expanding STRING \"%s\" now\n", token->value);
+		expand_to_more(token, data);
+	}
+	else
+		return ;
 }
