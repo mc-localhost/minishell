@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:07:12 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/11 16:20:01 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/14 16:53:24 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	process_tokens(t_data *data)
 				current_cmd->args_count++;
 		}
 		else if (current->type == TOKEN_SPACE)
-			current_cmd->args_count++;
+			current->type = PROCESSED; // current_cmd->args_count++;
 		else if (current->type == TOKEN_PIPE)
 		{
 			finalize_command(current_cmd, &data->tokens, data);
