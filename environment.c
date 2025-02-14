@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 12:19:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/14 22:18:25 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/14 22:37:16 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	change_env_var(t_env_node **head, const char *key, const char *value)
 		}
 		temp = temp->next;
 	}
-	printf("no such key '%s'\n", key); // change to smth else
+	//printf("no such key '%s'\n", key); // change to smth else
 }
 
 void	envp_to_list(t_data *data, char **envp, int i) // int i 'cause only 5 vars allowed

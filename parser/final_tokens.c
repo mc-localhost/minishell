@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:07:12 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/14 22:20:52 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/14 22:34:17 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	builtin_token(t_token *token)
 {
 	int		i;
 	int		num_builtins;
-	char	*builtins[7] = {"cd", "echo", "pwd", "env", "export", "unset", "exit", "clear", "cls"}; //fix to pass norm
+	char	*builtins[9] = {"cd", "echo", "pwd", "env", "export", "unset", "exit", "clear", "cls"}; //fix to pass norm
 
 	num_builtins = 7;
 	i = 0;
