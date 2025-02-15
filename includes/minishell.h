@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/15 16:08:03 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/15 19:26:34 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,14 @@ t_alloc_node	*g_garbage_list;
 void			*safe_malloc(size_t size);
 void			free_all(void);
 void			free_arr(char **str);
+
+/*	SAFE LIBFT	*/
+char	*ft_itoa_safe(int n);
+char	**ft_split_safe(char const *s, char c);
+char	*ft_strdup_safe(const char *src);
+char	*ft_strjoin_safe(char const *s1, char const *s2);
+size_t	ft_strlcpy_safe(char *dst, const char *src, size_t dstsize);
+char	*ft_substr_safe(char const *s, unsigned int start, size_t len);
 
 /*	ENVIRONMENT	*/
 char			*find_env_var(t_env_node **head, const char *str);

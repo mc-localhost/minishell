@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:35:49 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/15 15:11:26 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/15 18:28:48 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	add_redirection_to_cmd(t_token *cmd, t_token **current_ptr,
 		if (redir->type == TOKEN_HEREDOC)
 			redir->file = handle_heredoc(current, data);
 		else
-			redir->file = ft_strdup(current->value);
+			redir->file = ft_strdup_safe(current->value);
 		current->type = PROCESSED;
 	}
 	else

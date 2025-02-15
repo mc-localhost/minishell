@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 16:38:12 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/15 15:09:09 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/15 18:28:36 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,11 @@ is marked as PROCESSED.
 static char	*expanded(char *start, char *end, t_data *data)
 {
 	if (start == end)            // and if end + 1 = ' ' or '\0' - FIX!
-		return (ft_strdup("$"));
+		return (ft_strdup_safe("$"));
 	else if (end - start == 1 && *start == '?')
-		return (ft_itoa(g_last_exit_code));
+		return (ft_itoa_safe(g_last_exit_code));
 	else
-		return (find_env_var(&data->envs, ft_substr(start, 0, end - start)));
+		return (find_env_var(&data->envs, ft_substr_safe(start, 0, end - start)));
 }
 
 static char	*dollar_end(char *str)
@@ -56,19 +56,19 @@ char	*expand(char *str, t_data *data)
 	char	*start;
 	char	*end;
 
-	res = ft_strdup("");
+	res = ft_strdup_safe("");
 	while (*str)
 	{
 		temp = str;
 		while (*str && *str != '$')
 			str++;
-		res = ft_strjoin(res, ft_substr(temp, 0, str - temp));
+		res = ft_strjoin_safe(res, ft_substr_safe(temp, 0, str - temp));
 		if (*str == '$')
 		{
 			str++;
 			start = str;
 			end = dollar_end(str);
-			res = ft_strjoin(res, expanded(start, end, data));
+			res = ft_strjoin_safe(res, expanded(start, end, data));
 			str = end;
 		}
 	}
@@ -101,7 +101,7 @@ static void	new_single_string(char **str, t_token *token)
 	token_start = *str;
 	while (**str && !ft_isspace(**str))
 		(*str)++;
-	new_string = ft_substr(token_start, 0, *str - token_start);
+	new_string = ft_substr_safe(token_start, 0, *str - token_start);
 	insert_after(token, create_token(TOKEN_STRING_SINGLQ, new_string));
 }
 
@@ -117,7 +117,7 @@ static void	expand_to_more(t_token *token, t_data *data)
 	{
 		if (skip_whitespace(&str) > 0)
 		{
-			insert_after(last_inserted, create_token(TOKEN_SPACE, ft_strdup(" ")));
+			insert_after(last_inserted, create_token(TOKEN_SPACE, ft_strdup_safe(" ")));
 			last_inserted = last_inserted->next;
 		}
 		if (*str == '\0')

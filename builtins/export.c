@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 22:19:20 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/14 22:52:11 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/15 19:22:26 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ int	export(t_token *token, t_data *data)
 		{
 			if (ft_strchr(token->args[i], '='))
 			{
-				a = ft_split(token->args[i], '=');
+				a = ft_split(token->args[i], '='); //use ft_split_safe or free manually
 				if (!a)
 					return (-1);
 				if (find_env_var(&data->envs, a[0]) != NULL)
 					change_env_var(&data->envs, a[0], a[1]);
 				else
-					add_env_var(&data->envs, create_env_var(ft_strdup(a[0]), ft_strdup(a[1])));
+					add_env_var(&data->envs, create_env_var(ft_strdup(a[0]), ft_strdup(a[1]))); //change to safe or free manually
 				free_arr(a);
 			}
 			i++;

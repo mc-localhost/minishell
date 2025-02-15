@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 17:56:33 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/14 13:37:05 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/15 18:29:14 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	scan(t_data *data)
 	while (*str)
 	{
 		if (skip_whitespace(&str) > 0)
-			add_token(&data->tokens, create_token(TOKEN_SPACE, ft_strdup(" ")));
+			add_token(&data->tokens, create_token(TOKEN_SPACE, ft_strdup_safe(" ")));
 		if (*str == '\0')
 			break ;
 		if (ft_strchr("|<>\"'", *str))

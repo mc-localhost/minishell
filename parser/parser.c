@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:08:08 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/15 17:44:05 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/15 19:23:57 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	merge_tokens(t_token **head)
 			current = current->next;
 			continue ;
 		}
-		current->value = ft_strjoin(current->value, current->next->value);
+		current->value = ft_strjoin_safe(current->value, current->next->value);
 		current->type = TOKEN_STRING_SINGLQ;
 		if (current->next->next == NULL)
 		{

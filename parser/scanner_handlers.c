@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:09:03 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/11 15:21:47 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/15 18:29:43 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	handle_q_string(char **str, t_data *data, char q_type)
 			type = TOKEN_STRING_SINGLQ;
 		else
 			type = TOKEN_STRING_DOUBLEQ;
-		add_token(&data->tokens, create_token(type, ft_substr(token_start, 0,
-					*str - token_start))); // change to safe malloc
+		add_token(&data->tokens, create_token(type, ft_substr_safe(token_start, 0,
+					*str - token_start)));
 		(*str)++;
 	}
 	else // if unclosed quote
@@ -48,8 +48,8 @@ void	handle_string(char **str, t_data *data)
 	token_start = *str;
 	while (**str && !ft_isspace(**str) && !ft_strchr("|<>\"'", **str))
 		(*str)++;
-	add_token(&data->tokens, create_token(TOKEN_STRING, ft_substr(token_start,
-				0, *str - token_start))); // change to safe malloc
+	add_token(&data->tokens, create_token(TOKEN_STRING, ft_substr_safe(token_start,
+				0, *str - token_start)));
 }
 
 void	handle_in(char **str, t_data *data)

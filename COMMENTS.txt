@@ -58,12 +58,12 @@ TOKEN_CMD
 and so on
 
 to summarize what's not yet implemented:
-- echo broke
+- check merge tokens some more (echo $"HOM"E$USER - another space, $ should be removed but stays)
+- sometimes $ should be removed but stays
 - lowercase cmd names?
 - garbage collection as a separate thing (rn nothing is freed)
 - syntax errors
 - heredoc testing + heredoc $ delim expansion (maybe should be handled by execution to work with signals and etc.)
-- sometimes $ should be removed but stays
 - check forbidden functions: nm -g ./minishell | grep " U " (from https://github.com/jotavare/minishell)
 - norminette
 

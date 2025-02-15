@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   final_tokens.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:07:12 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/14 22:34:17 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/15 18:29:06 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	finalize_command(t_token *cmd, t_token **current_ptr, t_data *data)
 	{
 		if (current->type != PROCESSED)
 		{
-			cmd->args[i] = ft_strdup(current->value);
+			cmd->args[i] = ft_strdup_safe(current->value);
 			current->type = PROCESSED;
 			i++;
 		}
