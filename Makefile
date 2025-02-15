@@ -6,7 +6,7 @@
 #    By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/10 15:49:58 by vvasiuko          #+#    #+#              #
-#    Updated: 2025/02/15 16:07:38 by vvasiuko         ###   ########.fr        #
+#    Updated: 2025/02/15 18:24:48 by vvasiuko         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ SRC = main.c garbage_collector.c environment.c \
 	parser/iter.c \
 	builtins/builtin_exec.c builtins/cd.c  builtins/pwd.c builtins/echo.c builtins/env.c builtins/export.c builtins/unset.c \
 	gnl/get_next_line.c \
-	executor.c
+	executor.c \
+	safe_libft/ft_itoa_safe.c safe_libft/ft_split_safe.c safe_libft/ft_strdup_safe.c safe_libft/ft_strjoin_safe.c safe_libft/ft_strlcpy_safe.c safe_libft/ft_substr_safe.c
 OBJ = $(SRC:.c=.o)
 RM = rm -f
 
