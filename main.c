@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/15 16:14:48 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/15 16:53:44 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ int	main(int argc, char **argv, char **envp)
 			data.input = input;
 			data.input_copy = ft_strdup(input); //needs safe malloc
 			parse(&data);
-			free(data.input_copy);
+			free(data.input_copy); // will free in garbage
 			iterate_final_tokens(&data, execute);
-			free(input);
+		}
+		free(input);
 			//clean tokens and final tokens after execution
 			//delete heredoc file
-		}
 	}
 	// free_all();
 	return (EXIT_SUCCESS);

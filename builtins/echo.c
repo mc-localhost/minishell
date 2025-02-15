@@ -6,17 +6,42 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:55 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/15 16:22:48 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/15 17:42:43 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static int	echo_n(t_token *token)
+static int	check_n_flag(t_token *token)
+{
+	char	*str;
+	int		start;
+
+	start = 0;
+	while (start < token->args_count)
+	{
+		if (!ft_strncmp(token->args[start], "-n", 2))
+		{
+			str = token->args[start] + 2;
+			while (*str)
+			{
+				if (*str != 'n')
+					return (start);
+				str++;
+			}
+		}
+		else
+			break ;
+		start++;
+	}
+	return (start);
+}
+
+static int	echo_n(t_token *token, int start)
 {
 	int	i;
 
-	i = 1;
+	i = start;
 	while (i < token->args_count - 1)
 	{
 		printf("%s ", token->args[i]);
@@ -29,11 +54,13 @@ static int	echo_n(t_token *token)
 int	echo(t_token *token)
 {
 	int	i;
+	int	start;
 
 	if (token->args_count > 0)
 	{
-		if (!ft_strcmp(token->args[0], "-n")) //replace with whole string check
-			return (echo_n(token));
+		start = check_n_flag(token);
+		if (start > 0)
+			return (echo_n(token, start));
 		else
 		{
 			i = 0;
