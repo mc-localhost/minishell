@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/15 14:16:27 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/15 16:08:03 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,11 @@ int				env(t_token *token, t_data *data);
 int				export(t_token *token, t_data *data);
 int				unset(t_token *token, t_data *data);
 void			pwd(t_data *data);
-void			echo(t_token *token);
+int				echo(t_token *token);
 int				cd(t_token *token, t_data *data);
 
-/*	MAIN	*/
+/*	EXECUTOR	*/
+void			execute(t_token *token, t_data *data);
 
 /*	GET NEXT LINE FOR TESTER	*/
 char	*get_next_line(int fd);

@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:08:08 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/15 15:05:27 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/15 16:21:39 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,6 @@ int	parse(t_data *data)
 
 	process_tokens(data);
 	// printf("***		printing procesed final		***\n\n");
-	iterate_final_tokens(data, print_token);
+	// iterate_final_tokens(data, print_token);
 	return (EXIT_SUCCESS);
 }
