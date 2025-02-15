@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 12:19:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/14 22:37:16 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/15 15:10:46 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ char	*find_env_var(t_env_node **head, const char *str)
 	temp = *head;
 	while (temp)
 	{
-		// printf("comparing %s with %s\n", temp->key, str);
 		if (ft_strcmp(temp->key, str) == 0)
 			return (temp->value);
 		temp = temp->next;
@@ -101,7 +100,7 @@ void	change_env_var(t_env_node **head, const char *key, const char *value)
 	//printf("no such key '%s'\n", key); // change to smth else
 }
 
-void	envp_to_list(t_data *data, char **envp, int i) // int i 'cause only 5 vars allowed
+void	envp_to_list(t_data *data, char **envp, int i)
 {
 	t_env_node *env_list;
 	char *equal_sign;
@@ -114,11 +113,9 @@ void	envp_to_list(t_data *data, char **envp, int i) // int i 'cause only 5 vars 
 	{
 		equal_sign = ft_strchr(envp[i], '=');
 		key_len = equal_sign - envp[i];
-		key = safe_malloc((key_len + 1) * sizeof(char));
-		ft_strlcpy(key, envp[i], key_len + 1);
-		// change to safe_malloc
-		value = ft_strdup(equal_sign + 1);
-		// change to safe_malloc
+		key = safe_malloc((key_len + 1) * sizeof(char)); //change to regular and clean manually if needed
+		ft_strlcpy(key, envp[i], key_len + 1); // change to safe function if needs to be cleaned with garbage colector
+		value = ft_strdup(equal_sign + 1); //same goes for the rest of the file
 		add_env_var(&env_list, create_env_var(key, value));
 		i++;
 	}

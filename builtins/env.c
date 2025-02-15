@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 21:56:43 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/14 21:56:48 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/15 15:00:27 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../includes/minishell.h"
 
-char	*ft_strtoupper(char *str)
+char	*ft_strtoupper(char *str) //don't need this
 {
 	int i;
 

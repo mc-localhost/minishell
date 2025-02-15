@@ -6,7 +6,7 @@
 #    By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/10 15:49:58 by vvasiuko          #+#    #+#              #
-#    Updated: 2025/02/11 16:18:44 by vvasiuko         ###   ########.fr        #
+#    Updated: 2025/02/15 14:18:01 by vvasiuko         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ SRC = main.c garbage_collector.c environment.c \
 	parser/syntax.c \
 	parser/final_tokens.c parser/final_tokens_redir.c \
 	parser/iter.c \
-	builtins/builtin_exec.c builtins/cd.c  builtins/pwd.c builtins/echo.c builtins/env.c builtins/export.c builtins/unset.c
+	builtins/builtin_exec.c builtins/cd.c  builtins/pwd.c builtins/echo.c builtins/env.c builtins/export.c builtins/unset.c \
+	gnl/get_next_line.c
 OBJ = $(SRC:.c=.o)
 RM = rm -f
 

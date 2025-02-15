@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 16:38:12 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/14 15:26:02 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/15 15:09:09 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,6 @@ static void	new_single_string(char **str, t_token *token)
 	while (**str && !ft_isspace(**str))
 		(*str)++;
 	new_string = ft_substr(token_start, 0, *str - token_start);
-	printf("new SINGLE token:%s\n", new_string);
 	insert_after(token, create_token(TOKEN_STRING_SINGLQ, new_string));
 }
 
@@ -112,18 +111,13 @@ static void	expand_to_more(t_token *token, t_data *data)
 	t_token	*last_inserted;
 
 	last_inserted = token;
-	// first it expands $ inline so that &USER! => echo hello!
 	str = expand(token->value, data);
-	printf("expanded STRING:%s\n", str);
 	skip_whitespace(&str);
-	// makes n SINGLEQ tokens and SPACE tokens
-	// + remains of the STRING token
 	while (*str)
 	{
 		if (skip_whitespace(&str) > 0)
 		{
 			insert_after(last_inserted, create_token(TOKEN_SPACE, ft_strdup(" ")));
-			printf("found and added SPACE\n");
 			last_inserted = last_inserted->next;
 		}
 		if (*str == '\0')
@@ -131,34 +125,28 @@ static void	expand_to_more(t_token *token, t_data *data)
 		else
 		{
 			new_single_string(&str, last_inserted);
-			printf("added new SINGLE token\n");
 			last_inserted = last_inserted->next;
 		}
 	}
 	token->type = PROCESSED;
-	printf("PROCESSED initial token\n");
 }
 
 void	expand_token_values(t_token *token, t_data *data)
 {
-	// HEREDOC delimeter shouldn't get expanded - needs more testing
 	if (token->prev && token->prev->type == TOKEN_HEREDOC)
 		return ;
 	if (token->prev && token->prev->prev && token->prev->prev->type == TOKEN_HEREDOC)
 		return ;
-	printf("checked for HEREDOC\n");
 	if (token->type == TOKEN_STRING_DOUBLEQ)
 	{
 		if (!ft_strchr(token->value, '$'))
 			return ;
 		token->value = expand(token->value, data);
-		printf("expanded double quoted token to \"%s\"\n", token->value);
 	}
 	else if (token->type == TOKEN_STRING)
 	{
 		if (!ft_strchr(token->value, '$'))
 			return ;
-		printf("expanding STRING \"%s\" now\n", token->value);
 		expand_to_more(token, data);
 	}
 	else

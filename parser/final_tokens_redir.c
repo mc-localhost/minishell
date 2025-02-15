@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:35:49 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/11 15:37:07 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/15 15:11:26 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	add_redirection_to_cmd(t_token *cmd, t_token **current_ptr,
 	else
 	{
 		// syntax errors should go into syntax.c
-		printf("minishell: syntax error near unexpected token `%s'\n", current->value); // get back to it to handle new_line and stuff
+		printf("minishell: syntax error near unexpected token `%s'\n", current->value);
 		exit(EXIT_FAILURE);
 	}
 	if (redir->type == TOKEN_REDIRECT_IN || redir->type == TOKEN_HEREDOC)

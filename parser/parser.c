@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:08:08 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/14 23:17:45 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/15 15:05:27 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,12 @@
 Merging tokens is needed so that if, for example, echo command is written like
 'e'"cho" 
 it will stil work and not try to execute 'e'.
+
+When merging, only 1 token of type TOKEN_STRING_SINGLQ remains
+with a value equal to everything joined before next TOKEN_SPACE.
 */
 
 static void	merge_tokens(t_token **head)
-		// for now a random type of STRING token type stays
 {
 	t_token	*current;
 
@@ -45,22 +47,20 @@ static void	merge_tokens(t_token **head)
 
 int	parse(t_data *data)
 {
-	// export _TESTING="echo $USER"
-	// export _TESTING_2="$_TESTING"
-	// export _TESTING_3="ls -l | wc -l"
-	// printf("%s\n", expand("$_TESTING_2", data));
 	scan(data);
-	printf("***		printing scanned	***\n\n");
-	iterate_tokens(data, print_token);
+	// printf("***		printing scanned	***\n\n");
+	// iterate_tokens(data, print_token);
+
 	iterate_tokens(data, expand_token_values);
-	printf("***		printing expanded	***\n\n");
-	iterate_tokens(data, print_token);
+	// printf("***		printing expanded	***\n\n");
+	// iterate_tokens(data, print_token);
+
 	merge_tokens(&data->tokens);
-	printf("***		printing merged	***\n\n");
-	iterate_tokens(data, print_token);
-	// here we might as well just remove spaces and processed tokens first
+	// printf("***		printing merged	***\n\n");
+	// iterate_tokens(data, print_token);
+
 	process_tokens(data);
-	printf("***		printing procesed final		***\n\n");
+	// printf("***		printing procesed final		***\n\n");
 	iterate_final_tokens(data, print_token);
 	return (EXIT_SUCCESS);
 }

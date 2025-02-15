@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:36:24 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/14 22:32:03 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/15 14:23:29 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	add_allocation(void *ptr)
 		exit(EXIT_FAILURE);
 	}
 	new_node->ptr = ptr;
-	new_node->next = g_garbage_list; //technically prev, not next. but doesn't matter i guess
+	new_node->next = g_garbage_list;
 	g_garbage_list = new_node;
 }
 
@@ -61,7 +61,7 @@ void	free_all(void)
 	g_garbage_list = NULL;
 }
 
-void	free_arr(char **str)
+void	free_arr(char **str) //why?
 {
 	int	i;
 

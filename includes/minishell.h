@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/14 22:34:43 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/15 14:16:27 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,8 @@ void			echo(t_token *token);
 int				cd(t_token *token, t_data *data);
 
 /*	MAIN	*/
+
+/*	GET NEXT LINE FOR TESTER	*/
+char	*get_next_line(int fd);
 
 #endif
