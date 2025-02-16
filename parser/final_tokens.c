@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:07:12 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/16 13:59:58 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/16 15:36:22 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,16 @@ static void	finalize_command(t_token *cmd, t_token **current_ptr, t_data *data)
 	current = *current_ptr;
 	if (!current)
 	{
-		printf("i'm in finalize_command about to segfault\n");
-		// if it's null there were no cmds before pipe... and it will SEGFAULT - FIX by adding syntax error!
+		printf("i'm in finalize_command about to segfault CURRENT IS NULL\n");
+		print_syntax_error(current);
+	}
+	if (!cmd)
+	{
+		printf("i'm in finalize_command about to segfault CMD IS NULL\n");
+		print_syntax_error(current);
 	}
 	cmd->args = safe_malloc((cmd->args_count + 1) * sizeof(char *));
+	printf("num of args: %d\n", cmd->args_count);
 	cmd->args[cmd->args_count] = NULL;
 	while (current && current->type != TOKEN_PIPE)
 	{
@@ -82,6 +88,8 @@ static void	finalize_command(t_token *cmd, t_token **current_ptr, t_data *data)
 		}
 		current = current->next;
 	}
+	if (!cmd->value)
+		printf("i'm in finalize_command about to segfault CMD VALUE IS NULL\n");
 	builtin_token(cmd);
 	add_token(&data->final_tokens, cmd);
 	*current_ptr = current;
@@ -106,6 +114,8 @@ void	process_tokens(t_data *data)
 	t_token	*current_cmd;
 
 	current = data->tokens;
+	if (current && current->type == TOKEN_PIPE)
+		print_syntax_error(current);
 	current_cmd = NULL;
 	while (current)
 	{
@@ -132,6 +142,7 @@ void	process_tokens(t_data *data)
 			current->type = PROCESSED;
 		else if (current->type == TOKEN_PIPE)
 		{
+			//maybe check if the last token in final tokens is also PIPE?
 			finalize_command(current_cmd, &data->tokens, data);
 			add_pipe_token(data);
 			current->type = PROCESSED;
