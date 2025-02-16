@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:05:34 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/15 15:56:58 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/16 18:48:41 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	handle_builtin(t_token *token, t_data *data)
 		return (unset(token, data));
 	else if (!ft_strcmp(token->value, "exit"))
 		return (999999);
-	else if (!ft_strcmp(token->value, "clear") || !ft_strcmp(token->value, "cls"))
+	else if (!ft_strcmp(token->value, "clear") || !ft_strcmp(token->value, "cls")) //remove later or handle properly
 		printf("\033[H\033[J");
 	return (0);
 }

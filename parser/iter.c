@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:07:38 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/16 14:28:03 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/16 18:46:27 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ void	print_token(t_token *token, t_data *data)
 	int	i;
 
 	(void)data;
-	// if (token->type == PROCESSED)
-	// 	return ;
 	printf("Type: %d, Value: %s\n", token->type, token->value);
 	i = 0;
 	while (i < token->args_count)
