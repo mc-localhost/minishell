@@ -6,14 +6,13 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 21:56:43 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/15 15:00:27 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/16 14:08:13 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../includes/minishell.h"
 
-char	*ft_strtoupper(char *str) //don't need this
+char	*ft_strtoupper(char *str) // don't need this
 {
 	int i;
 
@@ -24,14 +23,13 @@ char	*ft_strtoupper(char *str) //don't need this
 		i++;
 	}
 	return (str);
-	
 }
 
-int env_cmd_error(t_token *token)
+int	env_cmd_error(t_token *token)
 {
-	write(STDERR_FILENO, "env: ", 5);
-	write(STDERR_FILENO, token->args[0], strlen(token->args[0]));
-	write(STDERR_FILENO, ": No such file or directory\n", 28);
+	ft_putstr_stderr("env: ");
+	ft_putstr_stderr(token->args[0]);
+	ft_putstr_stderr(": No such file or directory\n");
 	return (-1);
 }
 
@@ -40,7 +38,8 @@ int	env(t_token *token, t_data *data)
 	if (token->args_count == 1 && !ft_strchr(token->args[0], '='))
 	{
 		if (find_env_var(&data->envs, ft_strtoupper(token->args[0])) != NULL)
-			printf("%s\n", find_env_var(&data->envs, ft_strtoupper(token->args[0])));
+			printf("%s\n", find_env_var(&data->envs,
+					ft_strtoupper(token->args[0])));
 		else
 			return (env_cmd_error(token));
 	}

@@ -6,7 +6,7 @@
 #    By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/13 13:17:30 by vvasiuko          #+#    #+#              #
-#    Updated: 2025/01/25 13:22:18 by vvasiuko         ###   ########.fr        #
+#    Updated: 2025/02/16 14:05:43 by vvasiuko         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ ft_putchar_fd.c \
 ft_putendl_fd.c \
 ft_putnbr_fd.c \
 ft_putstr_fd.c \
+ft_putstr_stderr.c \
 ft_memmove.c \
 ft_memset.c  \
 ft_memchr.c \
