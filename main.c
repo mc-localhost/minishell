@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/16 13:51:46 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/16 14:13:49 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	main(int argc, char **argv, char **envp)
 			data.input = input;
 			data.input_copy = ft_strdup_safe(input);
 			parse(&data);
-			iterate_final_tokens(&data, execute);
+			iterate_final_tokens(&data, execute); //execution
 		}
 		free(input);
 		tokens_cleanup(&data);

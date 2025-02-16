@@ -58,19 +58,16 @@ TOKEN_CMD
 and so on
 
 to summarize what's not yet implemented:
-- check merge tokens some more (echo $"HOM"E$USER - another space, $ should be removed but stays)
 - sometimes $ should be removed but stays
-- lowercase cmd names?
-- garbage collection as a separate thing (rn nothing is freed)
-- syntax errors
-- heredoc testing + heredoc $ delim expansion (maybe should be handled by execution to work with signals and etc.)
-- check forbidden functions: nm -g ./minishell | grep " U " (from https://github.com/jotavare/minishell)
 - norminette
+- lowercase cmd names?
 
 after execution is done:
 - check if signals work with heredoc
+- check what happens to expansion when PATH is unset or new var is added with export
 - check if signals work while input after minishell> is written
 Type a command line, then use ctrl-C and press "Enter". The buffer should be clean and there should be
 nothing left to execute.
+- check forbidden functions: nm -g ./minishell | grep " U " (from https://github.com/jotavare/minishell)
 - run tester https://github.com/zstenger93/42_minishell_tester 
 - try export and then command with expansion

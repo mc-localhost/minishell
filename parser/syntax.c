@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 16:38:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/16 15:51:18 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/16 18:36:37 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,26 +56,20 @@ void	print_syntax_error(t_token *token)
 	}
 	else
 		ft_putstr_stderr("newline'\n");
-	exit(258); //execution should deal with this
+	exit(258); // execution should deal with this
 }
-
 
 void	unclosed_quotes_error(char q_type)
 {
-	ft_putstr_stderr("minishell: syntax error: unexpected EOF while looking for matching '");
+	ft_putstr_stderr("minishell: syntax error: \
+	unexpected EOF while looking for matching '");
 	ft_putchar_stderr(q_type);
 	ft_putstr_stderr("'\n");
-	exit(258); //execution should deal with this
+	exit(258); // execution should deal with this
 }
 
 /*
-more examples
-https://github.com/zstenger93/42_minishell_tester/blob/master/cmds/mand/8_syntax_errors.sh
-
-doesn't work:
-echo | | - i'm in finalize_command about to segfault CMD VALUE IS NULL
-zsh: segmentation fault  ./minishell
-
-<> is a valid file-opening mode (O_RDWR) but we don't handle it, so the tester is wrong
-
+one case left
+cat <file |>file
+- no command after pipe but should still work (it won't throw error)
 */

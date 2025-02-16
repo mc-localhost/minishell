@@ -6,11 +6,35 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:08:08 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/16 14:30:03 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/16 18:22:08 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static void	first_is_pipe(t_token **head)
+{
+	t_token	*current;
+
+	current = *head;
+	if (!current)
+		return ;
+	if (current->type == TOKEN_PIPE)
+		print_syntax_error(current);
+}
+
+static void	last_is_pipe(t_token **head)
+{
+	t_token	*current;
+
+	current = *head;
+	if (!current)
+		return ;
+	while (current->next)
+		current = current->next;
+	if (current->type == TOKEN_PIPE)
+		print_syntax_error(current);
+}
 
 static void	unlink_processed(t_token **head)
 {
@@ -72,23 +96,26 @@ static void	merge_tokens(t_token **head)
 int	parse(t_data *data)
 {
 	scan(data);
-	// printf("***		printing scanned	***\n\n");
-	// iterate_tokens(data, print_token);
+	printf("***		printing scanned	***\n\n");
+	iterate_tokens(data, print_token);
+
+	first_is_pipe(&data->tokens);
 
 	iterate_tokens(data, expand_token_values);
-	// printf("***		printing expanded	***\n\n");
-	// iterate_tokens(data, print_token);
+	printf("***		printing expanded	***\n\n");
+	iterate_tokens(data, print_token);
 
 	unlink_processed(&data->tokens);
-	// printf("***		printing after PROCESSED removal	***\n\n");
-	// iterate_tokens(data, print_token);
+	printf("***		printing after PROCESSED removal	***\n\n");
+	iterate_tokens(data, print_token);
 
 	merge_tokens(&data->tokens);
-	// printf("***		printing merged	***\n\n");
-	// iterate_tokens(data, print_token);
+	printf("***		printing merged	***\n\n");
+	iterate_tokens(data, print_token);
 
 	process_tokens(data);
-	// printf("***		printing procesed final		***\n\n");
-	// iterate_final_tokens(data, print_token);
+	last_is_pipe(&data->final_tokens);
+	printf("***		printing procesed final		***\n\n");
+	iterate_final_tokens(data, print_token);
 	return (EXIT_SUCCESS);
 }

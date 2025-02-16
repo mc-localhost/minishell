@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 21:56:43 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/16 14:08:13 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/16 14:12:04 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ft_strtoupper(char *str) // don't need this
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i] && str[i] != '\0')
