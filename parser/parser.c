@@ -6,15 +6,39 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:08:08 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/15 19:23:57 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/16 14:30:03 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+static void	unlink_processed(t_token **head)
+{
+	t_token	*current;
+	t_token	*temp;
+
+	current = *head;
+	while (current)
+	{
+		if (current->type != PROCESSED)
+		{
+			current = current->next;
+			continue ;
+		}
+		temp = current->next;
+		if (current->prev)
+			current->prev->next = current->next;
+		else
+			*head = current->next;
+		if (current->next)
+			current->next->prev = current->prev;
+		current = temp;
+	}
+}
+
 /*
 Merging tokens is needed so that if, for example, echo command is written like
-'e'"cho" 
+'e'"cho"
 it will stil work and not try to execute 'e'.
 
 When merging, only 1 token of type TOKEN_STRING_SINGLQ remains
@@ -53,6 +77,10 @@ int	parse(t_data *data)
 
 	iterate_tokens(data, expand_token_values);
 	// printf("***		printing expanded	***\n\n");
+	// iterate_tokens(data, print_token);
+
+	unlink_processed(&data->tokens);
+	// printf("***		printing after PROCESSED removal	***\n\n");
 	// iterate_tokens(data, print_token);
 
 	merge_tokens(&data->tokens);

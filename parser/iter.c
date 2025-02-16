@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:07:38 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/16 13:55:31 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/16 14:28:03 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,6 @@ void	print_token(t_token *token, t_data *data)
 		printf("%i arg: %s\n", i, token->args[i]);
 		i++;
 	}
-	print_redirections(token);
+	if (token->type == TOKEN_CMD || token->type == TOKEN_BUILTIN)
+		print_redirections(token);
 }
