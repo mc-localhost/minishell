@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 17:56:33 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/14 13:37:05 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/16 18:45:42 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ static void	handle_special(char **str, t_data *data)
 Scanner is looping through the input character by character
 not skipping spaces but rather creating a token for any sequence of spaces.
 
-Strings quoted with "", '' and unquoted are handled separately. 
-Each redirection has its own token type as well. 
+Strings quoted with "", '' and unquoted are handled separately.
+Each redirection has its own token type as well.
 */
 
 int	scan(t_data *data)
@@ -57,7 +57,8 @@ int	scan(t_data *data)
 	while (*str)
 	{
 		if (skip_whitespace(&str) > 0)
-			add_token(&data->tokens, create_token(TOKEN_SPACE, ft_strdup(" ")));
+			add_token(&data->tokens, create_token(TOKEN_SPACE,
+					ft_strdup_safe(" ")));
 		if (*str == '\0')
 			break ;
 		if (ft_strchr("|<>\"'", *str))

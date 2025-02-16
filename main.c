@@ -6,24 +6,40 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/12 12:49:17 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/16 14:13:49 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-static void init_global(void)
+static void	init_global(void)
 {
 	g_last_exit_code = 0;
-	g_garbage_list = NULL;
+	g_garbage_list = NULL; //only used by parsing for now
+}
+
+// void	leaks(void)
+// {
+// 	system("leaks minishell");
+// }
+
+static void	tokens_cleanup(t_data *data)
+{
+	free_all();
+	unlink(HEREDOC_FILENAME);
+	data->input = NULL;
+	data->tokens = NULL;
+	data->final_tokens = NULL;
+	data->num_pipes = 0;
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 	char	*input;
-	char	*trimmed;
+	int		active;
 
+	// atexit(&leaks);
 	(void)argv;
 	if (argc != 1)
 	{
@@ -33,66 +49,36 @@ int	main(int argc, char **argv, char **envp)
 	init_global();
 	ft_memset(&data, 0, sizeof(data));
 	envp_to_list(&data, envp, 0);
-	// print_env_list(data.envs); //cmd = env or export
-	// printf("\n**********************\n");
-
-	// change_env_var(&data.envs, "USER", "changed"); cmd = export VAR_NAME="value"  use ft_split and ignore when you adding" (add and change is the same the difference is if the key exist in list we change it, if it's not in the list we add)
-	// printf("\n changed USER var\n");
-	// print_env_list(data.envs);
-	// printf(" **********************\n");
-
-	// delete_env_var(&data.envs, "USER"); //cmd = unset VAR_NAME
-	// printf("\n deleted USER var\n");
-	// print_env_list(data.envs);
-	// printf("**********************\n");
-
-	// add_env_var(&data.envs, create_env_var("newUSER", "I'VE JUST BEEN CREATED")); cmd = export VAR_NAME="value" use ft_split and ignore when you adding" (add and change is the same the difference is if the key exist in list we change it, if it's not in the list we add)
-	// //but what happens when the var already exists?
-	// printf("\n added newUSER var to the end\n");
-	// print_env_list(data.envs);
-	// printf("**********************\n");
-
-	//echo $MY_VAR is to print the value of MY_VAR
-
-	while (1)
+	active = 1;
+	while (active == 1)
 	{
-		input = readline(PROMPT);
+		// input = readline(PROMPT); //uncomment before submitting
 		
-		//remove later
-		trimmed = ft_strtrim(input, "\t\n\v\f\r ");
-		if (ft_strncmp("exit", trimmed, 4) == 0)
+		//START for tester
+		//to install tester
+		//	bash -c "$(curl -fsSL https://raw.githubusercontent.com/zstenger93/42_minishell_tester/master/install.sh)" 
+		//to run
+		//	mstest
+		if (isatty(fileno(stdin)))
+			input = readline(PROMPT);
+		else
 		{
-			free(trimmed);
-			free(input);
-			break ;
+			char *line;
+			line = get_next_line(fileno(stdin));
+			input = ft_strtrim(line, "\n");
+			free(line);
 		}
-		//end of remove
-		
+		//END for tester - remove it all before submitting
 		if (*input)
 		{
 			add_history(input);
 			data.input = input;
-			data.input_copy = ft_strdup(input); //needs safe malloc
+			data.input_copy = ft_strdup_safe(input);
 			parse(&data);
+			iterate_final_tokens(&data, execute); //execution
 		}
-
-		//change to iterate_final_tokens(data, execute_function)
-		t_token *current = data.final_tokens;
-		while (current) 
-		{
-			if (current->type == TOKEN_BUILTIN)
-				handle_builtin(current, &data);
-			// else if (current->type == TOKEN_CMD)
-			// 	execvp(current->value, current->args); //used for testing args with spaces - doesn't work, need to remove them
-			current = current->next;
-		}
-		//
-
-		//clean tokens and final tokens after execution
-		
 		free(input);
-		//delete heredoc file
+		tokens_cleanup(&data);
 	}
-	// free_all();
 	return (EXIT_SUCCESS);
 }
