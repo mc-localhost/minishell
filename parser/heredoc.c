@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:14:06 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/12 12:51:07 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/16 13:46:09 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,11 @@ char	*handle_heredoc(t_token *token, t_data *data)
 {
 	char	*delim;
 	char	*input;
-	char	*filename;
 	int		to_expand;
 	int		fd;
 
 	delim = token->value;
-	filename = ".heredoc_file";
-	fd = open(filename, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	fd = open(HEREDOC_FILENAME, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	to_expand = 1;
 	if (token->type != TOKEN_STRING)
 		to_expand = 0;
@@ -57,10 +55,11 @@ char	*handle_heredoc(t_token *token, t_data *data)
 			input = expand(input, data);
 		write(fd, input, ft_strlen(input));
 		write(fd, "\n", 1);
-		free(input);
+		if (!to_expand)
+			free(input);
 		input = readline(HEREDOC_PROMPT);
 	}
 	free(input);
 	close(fd);
-	return (filename);
+	return (HEREDOC_FILENAME);
 }

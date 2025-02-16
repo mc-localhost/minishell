@@ -6,15 +6,14 @@
 #    By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/10 15:49:58 by vvasiuko          #+#    #+#              #
-#    Updated: 2025/02/15 18:24:48 by vvasiuko         ###   ########.fr        #
+#    Updated: 2025/02/16 13:37:11 by vvasiuko         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 NAME_BONUS = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Iincludes -Ilibft -g
-# -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -Iincludes -Ilibft -g -fsanitize=address
 LFLAGS = -lreadline -Llibft -lft
 SRC = main.c garbage_collector.c environment.c \
 	parser/parser.c \

@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/15 19:26:34 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/16 13:55:19 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 
 # define PROMPT "minishell> "
 # define HEREDOC_PROMPT "> "
+# define HEREDOC_FILENAME ".heredoc_file"
 
 /*	G	L	O	B	A	L		V	A	R	I	A	B	L	E	S	*/
 int				g_last_exit_code;
@@ -49,12 +50,12 @@ void			free_all(void);
 void			free_arr(char **str);
 
 /*	SAFE LIBFT	*/
-char	*ft_itoa_safe(int n);
-char	**ft_split_safe(char const *s, char c);
-char	*ft_strdup_safe(const char *src);
-char	*ft_strjoin_safe(char const *s1, char const *s2);
-size_t	ft_strlcpy_safe(char *dst, const char *src, size_t dstsize);
-char	*ft_substr_safe(char const *s, unsigned int start, size_t len);
+char			*ft_itoa_safe(int n);
+char			**ft_split_safe(char const *s, char c);
+char			*ft_strdup_safe(const char *src);
+char			*ft_strjoin_safe(char const *s1, char const *s2);
+size_t			ft_strlcpy_safe(char *dst, const char *src, size_t dstsize);
+char			*ft_substr_safe(char const *s, unsigned int start, size_t len);
 
 /*	ENVIRONMENT	*/
 char			*find_env_var(t_env_node **head, const char *str);
@@ -96,9 +97,9 @@ void			add_redirection_to_cmd(t_token *cmd, t_token **current_ptr,
 					t_data *data);
 
 /*	ITERATIONS	*/
-typedef void	(*token_func)(t_token *, t_data *);
-void			iterate_tokens(t_data *data, token_func func);
-void			iterate_final_tokens(t_data *data, token_func func);
+typedef void	(*t_token_func)(t_token *, t_data *);
+void			iterate_tokens(t_data *data, t_token_func func);
+void			iterate_final_tokens(t_data *data, t_token_func func);
 void			expand_token_values(t_token *token, t_data *data);
 void			print_token(t_token *token, t_data *data);
 
@@ -115,6 +116,6 @@ int				cd(t_token *token, t_data *data);
 void			execute(t_token *token, t_data *data);
 
 /*	GET NEXT LINE FOR TESTER	*/
-char	*get_next_line(int fd);
+char			*get_next_line(int fd);
 
 #endif

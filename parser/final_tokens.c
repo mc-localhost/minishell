@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:07:12 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/15 18:29:06 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/16 13:29:55 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ static void	add_pipe_token(t_data *data)
 
 	pipe_token = init_token();
 	pipe_token->type = TOKEN_PIPE;
-	pipe_token->value = "|"; //just useful when printing, can be removed
 	add_token(&data->final_tokens, pipe_token);
 	data->num_pipes++;
 }
@@ -57,7 +56,11 @@ static void	finalize_command(t_token *cmd, t_token **current_ptr, t_data *data)
 
 	i = 0;
 	current = *current_ptr;
-	// if it's null there were no cmds before pipe... and it will SEGFAULT
+	if (!current)
+	{
+		printf("i'm in finalize_command about to segfault\n");
+		// if it's null there were no cmds before pipe... and it will SEGFAULT - FIX by adding syntax error!
+	}
 	cmd->args = safe_malloc((cmd->args_count + 1) * sizeof(char *));
 	cmd->args[cmd->args_count] = NULL;
 	while (current && current->type != TOKEN_PIPE)
@@ -101,6 +104,8 @@ void	process_tokens(t_data *data)
 		{
 			current_cmd = init_token();
 			current_cmd->type = TOKEN_CMD;
+			current_cmd->redirections_in = NULL;
+			current_cmd->redirections_out = NULL;
 		}
 		if (is_redirection(current->type))
 			add_redirection_to_cmd(current_cmd, &current, data);
@@ -115,7 +120,7 @@ void	process_tokens(t_data *data)
 				current_cmd->args_count++;
 		}
 		else if (current->type == TOKEN_SPACE)
-			current->type = PROCESSED; // current_cmd->args_count++;
+			current->type = PROCESSED;
 		else if (current->type == TOKEN_PIPE)
 		{
 			finalize_command(current_cmd, &data->tokens, data);
