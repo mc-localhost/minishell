@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:09:03 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/16 15:12:52 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/17 16:28:31 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	handle_pipe(char **str, t_data *data)
 	(*str)++;
 }
 
-void	handle_q_string(char **str, t_data *data, char q_type)
+int	handle_q_string(char **str, t_data *data, char q_type)
 {
 	char			*token_start;
 	t_token_type	type;
@@ -38,7 +38,8 @@ void	handle_q_string(char **str, t_data *data, char q_type)
 		(*str)++;
 	}
 	else
-		unclosed_quotes_error(q_type);
+		return (unclosed_quotes_error(q_type));
+	return (EXIT_SUCCESS);
 }
 
 void	handle_string(char **str, t_data *data)

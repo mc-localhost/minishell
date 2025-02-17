@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:36:24 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/15 14:23:29 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/17 15:35:49 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ static void	add_allocation(void *ptr)
 		exit(EXIT_FAILURE);
 	}
 	new_node->ptr = ptr;
-	new_node->next = g_garbage_list;
-	g_garbage_list = new_node;
+	new_node->next = g_global.garbage_list;
+	g_global.garbage_list = new_node;
 }
 
 void	*safe_malloc(size_t size)
@@ -46,7 +46,7 @@ void	free_all(void)
 	t_alloc_node	*current;
 	t_alloc_node	*tmp;
 
-	current = g_garbage_list;
+	current = g_global.garbage_list;
 	while (current)
 	{
 		tmp = current->next;
@@ -58,7 +58,7 @@ void	free_all(void)
 		free(current);
 		current = tmp;
 	}
-	g_garbage_list = NULL;
+	g_global.garbage_list = NULL;
 }
 
 void	free_arr(char **str) //why?

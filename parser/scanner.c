@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 17:56:33 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/16 18:45:42 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/17 16:31:24 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	skip_whitespace(char **str)
 	return (i);
 }
 
-static void	handle_special(char **str, t_data *data)
+static int	handle_special(char **str, t_data *data)
 {
 	if (**str && ft_strchr("|<>\"'", **str))
 	{
@@ -36,8 +36,9 @@ static void	handle_special(char **str, t_data *data)
 		else if (**str == '|')
 			handle_pipe(str, data);
 		else if (**str == '\"' || **str == '\'')
-			handle_q_string(str, data, **str);
+			return (handle_q_string(str, data, **str));
 	}
+	return (EXIT_SUCCESS);
 }
 
 /*
@@ -62,7 +63,10 @@ int	scan(t_data *data)
 		if (*str == '\0')
 			break ;
 		if (ft_strchr("|<>\"'", *str))
-			handle_special(&str, data);
+		{
+			if (handle_special(&str, data) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
+		}
 		else
 			handle_string(&str, data);
 	}

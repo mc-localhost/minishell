@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 18:07:31 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/16 18:08:39 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/17 15:35:59 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static char	*expanded(char *start, char *end, t_data *data)
 {
-	if (start == end) // and if end + 1 = ' ' or '\0' - FIX!
+	if (start == end)
 		return (ft_strdup_safe("$"));
 	else if (end - start == 1 && *start == '?')
-		return (ft_itoa_safe(g_last_exit_code));
+		return (ft_itoa_safe(g_global.last_exit_code));
 	else
 		return (find_env_var(&data->envs, ft_substr_safe(start, 0, end
 					- start)));

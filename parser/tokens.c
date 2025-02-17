@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 12:38:13 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/14 14:07:27 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/17 17:34:16 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_token	*init_token(void)
 	if (!token)
 	{
 		printf("malloc failed for token creation\n");
-		free_all();
 		exit(EXIT_FAILURE);
 	}
 	token->value = NULL;

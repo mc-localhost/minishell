@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/29 16:38:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/16 18:36:37 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/17 16:27:06 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ bash: syntax error near unexpected token `newline'
 
 */
 
-void	print_syntax_error(t_token *token)
+int	print_syntax_error(t_token *token)
 {
 	ft_putstr_stderr("minishell: syntax error near unexpected token `");
 	if (token && token->value)
@@ -56,16 +56,18 @@ void	print_syntax_error(t_token *token)
 	}
 	else
 		ft_putstr_stderr("newline'\n");
-	exit(258); // execution should deal with this
+	g_global.last_exit_code = 258; // execution should deal with this
+	return (EXIT_FAILURE);
 }
 
-void	unclosed_quotes_error(char q_type)
+int	unclosed_quotes_error(char q_type)
 {
 	ft_putstr_stderr("minishell: syntax error: \
 	unexpected EOF while looking for matching '");
 	ft_putchar_stderr(q_type);
 	ft_putstr_stderr("'\n");
-	exit(258); // execution should deal with this
+	g_global.last_exit_code = 258; // execution should deal with this
+	return (EXIT_FAILURE);
 }
 
 /*

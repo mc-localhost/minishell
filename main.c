@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/16 14:13:49 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/17 17:30:05 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 static void	init_global(void)
 {
-	g_last_exit_code = 0;
-	g_garbage_list = NULL; //only used by parsing for now
+	g_global.last_exit_code = 0;
+	g_global.garbage_list = NULL; //only used by parsing for now
+	g_global.heredoc_running = 0;
+	g_global.kill_heredoc = 0;
+	g_global.cmd_running = 0;
 }
 
 // void	leaks(void)
@@ -26,7 +29,9 @@ static void	init_global(void)
 static void	tokens_cleanup(t_data *data)
 {
 	free_all();
+	printf("cleaned tokens\n");
 	unlink(HEREDOC_FILENAME);
+	printf("cleaned heredoc\n");
 	data->input = NULL;
 	data->tokens = NULL;
 	data->final_tokens = NULL;
@@ -49,18 +54,25 @@ int	main(int argc, char **argv, char **envp)
 	init_global();
 	ft_memset(&data, 0, sizeof(data));
 	envp_to_list(&data, envp, 0);
+	setup_signals();
 	active = 1;
 	while (active == 1)
 	{
-		// input = readline(PROMPT); //uncomment before submitting
-		
+		//g_global.cmd_running = 1;
+		// input = readline(PROMPT);
+		// g_global.cmd_running = 0;
+
 		//START for tester
 		//to install tester
 		//	bash -c "$(curl -fsSL https://raw.githubusercontent.com/zstenger93/42_minishell_tester/master/install.sh)" 
 		//to run
 		//	mstest
 		if (isatty(fileno(stdin)))
+		{
+			g_global.cmd_running = 1;
 			input = readline(PROMPT);
+			g_global.cmd_running = 0;
+		}
 		else
 		{
 			char *line;
@@ -74,7 +86,12 @@ int	main(int argc, char **argv, char **envp)
 			add_history(input);
 			data.input = input;
 			data.input_copy = ft_strdup_safe(input);
-			parse(&data);
+			if (parse(&data) == EXIT_FAILURE)
+			{
+				free(input);
+				tokens_cleanup(&data);
+				continue ;
+			}
 			iterate_final_tokens(&data, execute); //execution
 		}
 		free(input);

@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:35:49 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/16 17:28:56 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/17 17:21:38 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static void	add_redir_to_end(t_redirection **head, t_redirection *new_redir)
 	}
 }
 
-void	add_redirection_to_cmd(t_token *cmd, t_token **current_ptr,
+int	add_redirection_to_cmd(t_token *cmd, t_token **current_ptr,
 		t_data *data)
 {
 	t_token			*current;
@@ -70,10 +70,11 @@ void	add_redirection_to_cmd(t_token *cmd, t_token **current_ptr,
 		current->type = PROCESSED;
 	}
 	else
-		print_syntax_error(current);
+		return (print_syntax_error(current));
 	if (redir->type == TOKEN_REDIRECT_IN || redir->type == TOKEN_HEREDOC)
 		add_redir_to_end(&cmd->redirections_in, redir);
 	else
 		add_redir_to_end(&cmd->redirections_out, redir);
 	*current_ptr = current;
+	return (EXIT_SUCCESS);
 }

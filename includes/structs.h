@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:05:01 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/11 15:06:43 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/17 16:50:18 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef struct s_env_node
 {
 	char					*key;
 	char					*value;
-	//technically prev
+	// technically prev
 	struct s_env_node		*next;
 }							t_env_node;
 
@@ -84,5 +84,18 @@ typedef struct s_data
 	int						num_pipes;
 	t_env_node				*envs;
 }							t_data;
+
+/*	GLOBAL	*/
+
+typedef struct s_global
+{
+	t_alloc_node			*garbage_list;
+	int						last_exit_code;
+	int						heredoc_running;
+	int						kill_heredoc;
+	int						cmd_running;
+}							t_global;
+
+t_global					g_global;
 
 #endif
