@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 21:56:43 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/19 18:51:32 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/19 19:24:45 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	print_env_list_sorted(t_env_node *current)
 
 int	env(t_token *token, t_data *data)
 {
+	print_env_list_sorted(data->envs);
+	return (1);
 	if (token->args_count == 1 && !ft_strchr(token->args[0], '='))
 	{
 		if (find_env_var(&data->envs, ft_strtoupper(token->args[0])) != NULL)
