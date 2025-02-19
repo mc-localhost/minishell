@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/19 18:53:55 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/19 20:39:16 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
+# include "pipex.h"
 # include "structs.h"
 # include <stdio.h>  // printf, perror
 # include <stdlib.h> // malloc, free, getenv, exit
@@ -117,6 +118,7 @@ int				echo(t_token *token);
 int				cd(t_token *token, t_data *data);
 void			custom_exit(t_token *token);
 /*	EXECUTOR	*/
+int				pipex(int argc, char **argv, char **envp);
 void			execute(t_token *token, t_data *data);
 
 /*	SIGNALS	*/

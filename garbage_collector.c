@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:36:24 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/17 15:35:49 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/19 20:41:42 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,16 @@ void	free_all(void)
 	g_global.garbage_list = NULL;
 }
 
-void	free_arr(char **str) //why?
-{
-	int	i;
+// void	free_arr(char **str) //why?
+// {
+// 	int	i;
 
-	i = 0;
-	while (str[i])
-	{
-		free(str[i]);
-		str[i] = NULL;
-		i++;
-	}
-	free(str);
-}
+// 	i = 0;
+// 	while (str[i])
+// 	{
+// 		free(str[i]);
+// 		str[i] = NULL;
+// 		i++;
+// 	}
+// 	free(str);
+// }

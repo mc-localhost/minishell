@@ -6,7 +6,7 @@
 #    By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/10 15:49:58 by vvasiuko          #+#    #+#              #
-#    Updated: 2025/02/19 18:10:26 by aelaaser         ###   ########.fr        #
+#    Updated: 2025/02/19 20:40:28 by aelaaser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRC = main.c garbage_collector.c environment.c \
 	parser/iter.c \
 	builtins/builtin_exec.c builtins/cd.c builtins/exit.c \
 	builtins/pwd.c builtins/echo.c builtins/env.c builtins/env_ext.c builtins/export.c builtins/unset.c \
+	pipex/cmd_helper.c pipex/pipex.c pipex/utils.c \
 	gnl/get_next_line.c \
 	executor.c \
 	signals.c \
