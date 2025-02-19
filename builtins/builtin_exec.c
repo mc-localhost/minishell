@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:05:34 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/17 17:34:46 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/19 20:00:09 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	handle_builtin(t_token *token, t_data *data)
 		return (unset(token, data));
 	else if (!ft_strcmp(token->value, "exit"))
 		custom_exit(token);
-	else if (!ft_strcmp(token->value, "clear") || !ft_strcmp(token->value, "cls")) //remove later or handle properly
+	else if (!ft_strcmp(token->value, "clear"))
 		printf("\033[H\033[J");
 	return (0);
 }
