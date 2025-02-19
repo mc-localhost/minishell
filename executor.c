@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/19 22:39:22 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/19 22:40:42 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,6 @@ int	sys_cmd(char **cmd, char **envp)
     //close(fd);
 	return (0);
 }
-
 
 void	execute(t_token *token, t_data *data)
 {
