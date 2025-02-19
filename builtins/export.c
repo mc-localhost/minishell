@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 22:19:20 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/19 15:37:59 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:51:44 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,12 @@ void	export_env_list(t_env_node *current)
 	while (current)
 	{
 		if (current->key && current->value)
-			printf("declare -x %s=\"%s\"\n", current->key, current->value);
+		{
+			if (ft_strlen(current->value) > 0)
+				printf("declare -x %s=\"%s\"\n", current->key, current->value);
+			else
+				printf("declare -x %s\n", current->key);
+		}
 		current = current->next;
 	}
 }
@@ -35,7 +40,6 @@ int	export(t_token *token, t_data *data)
 			if (ft_strchr(token->args[i], '='))
 			{
 				a = ft_split(token->args[i], '=');
-					// use ft_split_safe or free manually
 				if (!a)
 					return (-1);
 				if (find_env_var(&data->envs, a[0]) != NULL)
@@ -43,9 +47,10 @@ int	export(t_token *token, t_data *data)
 				else
 					add_env_var(&data->envs, create_env_var(ft_strdup(a[0]),
 							ft_strdup(a[1])));
-						// change to safe or free manually
 				free_arr(a);
 			}
+			else if (find_env_var(&data->envs, token->args[i]) == NULL)
+				add_env_var(&data->envs, create_env_var(ft_strdup(token->args[i]),ft_strdup("")));
 			i++;
 		}
 	}
