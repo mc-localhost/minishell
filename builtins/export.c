@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 22:19:20 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/19 18:02:11 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/19 18:42:13 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	export_env_list(t_env_node *current)
 
 void	export_env_list_sorted(t_env_node *current)
 {
-	t_env_node *sorted_list;
+	t_env_node	*sorted_list;
 
 	sorted_list = copy_env_list(current);
 	sort_env_list(sorted_list);
@@ -60,7 +60,8 @@ int	export(t_token *token, t_data *data)
 				free_arr(a);
 			}
 			else if (find_env_var(&data->envs, token->args[i]) == NULL)
-				add_env_var(&data->envs, create_env_var(ft_strdup(token->args[i]),ft_strdup("")));
+				add_env_var(&data->envs,
+					create_env_var(ft_strdup(token->args[i]), ft_strdup("")));
 			i++;
 		}
 	}

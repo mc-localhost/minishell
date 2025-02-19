@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 21:56:43 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/19 18:31:29 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/19 18:51:32 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,22 @@ int	env_cmd_error(t_token *token)
 	ft_putstr_stderr(token->args[0]);
 	ft_putstr_stderr(": No such file or directory\n");
 	return (-1);
+}
+
+// Function to print the environment list, sorted by key
+void	print_env_list_sorted(t_env_node *current)
+{
+	t_env_node	*sorted_list;
+
+	sorted_list = copy_env_list(current);
+	bash_sort_env_list(sorted_list);
+	while (sorted_list)
+	{
+		if (sorted_list->key && sorted_list->value)
+			printf("%s=%s\n", sorted_list->key, sorted_list->value);
+		sorted_list = sorted_list->next;
+	}
+	free_env_list(sorted_list);
 }
 
 int	env(t_token *token, t_data *data)

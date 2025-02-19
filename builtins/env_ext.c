@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 16:54:10 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/19 18:30:42 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/19 18:53:21 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,17 @@ t_env_node	*copy_env_list(t_env_node *original)
 		new_node->key = ft_strdup(original->key);
 		new_node->value = ft_strdup(original->value);
 		new_node->next = NULL;
-		if (!copy_head) {
-	    	copy_head = new_node;
-	    	copy_tail = new_node;
-	    }
+		if (!copy_head)
+		{
+			copy_head = new_node;
+			copy_tail = new_node;
+		}
 		else
 		{
 			copy_tail->next = new_node;
 			copy_tail = new_node;
-	    }
-	    original = original->next;
+		}
+		original = original->next;
 	}
 	return (copy_head);
 }
@@ -46,8 +47,8 @@ t_env_node	*copy_env_list(t_env_node *original)
 // Function to swap two nodes in the list (used for sorting)
 void	swap_nodes(t_env_node *a, t_env_node *b)
 {
-	char *temp_key;
-	char *temp_value;
+	char	*temp_key;
+	char	*temp_value;
 
 	temp_key = a->key;
 	temp_value = a->value;
@@ -57,9 +58,8 @@ void	swap_nodes(t_env_node *a, t_env_node *b)
 	b->value = temp_value;
 }
 
-void sort_env_list(t_env_node *head)
+void	sort_env_list(t_env_node *head)
 {
-
 	int			swapped;
 	t_env_node	*ptr1;
 	t_env_node	*ptr2;
@@ -68,9 +68,10 @@ void sort_env_list(t_env_node *head)
 	swapped = 1;
 	while (swapped)
 	{
-	    swapped = 0;
-	    ptr1 = head;
-	    while (ptr1->next != ptr2) {
+		swapped = 0;
+		ptr1 = head;
+		while (ptr1->next != ptr2)
+		{
 			if (ft_strcmp(ptr1->key, ptr1->next->key) > 0)
 			{
 				swap_nodes(ptr1, ptr1->next);
@@ -81,36 +82,40 @@ void sort_env_list(t_env_node *head)
 		ptr2 = ptr1;
 	}
 }
-// Function to sort the environment list by the key (matching bash env command behavior)
-void bash_sort_env_list(t_env_node *head) {
-    if (head == NULL)
-        return;
 
-    int swapped = 1;
-    t_env_node *ptr1;
-    t_env_node *ptr2 = NULL;
+// Function to sort the environment list by the key
+// (matching bash env command behavior)
+void	bash_sort_env_list(t_env_node *head)
+{
+	int			swapped ;
+	t_env_node	*ptr1;
+	t_env_node	*ptr2;
 
-    // Using a while loop to sort the list
-    while (swapped) {
-        swapped = 0;  // Reset swapped flag for the next pass
-        ptr1 = head;
-
-        // Traverse through the list and swap nodes if needed
-        while (ptr1->next != ptr2) {
-            // First, prioritize variables starting with an underscore (place them first)
-            if ((ptr1->key[0] == '_' && ptr1->next->key[0] != '_') ||
-                (ptr1->key[0] != '_' && ptr1->next->key[0] != '_' &&
-                 strcmp(ptr1->key, ptr1->next->key) > 0)) {
-                swap_nodes(ptr1, ptr1->next);
-                swapped = 1;  // A swap was made, so we need another pass
-            }
-            ptr1 = ptr1->next;
-        }
-        ptr2 = ptr1;  // Last sorted element is now at the end
-    }
+	swapped = 1;
+	ptr2 = NULL;
+	if (head == NULL)
+		return ;
+	while (swapped)
+	{
+		swapped = 0;
+		ptr1 = head;
+		while (ptr1->next != ptr2)
+		{
+			if ((ptr1->key[0] == '_' && ptr1->next->key[0] != '_')
+				|| (ptr1->key[0] != '_' && ptr1->next->key[0] != '_'
+					&& ft_strcmp(ptr1->key, ptr1->next->key) > 0))
+			{
+				swap_nodes(ptr1, ptr1->next);
+				swapped = 1;
+			}
+			ptr1 = ptr1->next;
+		}
+		ptr2 = ptr1;
+	}
 }
+
 // Function to free the environment list
-void free_env_list(t_env_node *head)
+void	free_env_list(t_env_node *head)
 {
 	t_env_node	*temp;
 
@@ -124,28 +129,12 @@ void free_env_list(t_env_node *head)
 	}
 }
 
-// Function to print the environment list, sorted by key
-void	print_env_list_sorted(t_env_node *current)
-{
-	t_env_node *sorted_list;
-
-	sorted_list = copy_env_list(current);
-	bash_sort_env_list(sorted_list);
-	while (sorted_list)
-	{
-		if (sorted_list->key && sorted_list->value)
-			printf("%s=%s\n", sorted_list->key, sorted_list->value);
-		sorted_list = sorted_list->next;
-	}
-	free_env_list(sorted_list);
-}
-
-void	print_env_list(t_env_node *current)
-{
-	while (current)
-	{
-		if (current->key && current->value)
-			printf("%s=%s\n", current->key, current->value);
-		current = current->next;
-	}
-}
+// void	print_env_list(t_env_node *current)
+// {
+// 	while (current)
+// 	{
+// 		if (current->key && current->value)
+// 			printf("%s=%s\n", current->key, current->value);
+// 		current = current->next;
+// 	}
+// }

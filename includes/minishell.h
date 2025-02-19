@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/19 18:31:14 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/19 18:53:55 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ void			change_env_var(t_env_node **head, const char *key,
 void			delete_env_var(t_env_node **head, const char *key);
 void			envp_to_list(t_data *data, char **envp, int i);
 
-/*	ENVIRONMENT	ext*/
+/*	ENVIRONMENT	ext & env*/
 t_env_node		*copy_env_list(t_env_node *original);
 void			sort_env_list(t_env_node *head);
-void			print_env_list_sorted(t_env_node *current);
-void			print_env_list(t_env_node *current);
+void			bash_sort_env_list(t_env_node *head);
+// void			print_env_list(t_env_node *current);
 void			free_env_list(t_env_node *head);
 
 /*	TOKENS	*/
