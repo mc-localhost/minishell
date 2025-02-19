@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 22:19:20 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/16 18:47:36 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/19 15:10:56 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	export_env_list(t_env_node *current)
+{
+	while (current)
+	{
+		if (current->key && current->value)
+			printf("declare -x %s=\"%s\"\n", current->key, current->value);
+		current = current->next;
+	}
+}
 
 int	export(t_token *token, t_data *data)
 {
@@ -40,6 +50,6 @@ int	export(t_token *token, t_data *data)
 		}
 	}
 	else
-		print_env_list(data->envs);
+		export_env_list(data->envs);
 	return (1);
 }
