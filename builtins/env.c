@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 21:56:43 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/19 17:06:06 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/19 18:31:29 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	env(t_token *token, t_data *data)
 	else if (token->args_count > 1)
 		return (env_cmd_error(token));
 	else
-		print_env_list(data->envs);
+		print_env_list_sorted(data->envs);
 	if (token->args_count == 1 && ft_strchr(token->args[0], '='))
 		printf("%s\n", token->args[0]);
 	return (1);

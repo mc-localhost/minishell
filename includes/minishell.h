@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/19 18:09:04 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/19 18:31:14 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ void			pwd(t_data *data);
 int				echo(t_token *token);
 int				cd(t_token *token, t_data *data);
 void			custom_exit(t_token *token);
-void			print_env_list_sorted(t_env_node *current);
 /*	EXECUTOR	*/
 void			execute(t_token *token, t_data *data);
 

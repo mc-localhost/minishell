@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 16:54:10 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/19 18:06:17 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/19 18:30:42 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,34 @@ void sort_env_list(t_env_node *head)
 		ptr2 = ptr1;
 	}
 }
+// Function to sort the environment list by the key (matching bash env command behavior)
+void bash_sort_env_list(t_env_node *head) {
+    if (head == NULL)
+        return;
 
+    int swapped = 1;
+    t_env_node *ptr1;
+    t_env_node *ptr2 = NULL;
+
+    // Using a while loop to sort the list
+    while (swapped) {
+        swapped = 0;  // Reset swapped flag for the next pass
+        ptr1 = head;
+
+        // Traverse through the list and swap nodes if needed
+        while (ptr1->next != ptr2) {
+            // First, prioritize variables starting with an underscore (place them first)
+            if ((ptr1->key[0] == '_' && ptr1->next->key[0] != '_') ||
+                (ptr1->key[0] != '_' && ptr1->next->key[0] != '_' &&
+                 strcmp(ptr1->key, ptr1->next->key) > 0)) {
+                swap_nodes(ptr1, ptr1->next);
+                swapped = 1;  // A swap was made, so we need another pass
+            }
+            ptr1 = ptr1->next;
+        }
+        ptr2 = ptr1;  // Last sorted element is now at the end
+    }
+}
 // Function to free the environment list
 void free_env_list(t_env_node *head)
 {
@@ -103,7 +130,7 @@ void	print_env_list_sorted(t_env_node *current)
 	t_env_node *sorted_list;
 
 	sorted_list = copy_env_list(current);
-	sort_env_list(sorted_list);
+	bash_sort_env_list(sorted_list);
 	while (sorted_list)
 	{
 		if (sorted_list->key && sorted_list->value)
