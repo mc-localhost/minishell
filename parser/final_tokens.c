@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:07:12 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/16 18:27:17 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/17 17:24:16 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	handle_string_token(t_token *current, t_token *cmd)
 		cmd->args_count++;
 }
 
-static void	finalize_command(t_token *cmd, t_token **current_ptr, t_data *data)
+static int	finalize_command(t_token *cmd, t_token **current_ptr, t_data *data)
 {
 	int		i;
 	t_token	*current;
@@ -54,7 +54,7 @@ static void	finalize_command(t_token *cmd, t_token **current_ptr, t_data *data)
 	i = 0;
 	current = *current_ptr;
 	if (!cmd->value)
-		print_syntax_error(current);
+		return (print_syntax_error(current));
 	cmd->args = safe_malloc((cmd->args_count + 1) * sizeof(char *));
 	cmd->args[cmd->args_count] = NULL;
 	while (current && current->type != TOKEN_PIPE)
@@ -70,6 +70,7 @@ static void	finalize_command(t_token *cmd, t_token **current_ptr, t_data *data)
 	builtin_token(cmd);
 	add_token(&data->final_tokens, cmd);
 	*current_ptr = current;
+	return (EXIT_SUCCESS);
 }
 
 /*
@@ -85,7 +86,7 @@ for that particular command, and the rest of the tokens - in cmd.args
 array.
 */
 
-void	process_tokens(t_data *data)
+int	process_tokens(t_data *data)
 {
 	t_token	*current;
 	t_token	*current_cmd;
@@ -97,18 +98,25 @@ void	process_tokens(t_data *data)
 		if (current_cmd == NULL)
 			current_cmd = init_current_cmd();
 		if (is_redirection(current->type))
-			add_redirection_to_cmd(current_cmd, &current, data);
+		{
+			if (add_redirection_to_cmd(current_cmd, &current,
+					data) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
+		}
 		else if (is_string(current->type))
 			handle_string_token(current, current_cmd);
 		else if (current->type == TOKEN_SPACE)
 			current->type = PROCESSED;
 		else if (current->type == TOKEN_PIPE)
 		{
-			finalize_command(current_cmd, &data->tokens, data);
+			if (finalize_command(current_cmd, &data->tokens,
+					data) == EXIT_FAILURE)
+				return (EXIT_FAILURE);
 			add_pipe_token(data, &current_cmd, &current);
 		}
 		current = current->next;
 	}
 	if (current_cmd)
-		finalize_command(current_cmd, &data->tokens, data);
+		return (finalize_command(current_cmd, &data->tokens, data));
+	return (EXIT_SUCCESS);
 }

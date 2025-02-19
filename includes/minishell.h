@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/16 18:12:21 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/17 17:40:52 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,6 @@
 # define PROMPT "minishell> "
 # define HEREDOC_PROMPT "> "
 # define HEREDOC_FILENAME ".heredoc_file"
-
-/*	G	L	O	B	A	L		V	A	R	I	A	B	L	E	S	*/
-int				g_last_exit_code;
-t_alloc_node	*g_garbage_list;
 
 /*	F 	U 	N 	C 	T 	I 	O 	N 	S	*/
 
@@ -76,7 +72,7 @@ void			add_token(t_token **head, t_token *new_token);
 int				skip_whitespace(char **str);
 int				scan(t_data *data);
 void			handle_pipe(char **str, t_data *data);
-void			handle_q_string(char **str, t_data *data, char q_type);
+int				handle_q_string(char **str, t_data *data, char q_type);
 void			handle_string(char **str, t_data *data);
 void			handle_in(char **str, t_data *data);
 void			handle_out(char **str, t_data *data);
@@ -85,17 +81,17 @@ void			handle_out(char **str, t_data *data);
 char			*expand(char *str, t_data *data);
 int				is_string(t_token_type type);
 void			builtin_token(t_token *token);
-void			process_tokens(t_data *data);
+int				process_tokens(t_data *data);
 char			*handle_heredoc(t_token *token, t_data *data);
 int				parse(t_data *data);
 
 /*	SYNTAX	*/
-void			print_syntax_error(t_token *token);
-void			unclosed_quotes_error(char q_type);
+int				print_syntax_error(t_token *token);
+int				unclosed_quotes_error(char q_type);
 
 /*	FINAL TOKENS	*/
 int				is_redirection(t_token_type type);
-void			add_redirection_to_cmd(t_token *cmd, t_token **current_ptr,
+int				add_redirection_to_cmd(t_token *cmd, t_token **current_ptr,
 					t_data *data);
 
 /*	ITERATIONS	*/
@@ -113,9 +109,13 @@ int				unset(t_token *token, t_data *data);
 void			pwd(t_data *data);
 int				echo(t_token *token);
 int				cd(t_token *token, t_data *data);
+void			custom_exit(t_token *token);
 
 /*	EXECUTOR	*/
 void			execute(t_token *token, t_data *data);
+
+/*	SIGNALS	*/
+void			setup_signals(void);
 
 /*	GET NEXT LINE FOR TESTER	*/
 char			*get_next_line(int fd);
