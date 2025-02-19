@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 12:19:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/16 18:44:23 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/19 18:06:02 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,14 +124,4 @@ void	envp_to_list(t_data *data, char **envp, int i)
 		i++;
 	}
 	data->envs = env_list;
-}
-
-void	print_env_list(t_env_node *current)
-{
-	while (current)
-	{
-		if (current->key && current->value)
-			printf("%s=%s\n", current->key, current->value);
-		current = current->next;
-	}
 }

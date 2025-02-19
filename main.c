@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/17 17:30:05 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/19 16:31:42 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ static void	init_global(void)
 static void	tokens_cleanup(t_data *data)
 {
 	free_all();
-	printf("cleaned tokens\n");
+	//printf("cleaned tokens\n");
 	unlink(HEREDOC_FILENAME);
-	printf("cleaned heredoc\n");
+	//printf("cleaned heredoc\n");
 	data->input = NULL;
 	data->tokens = NULL;
 	data->final_tokens = NULL;

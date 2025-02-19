@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/17 17:40:52 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/19 18:09:04 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,13 @@ void			change_env_var(t_env_node **head, const char *key,
 					const char *value);
 void			delete_env_var(t_env_node **head, const char *key);
 void			envp_to_list(t_data *data, char **envp, int i);
+
+/*	ENVIRONMENT	ext*/
+t_env_node		*copy_env_list(t_env_node *original);
+void			sort_env_list(t_env_node *head);
+void			print_env_list_sorted(t_env_node *current);
 void			print_env_list(t_env_node *current);
+void			free_env_list(t_env_node *head);
 
 /*	TOKENS	*/
 t_token			*init_token(void);
@@ -110,7 +116,7 @@ void			pwd(t_data *data);
 int				echo(t_token *token);
 int				cd(t_token *token, t_data *data);
 void			custom_exit(t_token *token);
-
+void			print_env_list_sorted(t_env_node *current);
 /*	EXECUTOR	*/
 void			execute(t_token *token, t_data *data);
 

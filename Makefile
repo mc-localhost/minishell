@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+         #
+#    By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/10 15:49:58 by vvasiuko          #+#    #+#              #
-#    Updated: 2025/02/17 16:39:54 by vvasiuko         ###   ########.fr        #
+#    Updated: 2025/02/19 18:10:26 by aelaaser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRC = main.c garbage_collector.c environment.c \
 	parser/final_tokens.c parser/final_tokens_redir.c parser/final_tokens_utils.c\
 	parser/iter.c \
 	builtins/builtin_exec.c builtins/cd.c builtins/exit.c \
-	builtins/pwd.c builtins/echo.c builtins/env.c builtins/export.c builtins/unset.c \
+	builtins/pwd.c builtins/echo.c builtins/env.c builtins/env_ext.c builtins/export.c builtins/unset.c \
 	gnl/get_next_line.c \
 	executor.c \
 	signals.c \

@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 22:19:20 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/19 15:51:44 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/19 18:02:11 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,16 @@ void	export_env_list(t_env_node *current)
 		}
 		current = current->next;
 	}
+}
+
+void	export_env_list_sorted(t_env_node *current)
+{
+	t_env_node *sorted_list;
+
+	sorted_list = copy_env_list(current);
+	sort_env_list(sorted_list);
+	export_env_list(sorted_list);
+	free_env_list(sorted_list);
 }
 
 int	export(t_token *token, t_data *data)
@@ -55,6 +65,6 @@ int	export(t_token *token, t_data *data)
 		}
 	}
 	else
-		export_env_list(data->envs);
+		export_env_list_sorted(data->envs);
 	return (1);
 }
