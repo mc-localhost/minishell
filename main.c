@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/21 17:24:15 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/21 18:26:16 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ int	main(int argc, char **argv, char **envp)
 		{
 			char *line;
 			line = get_next_line(fileno(stdin));
+			if (!line)
+				return (-1);
 			input = ft_strtrim(line, "\n");
 			free(line);
 		}
