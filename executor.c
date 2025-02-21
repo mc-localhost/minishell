@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/21 19:43:21 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/21 20:31:40 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,8 @@ char *get_redirection(t_redirection *head, int out)
 			fd = open_file(direction, 1);
 			if (fd == -1)
 			{
-				return (NULL);//we need error handler here
+				g_global.last_exit_code = errno;
+				return (NULL);
 			}
 			close(fd);
 		}
@@ -175,10 +176,7 @@ void	execute(t_token *token, t_data *data)
 	char	**env;
 	char	**cmd;
 	if (token->type == TOKEN_BUILTIN)
-	{
-		handle_builtin(token, data);
-		// active = 0; //should go somewhere in data or be global
-	}
+		g_global.last_exit_code = handle_builtin(token, data);
 	else if (token->type == TOKEN_CMD)
 	{
 		cmd = build_cmd_array(token);

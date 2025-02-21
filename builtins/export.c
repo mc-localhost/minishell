@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 22:19:20 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/21 18:46:29 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/21 21:17:53 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ int	export_env_list_sorted(t_env_node *current)
 		env = env->next;
 	}
 	free_env_list(env);
-	return (1);
+	return (0);
 }
 
-int	print_export_error(char *identifier)
+int	print_export_error(char *identifier, char *name)
 {
 	int	i;
 
@@ -63,14 +63,15 @@ int	print_export_error(char *identifier)
 			ft_putstr_stderr("syntax error near unexpected token `");
 			write(2, &identifier[i], 1);
 			ft_putstr_stderr("'\n");
-			return (-1);
+			return (1);
 		}
 		i++;
 	}
-	ft_putstr_stderr("export: `");
+	ft_putstr_stderr(name);
+	ft_putstr_stderr(": `");
 	ft_putstr_stderr(identifier);
 	ft_putstr_stderr("': not a valid identifier\n");
-	return (-1);
+	return (1);
 }
 
 int	upd_env(char *token, t_data *data)
@@ -80,13 +81,15 @@ int	upd_env(char *token, t_data *data)
 	a = ft_split(token, '=');
 	if (!a)
 		return (-1);
-	if (find_env_var(&data->envs, a[0]) != NULL)
+	if (a[1] && find_env_var(&data->envs, a[0]) != NULL)
 		change_env_var(&data->envs, a[0], a[1]);
-	else
+	else if (a[1] && is_valid_identifier(a[0]))
 		add_env_var(&data->envs, create_env_var(ft_strdup(a[0]),
 				ft_strdup(a[1])));
+	else if (!is_valid_identifier(a[0]))
+		return (free_arr(a), print_export_error(token, "export"));
 	free_arr(a);
-	return (1);
+	return (0);
 }
 
 int	export(t_token *token, t_data *data)
@@ -95,15 +98,15 @@ int	export(t_token *token, t_data *data)
 	int		r;
 
 	i = 0;
-	r = 1;
+	r = 0;
 	if (token->args_count > 0)
 	{
 		while (i < token->args_count)
 		{
 			if (ft_strchr(token->args[i], '=') && ft_strlen(token->args[i]) > 1)
 			{
-				if (upd_env(token->args[i], data) != 1)
-					r = -1;
+				if (upd_env(token->args[i], data) != 0)
+					r = 1;
 			}
 			else if (find_env_var(&data->envs, token->args[i]) == NULL)
 			{
@@ -111,7 +114,7 @@ int	export(t_token *token, t_data *data)
 					add_env_var(&data->envs,
 						create_env_var(ft_strdup(token->args[i]), ft_strdup("")));
 				else
-					r = print_export_error(token->args[i]);
+					r = print_export_error(token->args[i], "export");
 			}
 			i++;
 		}

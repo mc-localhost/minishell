@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:05:34 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/19 20:00:09 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/21 20:10:26 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	handle_builtin(t_token *token, t_data *data)
 	else if (!ft_strcmp(token->value, "export"))
 		return (export(token, data));
 	else if (!ft_strcmp(token->value, "pwd"))
-		pwd(data);
+		return (pwd(data));
 	else if (!ft_strcmp(token->value, "unset"))
 		return (unset(token, data));
 	else if (!ft_strcmp(token->value, "exit"))

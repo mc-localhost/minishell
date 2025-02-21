@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/19 21:50:31 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/21 20:54:41 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,13 @@ void			expand_token_values(t_token *token, t_data *data);
 void			print_token(t_token *token, t_data *data);
 
 /*	BUILTINS	*/
+int				is_valid_identifier(const char *str);
+int				print_export_error(char *identifier, char *name);
 int				handle_builtin(t_token *token, t_data *data);
 int				env(t_token *token, t_data *data);
 int				export(t_token *token, t_data *data);
 int				unset(t_token *token, t_data *data);
-void			pwd(t_data *data);
+int				pwd(t_data *data);
 int				echo(t_token *token);
 int				cd(t_token *token, t_data *data);
 void			custom_exit(t_token *token);

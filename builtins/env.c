@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 21:56:43 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/19 19:24:45 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/21 20:40:17 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	env_cmd_error(t_token *token)
 	ft_putstr_stderr("env: ");
 	ft_putstr_stderr(token->args[0]);
 	ft_putstr_stderr(": No such file or directory\n");
-	return (-1);
+	return (1);
 }
 
 // Function to print the environment list, sorted by key
@@ -52,7 +52,7 @@ void	print_env_list_sorted(t_env_node *current)
 int	env(t_token *token, t_data *data)
 {
 	print_env_list_sorted(data->envs);
-	return (1);
+	return (0);
 	if (token->args_count == 1 && !ft_strchr(token->args[0], '='))
 	{
 		if (find_env_var(&data->envs, ft_strtoupper(token->args[0])) != NULL)
@@ -67,5 +67,5 @@ int	env(t_token *token, t_data *data)
 		print_env_list_sorted(data->envs);
 	if (token->args_count == 1 && ft_strchr(token->args[0], '='))
 		printf("%s\n", token->args[0]);
-	return (1);
+	return (0);
 }

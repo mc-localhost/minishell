@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:31:13 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/21 19:13:27 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/21 20:38:51 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ static int	cd_error_x(char *str)
 	ft_putstr_stderr("cd: string not in pwd: ");
 	ft_putstr_stderr(str);
 	ft_putstr_stderr("\n");
-	return (-1);
+	return (errno);
 }
 
 int	error_notfound(char *str)
 {
 	ft_putstr_stderr(str);
 	ft_putstr_stderr(": No such file or directory\n");
-	return (-1);
+	return (errno);
 }
 
 int	cd(t_token *token, t_data *data)
@@ -49,5 +49,5 @@ int	cd(t_token *token, t_data *data)
 	}
 	else if (token->args_count == 1)
 		return (error_notfound(path));
-	return (1);
+	return (0);
 }
