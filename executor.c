@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/21 19:19:43 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/21 19:43:21 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,19 @@ char	**list_to_arr(t_env_node *current)
 	return (build_array(current, len));
 }
 
-void	single_exec(char **cmd, char **env)
+void	single_exec(char **cmd, char **env, char *output)
 {
 	char	*path;
+	int		fd;
 
+	if (output)
+	{
+		fd = open_file(output, 1);
+		if (fd == -1)
+			error_exit("output error");
+		dup2(fd, STDOUT_FILENO);
+		close(fd);
+	}
 	path = find_path(cmd[0], env);
 	if (!path)
 	{
@@ -146,40 +155,18 @@ char *get_redirection(t_redirection *head, int out)
 //pipefd[2] 0 for output 1 for input;
 int	sys_cmd(char **cmd, char **envp, t_token *token)
 {
-	int		pipefd[2];
 	char	*output;
 	pid_t	pid;
 
 	if (!envp)
 		error_exit("\nError: No environment variables found.");
 	output = get_redirection(token->redirections_out, 1);
-	if (output != NULL)
-	{
-		printf("output redirect to %s\n", output);
-		pipefd[0] = open(output, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (pipefd[0] == -1)
-		{
-			write(STDERR_FILENO, "direction: input: ", 18);//we need error handler here
-			return (-1);
-		}
-	}
     pid = fork();
     if (pid == -1)
         error_exit("Fork failed");
     if (pid == 0)
-    {
-		if (output != NULL)
-		{
-			dup2(pipefd[0], STDIN_FILENO);
-			close(pipefd[0]);
-		}
-        single_exec(cmd, envp);
-    }
+        single_exec(cmd, envp, output);
     waitpid(pid, NULL, 0);
-    //close(fd);
-	if (output != NULL) {
-		close(pipefd[0]);
-	}
 	return (0);
 }
 
