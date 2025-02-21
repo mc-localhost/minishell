@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/19 22:54:07 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/21 19:19:43 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,30 +120,66 @@ void	single_exec(char **cmd, char **env)
 	free(path);
 }
 
-int	sys_cmd(char **cmd, char **envp)
+char *get_redirection(t_redirection *head, int out)
 {
-	//int		fd;
+	t_redirection	*current = head;
+	char			*direction;
+	int				fd;
+    
+	direction = NULL;
+	while (current != NULL)
+	{
+		direction = current->file;
+		if (current->next && out == 1)
+		{
+			fd = open_file(direction, 1);
+			if (fd == -1)
+			{
+				return (NULL);//we need error handler here
+			}
+			close(fd);
+		}
+        current = current->next;
+	}
+	return (direction);
+}
+//pipefd[2] 0 for output 1 for input;
+int	sys_cmd(char **cmd, char **envp, t_token *token)
+{
+	int		pipefd[2];
+	char	*output;
 	pid_t	pid;
 
 	if (!envp)
 		error_exit("\nError: No environment variables found.");
-    // fd = open_file(token->redirections_in, 0);
-    // if (fd == -1)
-    // {
-    //     write(STDERR_FILENO, "direction: input: ", 18);
-    //     error_exit("");
-    // }
+	output = get_redirection(token->redirections_out, 1);
+	if (output != NULL)
+	{
+		printf("output redirect to %s\n", output);
+		pipefd[0] = open(output, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (pipefd[0] == -1)
+		{
+			write(STDERR_FILENO, "direction: input: ", 18);//we need error handler here
+			return (-1);
+		}
+	}
     pid = fork();
     if (pid == -1)
         error_exit("Fork failed");
     if (pid == 0)
     {
-        //dup2(fd, STDIN_FILENO);
-        //close(fd);
+		if (output != NULL)
+		{
+			dup2(pipefd[0], STDIN_FILENO);
+			close(pipefd[0]);
+		}
         single_exec(cmd, envp);
     }
     waitpid(pid, NULL, 0);
     //close(fd);
+	if (output != NULL) {
+		close(pipefd[0]);
+	}
 	return (0);
 }
 
@@ -164,7 +200,7 @@ void	execute(t_token *token, t_data *data)
 		env = list_to_arr(data->envs);
 		if (!env)
 			return (free_arr(cmd));
-		sys_cmd(cmd, env);
+		sys_cmd(cmd, env, token);
 		free_arr(env);
 		free_arr(cmd);
 	}
