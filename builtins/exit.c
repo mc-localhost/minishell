@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:56 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/21 23:36:15 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/22 00:14:25 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	ft_isnum(char *str)
 void	custom_exit(t_token *token)
 {
 	g_global.last_exit_code = 0;
+	ft_putstr_stderr("exit\n");
 	if (token->args_count != 0)
 	{
-		ft_putstr_stderr("exit\n");
 		if (token->args_count >= 1)
 		{
 			if (!ft_isnum(token->args[0]))
@@ -49,8 +49,6 @@ void	custom_exit(t_token *token)
 				return (ft_putstr_stderr("bash: exit: too many arguments\n"));
 		}
 	}
-	else
-		printf("exit\n");
 	free_all();
 	unlink(HEREDOC_FILENAME);
 	exit(g_global.last_exit_code);
