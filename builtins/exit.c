@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:56 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/21 22:16:59 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/21 22:31:34 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ int	ft_isnum(char *str)
 
 void	custom_exit(t_token *token) //not finished
 {
-	g_global.last_exit_code = 0;
+	int noprint;
+
+	g_global.last_exit_code = errno;
+	noprint = 0;
 	if (token->args_count != 0)
 	{
 		if (token->args_count >= 1)
@@ -39,6 +42,7 @@ void	custom_exit(t_token *token) //not finished
 				ft_putstr_stderr(token->args[0]);
 				ft_putstr_stderr(" : numeric argument required");
 				g_global.last_exit_code = 255;
+				noprint = 1;
 			}
 			else if (token->args_count == 1)
 				g_global.last_exit_code = ft_atoi(token->args[0]);
@@ -48,7 +52,8 @@ void	custom_exit(t_token *token) //not finished
 	}
 	free_all();
 	unlink(HEREDOC_FILENAME);
-	printf("exit\n");
+	if (!noprint)
+		printf("exit\n");
 	exit(g_global.last_exit_code);
 }
 
