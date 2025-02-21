@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 18:47:10 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/21 20:42:37 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/21 23:37:28 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	pwd(t_data *data)
 	cwd = find_env_var(&data->envs, "PWD");
 	if (!cwd)
 	{
-		perror("pwd error"); // to replace with better error handling
+		perror("pwd error");
 		return (1);
 	}
 	else

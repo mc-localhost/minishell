@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 22:19:20 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/21 21:17:53 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/21 23:43:20 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	upd_env(char *token, t_data *data)
 
 	a = ft_split(token, '=');
 	if (!a)
-		return (-1);
+		return (1);
 	if (a[1] && find_env_var(&data->envs, a[0]) != NULL)
 		change_env_var(&data->envs, a[0], a[1]);
 	else if (a[1] && is_valid_identifier(a[0]))

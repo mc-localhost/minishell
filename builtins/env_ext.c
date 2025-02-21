@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 16:54:10 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/19 18:53:21 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/21 23:40:53 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ t_env_node	*copy_env_list(t_env_node *original)
 	t_env_node	*new_node;
 
 	copy_head = NULL;
-	copy_tail = NULL;
 	while (original)
 	{
 		new_node = (t_env_node *)malloc(sizeof(t_env_node));
@@ -30,15 +29,10 @@ t_env_node	*copy_env_list(t_env_node *original)
 		new_node->value = ft_strdup(original->value);
 		new_node->next = NULL;
 		if (!copy_head)
-		{
 			copy_head = new_node;
-			copy_tail = new_node;
-		}
 		else
-		{
 			copy_tail->next = new_node;
-			copy_tail = new_node;
-		}
+		copy_tail = new_node;
 		original = original->next;
 	}
 	return (copy_head);
