@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/19 16:31:42 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/21 17:24:15 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,20 @@ static void	tokens_cleanup(t_data *data)
 	data->num_pipes = 0;
 }
 
+static void	add_level(t_data *data)
+{
+	char	*level;
+	char	*new_level;
+
+	level = find_env_var(&data->envs, "SHLVL");
+	if (level)
+	{
+		new_level = ft_itoa(ft_atoi(level) + 1);
+		change_env_var(&data->envs, "SHLVL", new_level);
+		free(new_level);
+	}
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
@@ -54,6 +68,7 @@ int	main(int argc, char **argv, char **envp)
 	init_global();
 	ft_memset(&data, 0, sizeof(data));
 	envp_to_list(&data, envp, 0);
+	add_level(&data);
 	setup_signals();
 	active = 1;
 	while (active == 1)
@@ -69,9 +84,7 @@ int	main(int argc, char **argv, char **envp)
 		//	mstest
 		if (isatty(fileno(stdin)))
 		{
-			g_global.cmd_running = 1;
 			input = readline(PROMPT);
-			g_global.cmd_running = 0;
 		}
 		else
 		{
@@ -92,7 +105,9 @@ int	main(int argc, char **argv, char **envp)
 				tokens_cleanup(&data);
 				continue ;
 			}
-			iterate_final_tokens(&data, execute); //execution
+			g_global.cmd_running = 1;
+			iterate_final_tokens(&data, execute);
+			g_global.cmd_running = 0;
 		}
 		free(input);
 		tokens_cleanup(&data);
