@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:47:33 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/22 23:52:23 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 00:29:08 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	open_file(char *filename, int output)
 	}
 	return (-1);
 }
+
 void	child(t_token *token, int *pipefd, t_data *data)
 {
 	char	**envp;
@@ -41,7 +42,8 @@ void	child(t_token *token, int *pipefd, t_data *data)
 	else
 	{
 		cmd = build_cmd_array(token);
-		if (!cmd) {
+		if (!cmd)
+		{
 			free_arr(envp);
 			exit(1);
 		}
@@ -66,7 +68,8 @@ void	parent(t_token *token, int *pipefd, t_data *data)
 	else
 	{
 		cmd = build_cmd_array(token);
-		if (!cmd) {
+		if (!cmd)
+		{
 			free_arr(envp);
 			exit(1);
 		}
@@ -82,10 +85,10 @@ int	pipex(t_token *token, t_data *data)
 	pid_t	pid;
 
 	if (pipe(pipefd) == -1)
-		return(errno);
+		return (errno);
 	pid = fork();
 	if (pid == -1)
-		return(errno);
+		return (errno);
 	if (pid == 0)
 		child(token, pipefd, data);
 	parent(token->next, pipefd, data);
