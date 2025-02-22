@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/22 18:41:46 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/22 19:29:28 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,27 +101,11 @@ char	**list_to_arr(t_env_node *current)
 	return (build_array(current, len));
 }
 
-void	single_exec(char **cmd, char **env, char *input, char *output)
+void	single_exec(char **cmd, char **env, t_token *token)
 {
 	char	*path;
-	int		fd;
 
-	if (output)
-	{
-		fd = open_file(output, 1);
-		if (fd == -1)
-			error_exit("output error");
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
-	}
-	if (input)
-	{
-		fd = open_file(input, 0);
-		if (fd == -1)
-			error_exit("input error");
-		dup2(fd, STDIN_FILENO);
-		close(fd);
-	}
+	set_redirect(token);
 	path = find_path(cmd[0], env);
 	if (!path)
 	{
@@ -137,56 +121,58 @@ void	single_exec(char **cmd, char **env, char *input, char *output)
 	free(path);
 }
 
-char *get_redirection(t_redirection *head, int out)
-{
-	t_redirection	*current = head;
-	char			*direction;
-	int				fd;
-    
-	direction = NULL;
-	while (current != NULL)
-	{
-		direction = current->file;
-		if (current->next && out == 1)
-		{
-			fd = open_file(direction, 1);
-			if (fd == -1)
-			{
-				g_global.last_exit_code = errno;
-				return (NULL);
-			}
-			close(fd);
-		}
-        current = current->next;
-	}
-	return (direction);
-}
-
 int	sys_cmd(char **cmd, char **envp, t_token *token)
 {
-	char	*output;
-	char	*input;
 	pid_t	pid;
 
 	if (!envp)
 		error_exit("\nError: No environment variables found.");
-	output = get_redirection(token->redirections_out, 1);
-	input = get_redirection(token->redirections_in, 0);
     pid = fork();
     if (pid == -1)
         error_exit("Fork failed");
     if (pid == 0)
-        single_exec(cmd, envp, input, output);
+        single_exec(cmd, envp, token);
     waitpid(pid, NULL, 0);
 	return (0);
 }
+
+int exe_builtin_cmd(t_token *token, t_data *data)
+{
+	int		saved_stdin;
+    int		saved_stdout;
+	int		r;
+
+    saved_stdin = dup(STDIN_FILENO);
+    saved_stdout = dup(STDOUT_FILENO);
+	set_redirect(token);
+	r = handle_builtin(token, data);
+	dup2(saved_stdin, STDIN_FILENO);
+	dup2(saved_stdout, STDOUT_FILENO);
+	close(saved_stdin);
+	close(saved_stdout);
+	return (r);
+}
+//	minishell can't exit this way
+// int	builtin_cmd(t_token *token, t_data *data)
+// {
+// 	pid_t	pid;
+
+//     pid = fork();
+//     if (pid == -1)
+//         error_exit("Fork failed");
+//     if (pid == 0)
+//         exe_builtin_cmd(token, data);
+//     waitpid(pid, NULL, 0);
+// 	return (0);
+// }
 
 void	execute(t_token *token, t_data *data)
 {
 	char	**env;
 	char	**cmd;
+	
 	if (token->type == TOKEN_BUILTIN)
-		g_global.last_exit_code = handle_builtin(token, data);
+		g_global.last_exit_code = exe_builtin_cmd(token, data);
 	else if (token->type == TOKEN_CMD)
 	{
 		cmd = build_cmd_array(token);

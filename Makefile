@@ -6,7 +6,7 @@
 #    By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/10 15:49:58 by vvasiuko          #+#    #+#              #
-#    Updated: 2025/02/19 20:40:28 by aelaaser         ###   ########.fr        #
+#    Updated: 2025/02/22 19:37:28 by aelaaser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRC = main.c garbage_collector.c environment.c \
 	pipex/cmd_helper.c pipex/pipex.c pipex/utils.c \
 	gnl/get_next_line.c \
 	executor.c \
+	redirection.c \
 	signals.c \
 	safe_libft/ft_itoa_safe.c safe_libft/ft_split_safe.c safe_libft/ft_strdup_safe.c safe_libft/ft_strjoin_safe.c safe_libft/ft_strlcpy_safe.c safe_libft/ft_substr_safe.c
 OBJ = $(SRC:.c=.o)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:14:06 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/22 16:39:41 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/22 19:32:17 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ bash-3.2$ cat << $USER
 some text
 'some text with vvasiuko'
 */
-
 
 char	*handle_heredoc(t_token *token, t_data *data)
 {
