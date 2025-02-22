@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/22 01:19:50 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/22 15:11:53 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void			handle_out(char **str, t_data *data);
 
 /*	PARSER	*/
 char			*expand(char *str, t_data *data);
+int				is_q_string(t_token_type type);
 int				is_string(t_token_type type);
 void			builtin_token(t_token *token);
 int				process_tokens(t_data *data);

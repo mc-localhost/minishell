@@ -6,11 +6,18 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 18:11:18 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/21 17:05:38 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/22 15:31:53 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	is_q_string(t_token_type type)
+{
+	if (type == TOKEN_STRING_SINGLQ || type == TOKEN_STRING_DOUBLEQ)
+		return (1);
+	return (0);
+}
 
 int	is_string(t_token_type type)
 {

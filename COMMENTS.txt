@@ -58,12 +58,6 @@ TOKEN_CMD
 and so on
 
 to summarize what's not yet implemented:
-- sometimes $ should be removed but stays
-- if exit code is negative (-1), $? still returns positive
-bash-3.2$ exit -10
-exit
-vvasiuko@2-C-9 ~ % echo $?
-246
 - signals
 - norminette
 - lowercase cmd names?
