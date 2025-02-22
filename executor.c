@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/22 19:29:28 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/22 19:52:56 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ int	sys_cmd(char **cmd, char **envp, t_token *token)
 	return (0);
 }
 
-int exe_builtin_cmd(t_token *token, t_data *data)
+int exe_builtin_cmd(t_token *token, t_data *data, int fork)
 {
 	int		saved_stdin;
     int		saved_stdout;
@@ -150,29 +150,33 @@ int exe_builtin_cmd(t_token *token, t_data *data)
 	dup2(saved_stdout, STDOUT_FILENO);
 	close(saved_stdin);
 	close(saved_stdout);
+	if (fork == 1)
+		exit(r);
 	return (r);
 }
 //	minishell can't exit this way
-// int	builtin_cmd(t_token *token, t_data *data)
-// {
-// 	pid_t	pid;
+int	builtin_cmd(t_token *token, t_data *data)
+{
+	pid_t	pid;
 
-//     pid = fork();
-//     if (pid == -1)
-//         error_exit("Fork failed");
-//     if (pid == 0)
-//         exe_builtin_cmd(token, data);
-//     waitpid(pid, NULL, 0);
-// 	return (0);
-// }
+    pid = fork();
+    if (pid == -1)
+        error_exit("Fork failed");
+    if (pid == 0)
+        exe_builtin_cmd(token, data, 1);
+    waitpid(pid, NULL, 0);
+	return (0);
+}
 
 void	execute(t_token *token, t_data *data)
 {
 	char	**env;
 	char	**cmd;
 	
-	if (token->type == TOKEN_BUILTIN)
-		g_global.last_exit_code = exe_builtin_cmd(token, data);
+	if (token->type == TOKEN_BUILTIN && data->num_pipes == 0)
+		g_global.last_exit_code = exe_builtin_cmd(token, data, 0);
+	else if (token->type == TOKEN_BUILTIN && data->num_pipes >= 1)
+		builtin_cmd(token, data);
 	else if (token->type == TOKEN_CMD)
 	{
 		cmd = build_cmd_array(token);
