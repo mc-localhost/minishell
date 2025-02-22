@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 18:11:18 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/16 18:12:33 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/21 17:05:38 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	builtin_token(t_token *token)
 {
 	int		i;
 	int		num_builtins;
-	char	*builtins[9];
+	char	*builtins[8];
 
-	num_builtins = 9;
+	num_builtins = 8;
 	builtins[0] = "cd";
 	builtins[1] = "echo";
 	builtins[2] = "pwd";
@@ -35,7 +35,6 @@ void	builtin_token(t_token *token)
 	builtins[5] = "unset";
 	builtins[6] = "exit";
 	builtins[7] = "clear";
-	builtins[8] = "cls";
 	i = 0;
 	while (i < num_builtins)
 	{

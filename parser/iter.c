@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:07:38 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/16 18:46:27 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/22 11:46:48 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	print_token(t_token *token, t_data *data)
 	(void)data;
 	printf("Type: %d, Value: %s\n", token->type, token->value);
 	i = 0;
+	printf("num of args: %d\n", token->args_count);
 	while (i < token->args_count)
 	{
 		printf("%i arg: %s\n", i, token->args[i]);

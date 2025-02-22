@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:08:08 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/17 17:43:02 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/22 11:50:16 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,8 @@ int	parse(t_data *data)
 
 	if (process_tokens(data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	return (last_is_pipe(&data->final_tokens));
 	// printf("number of pipes: %d\n", data->num_pipes);
 	// printf("***		printing procesed final		***\n\n");
 	// iterate_final_tokens(data, print_token);
+	return (last_is_pipe(&data->final_tokens));
 }
