@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 17:23:01 by vvasiuko          #+#    #+#             */
-/*   Updated: 2024/10/15 13:45:23 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/22 01:56:58 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,12 @@ static int	ft_write_words(const char *s, char c, char **arr)
 char	**ft_split(char const *s, char c)
 {
 	char	**res_arr;
+	size_t	count;
 
 	if (!s)
+		return (NULL);
+	count = ft_count_words(s, c);
+	if (count == 0)
 		return (NULL);
 	res_arr = malloc ((ft_count_words(s, c) + 1) * sizeof (char *));
 	if (!res_arr || !ft_write_words(s, c, res_arr))
