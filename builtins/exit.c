@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:56 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/22 01:19:38 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/22 11:51:39 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	custom_exit(t_token *token)
 		{
 			if (!ft_isnum(token->args[0]))
 			{
-				ft_putstr_stderr("bash: exit: ");
+				ft_putstr_stderr("minishell: exit: ");
 				ft_putstr_stderr(token->args[0]);
 				ft_putstr_stderr(" : numeric argument required");
 				g_global.last_exit_code = 255;
@@ -46,7 +46,7 @@ int	custom_exit(t_token *token)
 			else if (token->args_count == 1)
 				g_global.last_exit_code = ft_atoi(token->args[0]);
 			else if (token->args_count > 1)
-				return (ft_putstr_stderr("bash: exit: too many arguments\n"), 1);
+				return (ft_putstr_stderr("minishell: exit: too many arguments\n"), 1);
 		}
 	}
 	free_all();
