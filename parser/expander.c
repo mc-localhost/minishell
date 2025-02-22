@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 16:38:12 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/16 18:08:24 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/22 15:01:41 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ static void	expand_to_more(t_token *token, t_data *data)
 
 	last_inserted = token;
 	str = expand(token->value, data);
-	skip_whitespace(&str);
 	while (*str)
 	{
 		if (skip_whitespace(&str) > 0)
