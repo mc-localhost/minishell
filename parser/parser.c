@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:08:08 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/22 14:41:23 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/22 17:47:38 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,30 @@ static void	unlink_processed(t_token **head)
 	while (current)
 	{
 		if (current->type != PROCESSED)
+		{
+			current = current->next;
+			continue ;
+		}
+		temp = current->next;
+		if (current->prev)
+			current->prev->next = current->next;
+		else
+			*head = current->next;
+		if (current->next)
+			current->next->prev = current->prev;
+		current = temp;
+	}
+}
+
+static void	unlink_pipes(t_token **head)
+{
+	t_token	*current;
+	t_token	*temp;
+
+	current = *head;
+	while (current)
+	{
+		if (current->type != TOKEN_PIPE)
 		{
 			current = current->next;
 			continue ;
@@ -118,8 +142,13 @@ int	parse(t_data *data)
 
 	if (process_tokens(data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
+	if (last_is_pipe(&data->final_tokens) == EXIT_FAILURE)
+		return (EXIT_FAILURE);
+	unlink_pipes(&data->final_tokens);
+
 	// printf("number of pipes: %d\n", data->num_pipes);
 	// printf("***		printing procesed final		***\n\n");
 	// iterate_final_tokens(data, print_token);
-	return (last_is_pipe(&data->final_tokens));
+
+	return (EXIT_SUCCESS);
 }
