@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/23 00:18:19 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 00:42:00 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 // Counts valid nodes in the linked list
 int	count_nodes(t_env_node *current)
 {
-	int len;
-	
+	int	len;
+
 	len = 0;
 	while (current)
 	{
@@ -24,7 +24,7 @@ int	count_nodes(t_env_node *current)
 			len++;
 		current = current->next;
 	}
-	return len;
+	return (len);
 }
 
 // Joins key and value into a single string "key=value"
@@ -32,10 +32,10 @@ char	*join_key_value(char *key, char *value)
 {
 	char	*result;
 	char	*final_result;
-    
+
 	result = ft_strjoin(key, "=");
 	if (!result)
-    	return NULL;
+		return (NULL);
 	final_result = ft_strjoin(result, value);
 	free(result);
 	return (final_result);
@@ -97,7 +97,6 @@ char	**list_to_arr(t_env_node *current)
 	len = count_nodes(current);
 	if (len == 0)
 		return (NULL);
-
 	return (build_array(current, len));
 }
 
@@ -127,23 +126,23 @@ int	sys_cmd(char **cmd, char **envp, t_token *token)
 
 	if (!envp)
 		error_exit("\nError: No environment variables found.");
-    pid = fork();
-    if (pid == -1)
-        error_exit("Fork failed");
-    if (pid == 0)
-        single_exec(cmd, envp, token);
-    waitpid(pid, NULL, 0);
+	pid = fork();
+	if (pid == -1)
+		error_exit("Fork failed");
+	if (pid == 0)
+		single_exec(cmd, envp, token);
+	waitpid(pid, NULL, 0);
 	return (0);
 }
 
-int exe_builtin_cmd(t_token *token, t_data *data, int fork)
+int	exe_builtin_cmd(t_token *token, t_data *data, int fork)
 {
 	int		saved_stdin;
-    int		saved_stdout;
+	int		saved_stdout;
 	int		r;
 
-    saved_stdin = dup(STDIN_FILENO);
-    saved_stdout = dup(STDOUT_FILENO);
+	saved_stdin = dup(STDIN_FILENO);
+	saved_stdout = dup(STDOUT_FILENO);
 	set_redirect(token);
 	r = handle_builtin(token, data);
 	dup2(saved_stdin, STDIN_FILENO);
@@ -172,7 +171,7 @@ void	execute(t_token *token, t_data *data)
 {
 	char	**env;
 	char	**cmd;
-	
+
 	if (token->type == TOKEN_BUILTIN && data->num_pipes == 0)
 		g_global.last_exit_code = exe_builtin_cmd(token, data, 0);
 	else if (token->type == TOKEN_CMD)
@@ -202,42 +201,44 @@ void	execute_pipeline(t_data *data)
 	{
 		if (current->next)
 		{
-        	if (pipe(pipe_fds) == -1) {
+			if (pipe(pipe_fds) == -1)
+			{
 				perror("Pipe failed");
-				return;
+				return ;
 			}
 		}
-    	pid = fork();
-    	if (pid == -1) {
-        	perror("Fork failed");
-        	return;
+		pid = fork();
+		if (pid == -1)
+		{
+			perror("Fork failed");
+			return ;
 		}
 		if (pid == 0)
 		{
-    		if (prev_fd != -1)
+			if (prev_fd != -1)
 			{
-        		if (dup2(prev_fd, STDIN_FILENO) == -1)
+				if (dup2(prev_fd, STDIN_FILENO) == -1)
 				{
 					perror("Dup2 failed (input)");
 					exit(1);
-                }
+				}
 				close(prev_fd);
 			}
-            if (current->next)
-                child(current, pipe_fds, data);
+			if (current->next)
+				child(current, pipe_fds, data);
 			else
 				parent(current, pipe_fds, data);
 			close(pipe_fds[0]);
-            close(pipe_fds[1]);
-        }
+			close(pipe_fds[1]);
+		}
 		if (prev_fd != -1)
 			close(prev_fd);
-		if (current->next) {
+		if (current->next)
+		{
 			close(pipe_fds[1]);
 			prev_fd = pipe_fds[0];
 		}
-        waitpid(pid, NULL, 0);
-        current = current->next;
-    }
+		waitpid(pid, NULL, 0);
+		current = current->next;
+	}
 }
-

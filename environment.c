@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 12:19:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/19 18:06:02 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 00:43:39 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,9 +116,9 @@ void	envp_to_list(t_data *data, char **envp, int i)
 		equal_sign = ft_strchr(envp[i], '=');
 		key_len = equal_sign - envp[i];
 		key = malloc((key_len + 1) * sizeof(char)); // clean manually
-		ft_strlcpy(key, envp[i], key_len + 1);     
-			// change to safe function if needs to be cleaned with garbage colector
-		value = ft_strdup(equal_sign + 1);         
+		ft_strlcpy(key, envp[i], key_len + 1);
+// change to safe function if needs to be cleaned with garbage colector
+		value = ft_strdup(equal_sign + 1);
 			// same goes for the rest of the file
 		add_env_var(&env_list, create_env_var(key, value));
 		i++;
