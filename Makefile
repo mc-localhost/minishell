@@ -6,14 +6,15 @@
 #    By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/10 15:49:58 by vvasiuko          #+#    #+#              #
-#    Updated: 2025/02/22 19:37:28 by aelaaser         ###   ########.fr        #
+#    Updated: 2025/02/22 22:16:47 by aelaaser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 NAME_BONUS = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Iincludes -Ilibft -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -Iincludes -Ilibft -g 
+# -fsanitize=address
 LFLAGS = -lreadline -Llibft -lft
 SRC = main.c garbage_collector.c environment.c \
 	parser/parser.c \
@@ -24,7 +25,7 @@ SRC = main.c garbage_collector.c environment.c \
 	parser/final_tokens.c parser/final_tokens_redir.c parser/final_tokens_utils.c\
 	parser/iter.c \
 	builtins/builtin_exec.c builtins/cd.c builtins/exit.c \
-	builtins/pwd.c builtins/echo.c builtins/env.c builtins/env_ext.c builtins/export.c builtins/unset.c \
+	builtins/pwd.c builtins/echo.c builtins/env.c builtins/env_ext.c builtins/export.c builtins/export_ext.c builtins/unset.c \
 	pipex/cmd_helper.c pipex/pipex.c pipex/utils.c \
 	gnl/get_next_line.c \
 	executor.c \

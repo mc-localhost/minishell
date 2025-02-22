@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/19 18:18:07 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/15 14:17:31 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/22 22:08:01 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
-# endif
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 42
+#endif
 
 static char	*free_n_null(char *p)
 {

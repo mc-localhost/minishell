@@ -71,3 +71,5 @@ nothing left to execute.
 - check forbidden functions: nm -g ./minishell | grep " U " (from https://github.com/jotavare/minishell)
 - run tester https://github.com/zstenger93/42_minishell_tester 
 - try export and then command with expansion
+
+awk 'BEGIN{for(i=1;i<=1000000;i++)print int(i)}' | awk '{sum+=$1} END {print sum/NR}'

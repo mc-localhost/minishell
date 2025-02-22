@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:56 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/22 13:12:57 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/22 22:10:04 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,7 @@ int	ft_isnum(char *str)
 int	custom_exit(t_token *token)
 {
 	g_global.last_exit_code = 0;
-	// ft_putstr_stderr("exit\n"); uncomment after testing is done
-	if (token->args_count != 0) // do we need that if there's >=1 check later?
+	if (token->args_count != 0)
 	{
 		if (token->args_count >= 1)
 		{
@@ -72,8 +71,8 @@ int	custom_exit(t_token *token)
 				g_global.last_exit_code = 255;
 			}
 			else if (token->args_count > 1)
-				// shouldn't here be g_global.last_exit_code = 1?
-				return (ft_putstr_stderr("minishell: exit: too many arguments\n"),
+				return (
+					ft_putstr_stderr("minishell: exit: too many arguments\n"),
 					1);
 			else if (token->args_count == 1)
 				g_global.last_exit_code = ft_atoi_exit(token->args[0]);
