@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/22 01:10:21 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/22 16:25:41 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static void	init_global(void)
 	g_global.last_exit_code = 0;
 	g_global.garbage_list = NULL; //only used by parsing for now
 	g_global.heredoc_running = 0;
-	g_global.kill_heredoc = 0;
 	g_global.cmd_running = 0;
 }
 

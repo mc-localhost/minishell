@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:05:01 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/17 16:50:18 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/22 16:25:50 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ typedef struct s_global
 	t_alloc_node			*garbage_list;
 	int						last_exit_code;
 	int						heredoc_running;
-	int						kill_heredoc;
 	int						cmd_running;
 }							t_global;
 

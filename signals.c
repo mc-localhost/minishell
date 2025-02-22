@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:44:45 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/17 17:45:50 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/22 16:39:24 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ctrl_c(int sig)
 
 	g_global.last_exit_code = 1;
 	if (g_global.heredoc_running)
-		g_global.kill_heredoc = 1;
+		g_global.heredoc_running = 0;
 	if (g_global.cmd_running)
 	{
 		printf("\n");
@@ -51,6 +51,7 @@ void	ctrl_c(int sig)
 		rl_redisplay();
 		return ;
 	}
+	printf("\n");
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();

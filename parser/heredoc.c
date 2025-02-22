@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:14:06 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/22 15:18:29 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/22 16:39:41 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*handle_heredoc(t_token *token, t_data *data)
 	to_expand = !is_q_string(token->type);
 	g_global.heredoc_running = 1;
 	input = readline(HEREDOC_PROMPT);
-	while (input && ft_strcmp(input, delim) && !g_global.kill_heredoc)
+	while (input && ft_strcmp(input, delim) && g_global.heredoc_running)
 	{
 		if (to_expand)
 			input = expand(input, data);

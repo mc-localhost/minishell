@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/22 15:11:53 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/22 16:35:05 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ int				pipex(int argc, char **argv, char **envp);
 void			execute(t_token *token, t_data *data);
 
 /*	SIGNALS	*/
+void			ctrl_c(int sig);
 void			setup_signals(void);
 
 /*	GET NEXT LINE FOR TESTER	*/
