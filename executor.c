@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/22 19:52:56 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/22 21:49:35 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,19 +154,19 @@ int exe_builtin_cmd(t_token *token, t_data *data, int fork)
 		exit(r);
 	return (r);
 }
-//	minishell can't exit this way
-int	builtin_cmd(t_token *token, t_data *data)
-{
-	pid_t	pid;
+//	we don't need it anymore
+// int	builtin_cmd(t_token *token, t_data *data)
+// {
+// 	pid_t	pid;
 
-    pid = fork();
-    if (pid == -1)
-        error_exit("Fork failed");
-    if (pid == 0)
-        exe_builtin_cmd(token, data, 1);
-    waitpid(pid, NULL, 0);
-	return (0);
-}
+//     pid = fork();
+//     if (pid == -1)
+//         error_exit("Fork failed");
+//     if (pid == 0)
+//         exe_builtin_cmd(token, data, 1);
+//     waitpid(pid, NULL, 0);
+// 	return (0);
+// }
 
 void	execute(t_token *token, t_data *data)
 {
@@ -175,8 +175,6 @@ void	execute(t_token *token, t_data *data)
 	
 	if (token->type == TOKEN_BUILTIN && data->num_pipes == 0)
 		g_global.last_exit_code = exe_builtin_cmd(token, data, 0);
-	else if (token->type == TOKEN_BUILTIN && data->num_pipes >= 1)
-		builtin_cmd(token, data);
 	else if (token->type == TOKEN_CMD)
 	{
 		cmd = build_cmd_array(token);
@@ -190,3 +188,80 @@ void	execute(t_token *token, t_data *data)
 		free_arr(cmd);
 	}
 }
+
+void	execute_pipeline(t_data *data)
+{
+	t_token	*current;
+	int		pipe_fds[2];
+	int		prev_fd;
+	pid_t	pid;
+	char	**envp;
+	char	**cmd;
+
+	prev_fd = -1;
+	current = data->final_tokens;
+	envp = list_to_arr(data->envs);
+	while (current)
+	{
+		if (current->next)
+		{
+        	if (pipe(pipe_fds) == -1) {
+				perror("Pipe failed");
+				return;
+			}
+		}
+    	pid = fork();
+    	if (pid == -1) {
+        	perror("Fork failed");
+        	return;
+		}
+		if (pid == 0)
+		{
+    		if (prev_fd != -1)
+			{
+        		if (dup2(prev_fd, STDIN_FILENO) == -1)
+				{
+					perror("Dup2 failed (input)");
+					exit(1);
+                }
+				close(prev_fd);
+			}
+            if (current->next)
+				{
+                if (dup2(pipe_fds[1], STDOUT_FILENO) == -1)
+				{
+                    perror("Dup2 failed (output)");
+                    exit(1);
+                }
+            }
+            set_redirect(current);
+            close(pipe_fds[0]);
+            close(pipe_fds[1]);
+			if (current->type == TOKEN_BUILTIN)
+				exe_builtin_cmd(current, data, 1);
+			else
+			{
+				cmd = build_cmd_array(current);
+				if (!cmd) {
+					free_arr(envp);
+					exit(1);
+				}
+				single_exec(cmd, envp, current);
+				free(cmd);
+			}
+        }
+		else
+		{
+            if (prev_fd != -1)
+                close(prev_fd);
+            if (current->next) {
+                close(pipe_fds[1]);
+                prev_fd = pipe_fds[0];
+            }
+            waitpid(pid, NULL, 0);
+        }
+        current = current->next;
+    }
+    free_arr(envp);
+}
+

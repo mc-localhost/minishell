@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/22 19:34:46 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/22 21:35:42 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ int				custom_exit(t_token *token);
 /*	EXECUTOR	*/
 int				pipex(int argc, char **argv, char **envp);
 void			execute(t_token *token, t_data *data);
+void			execute_pipeline(t_data *data);
 /*	redirection	*/
 void			set_redirect(t_token *token);
 /*	SIGNALS	*/

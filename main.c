@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/22 17:51:04 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/22 21:35:31 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,10 @@ int	main(int argc, char **argv, char **envp)
 				continue ;
 			}
 			g_global.cmd_running = 1;
-			iterate_final_tokens(&data, execute);
+			if (data.num_pipes >= 1)
+				execute_pipeline(&data);
+			else
+				iterate_final_tokens(&data, execute);
 			g_global.cmd_running = 0;
 		}
 		free(input);
