@@ -73,3 +73,5 @@ nothing left to execute.
 - try export and then command with expansion
 
 awk 'BEGIN{for(i=1;i<=1000000;i++)print int(i)}' | awk '{sum+=$1} END {print sum/NR}'
+
+yes "no" | head -n 10

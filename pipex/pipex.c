@@ -6,38 +6,11 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:47:33 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/22 18:25:29 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/22 23:52:23 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
-
-void	exec(char *argv, char **env)
-{
-	char	**cmd;
-	char	*path;
-
-	cmd = ft_split(argv, ' ');
-	if (!cmd)
-		error_exit("ft_split failed");
-	cmd = optmize_cmd(cmd, argv);
-	path = find_path(cmd[0], env);
-	if (!path)
-	{
-		write(STDERR_FILENO, "pipex: ", 7);
-		write(STDERR_FILENO, cmd[0], ft_strlen(cmd[0]));
-		free_exit_error(cmd, ": command not found");
-	}
-	if (execve(path, cmd, env) == -1)
-	{
-		write(STDERR_FILENO, "pipex: ", 7);
-		write(STDERR_FILENO, cmd[0], ft_strlen(cmd[0]));
-		free(path);
-		free_exit_error(cmd, ": Exec failed");
-	}
-	free_arr(cmd);
-	free(path);
-}
+#include "../includes/minishell.h"
 
 int	open_file(char *filename, int output)
 {
@@ -53,63 +26,69 @@ int	open_file(char *filename, int output)
 	}
 	return (-1);
 }
-
-void	child(char **argv, int *pipefd, char **env)
+void	child(t_token *token, int *pipefd, t_data *data)
 {
-	int		fd;
+	char	**envp;
+	char	**cmd;
 
-	fd = open_file(argv[1], 0);
-	if (fd == -1)
-	{
-		write(STDERR_FILENO, "pipex: input: ", 14);
-		error_exit("");
-	}
-	dup2(fd, STDIN_FILENO);
-	close(fd);
+	envp = list_to_arr(data->envs);
+	set_redirect(token);
 	dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[0]);
 	close(pipefd[1]);
-	exec(argv[2], env);
+	if (token->type == TOKEN_BUILTIN)
+		exe_builtin_cmd(token, data, 1);
+	else
+	{
+		cmd = build_cmd_array(token);
+		if (!cmd) {
+			free_arr(envp);
+			exit(1);
+		}
+		single_exec(cmd, envp, token);
+		free(cmd);
+	}
+	free_arr(envp);
 }
 
-void	parent(char **argv, int *pipefd, char **env)
+void	parent(t_token *token, int *pipefd, t_data *data)
 {
-	int		fd;
+	char	**envp;
+	char	**cmd;
 
-	fd = open_file(argv[4], 1);
-	if (fd == -1)
-	{
-		write(STDERR_FILENO, "pipex: output: ", 14);
-		error_exit("");
-	}
+	envp = list_to_arr(data->envs);
+	set_redirect(token);
 	dup2(pipefd[0], STDIN_FILENO);
 	close(pipefd[0]);
 	close(pipefd[1]);
-	dup2(fd, STDOUT_FILENO);
-	close(fd);
-	exec(argv[3], env);
+	if (token->type == TOKEN_BUILTIN)
+		exe_builtin_cmd(token, data, 1);
+	else
+	{
+		cmd = build_cmd_array(token);
+		if (!cmd) {
+			free_arr(envp);
+			exit(1);
+		}
+		single_exec(cmd, envp, token);
+		free(cmd);
+	}
+	free_arr(envp);
 }
 
-int	pipex(int argc, char **argv, char **envp)
+int	pipex(t_token *token, t_data *data)
 {
 	int		pipefd[2];
 	pid_t	pid;
 
-	if (argc != 5)
-	{
-		errno = EINVAL;
-		error_exit("\nUsage: ./pipex <file1> <cmd1> <cmd2> <file2>");
-	}
-	if (!envp)
-		error_exit("\nError: No environment variables found.");
 	if (pipe(pipefd) == -1)
-		error_exit("Pipe failed");
+		return(errno);
 	pid = fork();
 	if (pid == -1)
-		error_exit("Fork failed");
+		return(errno);
 	if (pid == 0)
-		child(argv, pipefd, envp);
-	parent(argv, pipefd, envp);
+		child(token, pipefd, data);
+	parent(token->next, pipefd, data);
 	waitpid(pid, NULL, 0);
 	close(pipefd[0]);
 	close(pipefd[1]);
