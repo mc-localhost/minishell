@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 22:19:20 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/21 23:43:20 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/22 01:27:40 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	print_export_error(char *identifier, char *name)
 			ft_putstr_stderr("syntax error near unexpected token `");
 			write(2, &identifier[i], 1);
 			ft_putstr_stderr("'\n");
-			return (1);
+			return (258);
 		}
 		i++;
 	}
@@ -71,6 +71,8 @@ int	print_export_error(char *identifier, char *name)
 	ft_putstr_stderr(": `");
 	ft_putstr_stderr(identifier);
 	ft_putstr_stderr("': not a valid identifier\n");
+	if (ft_strchr(identifier, ';'))
+		return (127);
 	return (1);
 }
 

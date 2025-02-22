@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/22 01:07:51 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/22 01:19:50 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int				unset(t_token *token, t_data *data);
 int				pwd(t_data *data);
 int				echo(t_token *token);
 int				cd(t_token *token, t_data *data);
-void			custom_exit(t_token *token);
+int				custom_exit(t_token *token);
 /*	EXECUTOR	*/
 int				pipex(int argc, char **argv, char **envp);
 void			execute(t_token *token, t_data *data);
