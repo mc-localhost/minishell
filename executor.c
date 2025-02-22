@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/21 20:31:40 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/22 18:41:46 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char	**list_to_arr(t_env_node *current)
 	return (build_array(current, len));
 }
 
-void	single_exec(char **cmd, char **env, char *output)
+void	single_exec(char **cmd, char **env, char *input, char *output)
 {
 	char	*path;
 	int		fd;
@@ -112,6 +112,14 @@ void	single_exec(char **cmd, char **env, char *output)
 		if (fd == -1)
 			error_exit("output error");
 		dup2(fd, STDOUT_FILENO);
+		close(fd);
+	}
+	if (input)
+	{
+		fd = open_file(input, 0);
+		if (fd == -1)
+			error_exit("input error");
+		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
 	path = find_path(cmd[0], env);
@@ -153,20 +161,22 @@ char *get_redirection(t_redirection *head, int out)
 	}
 	return (direction);
 }
-//pipefd[2] 0 for output 1 for input;
+
 int	sys_cmd(char **cmd, char **envp, t_token *token)
 {
 	char	*output;
+	char	*input;
 	pid_t	pid;
 
 	if (!envp)
 		error_exit("\nError: No environment variables found.");
 	output = get_redirection(token->redirections_out, 1);
+	input = get_redirection(token->redirections_in, 0);
     pid = fork();
     if (pid == -1)
         error_exit("Fork failed");
     if (pid == 0)
-        single_exec(cmd, envp, output);
+        single_exec(cmd, envp, input, output);
     waitpid(pid, NULL, 0);
 	return (0);
 }
