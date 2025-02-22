@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/22 16:25:41 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/22 17:51:04 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,7 @@ int	main(int argc, char **argv, char **envp)
 	active = 1;
 	while (active == 1)
 	{
-		//g_global.cmd_running = 1;
 		// input = readline(PROMPT);
-		// g_global.cmd_running = 0;
 
 		//START for tester
 		//to install tester
@@ -99,7 +97,6 @@ int	main(int argc, char **argv, char **envp)
 		{
 			add_history(input);
 			data.input = input;
-			data.input_copy = ft_strdup_safe(input);
 			if (parse(&data) == EXIT_FAILURE)
 			{
 				free(input);

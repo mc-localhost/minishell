@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 17:56:33 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/17 16:31:24 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/22 17:51:29 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	scan(t_data *data)
 {
 	char	*str;
 
-	str = data->input_copy;
+	str = data->input;
 	skip_whitespace(&str);
 	while (*str)
 	{

@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:05:01 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/22 16:25:50 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/22 17:51:17 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ typedef struct s_token
 typedef struct s_data
 {
 	char					*input;
-	char					*input_copy;
 	t_token					*tokens;
 	t_token					*final_tokens;
 	int						num_pipes;
