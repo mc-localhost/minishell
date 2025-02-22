@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/21 20:50:01 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/22 01:10:21 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	main(int argc, char **argv, char **envp)
 			char *line;
 			line = get_next_line(fileno(stdin));
 			if (!line)
-				return (-1);
+				break;
 			input = ft_strtrim(line, "\n");
 			free(line);
 		}
@@ -114,5 +114,5 @@ int	main(int argc, char **argv, char **envp)
 		free(input);
 		tokens_cleanup(&data);
 	}
-	return (EXIT_SUCCESS);
+	return (g_global.last_exit_code);
 }
