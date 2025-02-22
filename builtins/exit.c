@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:56 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/22 12:58:46 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/22 13:12:57 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_isnum(char *str)
 int	custom_exit(t_token *token)
 {
 	g_global.last_exit_code = 0;
-	ft_putstr_stderr("exit\n");
+	// ft_putstr_stderr("exit\n"); uncomment after testing is done
 	if (token->args_count != 0) // do we need that if there's >=1 check later?
 	{
 		if (token->args_count >= 1)
@@ -68,10 +68,7 @@ int	custom_exit(t_token *token)
 			{
 				ft_putstr_stderr("minishell: exit: ");
 				ft_putstr_stderr(token->args[0]);
-				if (ft_isnum(token->args[0]) < 0)
-					ft_putstr_stderr(": numeric argument required\n");
-				else
-					ft_putstr_stderr(" : numeric argument required\n");
+				ft_putstr_stderr(": numeric argument required\n");
 				g_global.last_exit_code = 255;
 			}
 			else if (token->args_count > 1)
