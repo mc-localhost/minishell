@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:31:13 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/23 18:59:11 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/23 20:49:00 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	cd(t_token *token, t_data *data)
 			return (error_notfound(path));
 		path = ft_strjoin(find_env_var(&data->envs, "HOME"), path);
 		if (change_dir(path, data) != 0)
-			return (free(path), error_notfound(path));
+			return (free(path), error_notfound(token->args[0]));
 		else
 			return (free(path), 0);
 	}
