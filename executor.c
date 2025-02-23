@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/23 01:02:48 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 15:03:09 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,13 +109,13 @@ void	single_exec(char **cmd, char **env, t_token *token)
 	if (!path)
 	{
 		write(STDERR_FILENO, cmd[0], ft_strlen(cmd[0]));
-		error_exit(": command not found");
+		error_exit(": command not found", 127);
 	}
 	if (execve(path, cmd, env) == -1)
 	{
 		write(STDERR_FILENO, cmd[0], ft_strlen(cmd[0]));
 		free(path);
-		error_exit(": Exec failed");
+		error_exit(": Exec failed", 127);
 	}
 	free(path);
 }
@@ -123,16 +123,19 @@ void	single_exec(char **cmd, char **env, t_token *token)
 int	sys_cmd(char **cmd, char **envp, t_token *token)
 {
 	pid_t	pid;
+	int		r;
 
+	r = 0;
 	if (!envp)
-		error_exit("\nError: No environment variables found.");
+		error_exit("\nError: No environment variables found.", 127);
 	pid = fork();
 	if (pid == -1)
-		error_exit("Fork failed");
+		error_exit("Fork failed", 127);
 	if (pid == 0)
 		single_exec(cmd, envp, token);
-	waitpid(pid, NULL, 0);
-	return (0);
+	waitpid(pid, &r, 0);
+	r =  WEXITSTATUS(r);
+	return (r);
 }
 
 int	exe_builtin_cmd(t_token *token, t_data *data, int fork)
@@ -182,7 +185,7 @@ void	execute(t_token *token, t_data *data)
 		env = list_to_arr(data->envs);
 		if (!env)
 			return (free_arr(cmd));
-		sys_cmd(cmd, env, token);
+		g_global.last_exit_code = sys_cmd(cmd, env, token);
 		free_arr(env);
 		free_arr(cmd);
 	}

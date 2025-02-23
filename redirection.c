@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 19:28:54 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/23 14:35:55 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/23 15:04:48 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	file_error(char *file)
 	ft_putstr_stderr("minishell: ");
 	ft_putstr_stderr(file);
 	ft_putstr_stderr(": ");
-	error_exit("");
+	error_exit("", 0);
 }
 
 static t_redirection	*get_redirection(t_redirection *head, int out)
