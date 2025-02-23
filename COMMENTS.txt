@@ -1,15 +1,4 @@
 
-awk 'BEGIN{for(i=1;i<=1000000;i++)print int(i)}' | awk '{sum+=$1} END {print sum/NR}'
-
-yes "no" | head -n 10
-
-bash-3.2$ ls >>./test_files/invalid_permission >>./outfiles/outfile01
-bash: ./test_files/invalid_permission: No such file or directory
-bash-3.2$ echo $?
-1
-
-Minishell returns 2 (and I don’t understand why, since it’s TOKEN_APPEND error)
-
 ""
 is found in path and tries to execute even though should print
 command not found
@@ -47,38 +36,6 @@ bash-3.2$ cd echo echo
 bash: cd: echo: No such file or directory
 bash-3.2$ echo $?
 1
-
-----------------
-❌ mstest m c ❌
-----------------
-
-./ls 
-/ls
-"./"''"ls"
-
-Works as ls even though it should be
-bash-3.2$ /ls
-bash: /ls: No such file or directory
-bash-3.2$ ./ls
-bash: ./ls: No such file or directory
-bash-3.2$ /bin/
-bash: /bin/: is a directory
-bash-3.2$ "./"''"ls"
-bash: ./ls: No such file or directory
-bash-3.2$ echo $?
-127
-
-minishell> export PATH=""
-minishell> ls
-COMMENTS.txt            environment_to_list.c 
-
-should be 
-
-bash-3.2$ export PATH=""
-bash-3.2$ ls
-bash: ls: No such file or directory
-bash-3.2$ echo $?
-127
 
 --------------------------------------------------
 after execution is done:
