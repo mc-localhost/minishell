@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 22:19:20 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/22 22:18:04 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 18:02:08 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,10 @@ int	export_env_list_sorted(t_env_node *current)
 			if (ft_strlen(env->value) > 0)
 				printf("declare -x %s=\"%s\"\n", env->key, env->value);
 			else
-				printf("declare -x %s\n", env->key);
+				printf("declare -x %s=\"\"\n", env->key);
 		}
+		else if (env->key && !env->value)
+			printf("declare -x %s\n", env->key);
 		env = env->next;
 	}
 	free_env_list(env);
@@ -58,9 +60,9 @@ int	upd_env(char *token, t_data *data)
 	a = ft_split(token, '=');
 	if (!a)
 		return (1);
-	if (a[1] && find_env_var(&data->envs, a[0]) != NULL)
+	if (a[0] && find_env_var(&data->envs, a[0]) != NULL)
 		change_env_var(&data->envs, a[0], a[1]);
-	else if (a[1] && is_valid_identifier(a[0]))
+	else if (a[0] && is_valid_identifier(a[0]))
 		add_env_var(&data->envs, create_env_var(ft_strdup(a[0]),
 				ft_strdup(a[1])));
 	else if (!is_valid_identifier(a[0]))
@@ -73,14 +75,14 @@ int	emty_env_var(char *token, t_data *data)
 {
 	if (!is_valid_identifier(token))
 		return (print_export_error(token, "export"));
-	add_env_var(&data->envs, create_env_var(ft_strdup(token), ft_strdup("")));
+	add_env_var(&data->envs, create_env_var(ft_strdup(token), NULL));
 	return (0);
 }
 
 int	export(t_token *token, t_data *data)
 {
-	int		i;
-	int		r;
+	int	i;
+	int	r;
 
 	i = 0;
 	r = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_ext.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 16:54:10 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/21 23:40:53 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 18:02:37 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ t_env_node	*copy_env_list(t_env_node *original)
 		if (!new_node)
 			return (NULL);
 		new_node->key = ft_strdup(original->key);
-		new_node->value = ft_strdup(original->value);
+		if (original->value)
+			new_node->value = ft_strdup(original->value);
+		else
+			new_node->value = NULL;
 		new_node->next = NULL;
 		if (!copy_head)
 			copy_head = new_node;
@@ -118,7 +121,8 @@ void	free_env_list(t_env_node *head)
 		temp = head;
 		head = head->next;
 		free(temp->key);
-		free(temp->value);
+		if (temp->value)
+			free(temp->value);
 		free(temp);
 	}
 }
