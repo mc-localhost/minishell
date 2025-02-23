@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/23 00:25:07 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 12:54:11 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,21 @@ void			change_env_var(t_env_node **head, const char *key,
 void			delete_env_var(t_env_node **head, const char *key);
 void			envp_to_list(t_data *data, char **envp, int i);
 
-/*	ENVIRONMENT	ext & env*/
 t_env_node		*copy_env_list(t_env_node *original);
 void			sort_env_list(t_env_node *head);
 void			bash_sort_env_list(t_env_node *head);
-// void			print_env_list(t_env_node *current);
 void			free_env_list(t_env_node *head);
 
 /*	TOKENS	*/
 t_token			*init_token(void);
+t_token			*init_current_cmd(void);
 t_token			*create_token(t_token_type type, char *value);
 void			add_token(t_token **head, t_token *new_token);
+
+/*	FINAL TOKENS	*/
+int				is_redirection(t_token_type type);
+int				add_redirection_to_cmd(t_token *cmd, t_token **current_ptr,
+					t_data *data);
 
 /*	SCANNER	*/
 int				skip_whitespace(char **str);
@@ -96,11 +100,8 @@ int				parse(t_data *data);
 /*	SYNTAX	*/
 int				print_syntax_error(t_token *token);
 int				unclosed_quotes_error(char q_type);
-
-/*	FINAL TOKENS	*/
-int				is_redirection(t_token_type type);
-int				add_redirection_to_cmd(t_token *cmd, t_token **current_ptr,
-					t_data *data);
+int				first_is_pipe(t_token **head);
+int				last_is_pipe(t_token **head);
 
 /*	ITERATIONS	*/
 typedef void	(*t_token_func)(t_token *, t_data *);
@@ -120,6 +121,7 @@ int				pwd(t_data *data);
 int				echo(t_token *token);
 int				cd(t_token *token, t_data *data);
 int				custom_exit(t_token *token);
+
 /*	EXECUTOR	*/
 char			**list_to_arr(t_env_node *current);
 char			**build_cmd_array(t_token *token);
@@ -127,17 +129,20 @@ void			single_exec(char **cmd, char **env, t_token *token);
 int				exe_builtin_cmd(t_token *token, t_data *data, int fork);
 void			execute(t_token *token, t_data *data);
 void			execute_pipeline(t_data *data);
+
 /*	PIPEX	*/
 void			child(t_token *token, int *pipefd, t_data *data);
 void			parent(t_token *token, int *pipefd, t_data *data);
 int				pipex(t_token *token, t_data *data);
-/*	redirection	*/
+
+/*	REDIRECTION	*/
 void			set_redirect(t_token *token);
+
 /*	SIGNALS	*/
 void			ctrl_c(int sig);
 void			setup_signals(void);
 
 /*	GET NEXT LINE FOR TESTER	*/
-char			*get_next_line(int fd);
+char			*get_next_line(int fd); //remove before submitting
 
 #endif

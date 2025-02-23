@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:35:49 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/17 17:21:38 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/23 12:18:38 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,23 @@ static void	add_redir_to_end(t_redirection **head, t_redirection *new_redir)
 	}
 }
 
-int	add_redirection_to_cmd(t_token *cmd, t_token **current_ptr,
-		t_data *data)
+static void	skip_spaces(t_token **current)
+{
+	while (*current && (*current)->type == TOKEN_SPACE)
+	{
+		(*current)->type = PROCESSED;
+		*current = (*current)->next;
+	}
+}
+
+int	add_redirection_to_cmd(t_token *cmd, t_token **current_ptr, t_data *data)
 {
 	t_token			*current;
 	t_redirection	*redir;
 
 	current = *current_ptr;
 	redir = init_redir(&current);
-	while (current && current->type == TOKEN_SPACE)
-	{
-		current->type = PROCESSED;
-		current = current->next;
-	}
+	skip_spaces(&current);
 	if (current && is_string(current->type))
 	{
 		if (redir->type == TOKEN_HEREDOC)

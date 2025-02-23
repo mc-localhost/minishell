@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:07:12 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/17 17:24:16 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/23 12:53:03 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,6 @@ static void	add_pipe_token(t_data *data, t_token **cmd, t_token **current)
 	data->num_pipes++;
 	(*current)->type = PROCESSED;
 	*cmd = NULL;
-}
-
-static t_token	*init_current_cmd(void)
-{
-	t_token	*current_cmd;
-
-	current_cmd = init_token();
-	current_cmd->type = TOKEN_CMD;
-	current_cmd->redirections_in = NULL;
-	current_cmd->redirections_out = NULL;
-	return (current_cmd);
 }
 
 static void	handle_string_token(t_token *current, t_token *cmd)
@@ -86,6 +75,28 @@ for that particular command, and the rest of the tokens - in cmd.args
 array.
 */
 
+static int	process_one(t_token **current_cmd, t_token **current, t_data *data)
+{
+	if (is_redirection((*current)->type))
+	{
+		if (add_redirection_to_cmd((*current_cmd), current,
+				data) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+	}
+	else if (is_string((*current)->type))
+		handle_string_token((*current), (*current_cmd));
+	else if ((*current)->type == TOKEN_SPACE)
+		(*current)->type = PROCESSED;
+	else if ((*current)->type == TOKEN_PIPE)
+	{
+		if (finalize_command((*current_cmd), &data->tokens,
+				data) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
+		add_pipe_token(data, current_cmd, current);
+	}
+	return (EXIT_SUCCESS);
+}
+
 int	process_tokens(t_data *data)
 {
 	t_token	*current;
@@ -97,23 +108,8 @@ int	process_tokens(t_data *data)
 	{
 		if (current_cmd == NULL)
 			current_cmd = init_current_cmd();
-		if (is_redirection(current->type))
-		{
-			if (add_redirection_to_cmd(current_cmd, &current,
-					data) == EXIT_FAILURE)
-				return (EXIT_FAILURE);
-		}
-		else if (is_string(current->type))
-			handle_string_token(current, current_cmd);
-		else if (current->type == TOKEN_SPACE)
-			current->type = PROCESSED;
-		else if (current->type == TOKEN_PIPE)
-		{
-			if (finalize_command(current_cmd, &data->tokens,
-					data) == EXIT_FAILURE)
-				return (EXIT_FAILURE);
-			add_pipe_token(data, &current_cmd, &current);
-		}
+		if (process_one(&current_cmd, &current, data) == EXIT_FAILURE)
+			return (EXIT_FAILURE);
 		current = current->next;
 	}
 	if (current_cmd)

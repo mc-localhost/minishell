@@ -3,40 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:08:08 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/22 18:27:46 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 12:03:12 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-static int	first_is_pipe(t_token **head)
-{
-	t_token	*current;
-
-	current = *head;
-	if (!current)
-		return (EXIT_FAILURE);
-	if (current->type == TOKEN_PIPE)
-		return (print_syntax_error(current));
-	return (EXIT_SUCCESS);
-}
-
-static int	last_is_pipe(t_token **head)
-{
-	t_token	*current;
-
-	current = *head;
-	if (!current)
-		return (EXIT_FAILURE);
-	while (current->next)
-		current = current->next;
-	if (current->type == TOKEN_PIPE)
-		return (print_syntax_error(current));
-	return (EXIT_SUCCESS);
-}
 
 static void	unlink_processed(t_token **head)
 {
