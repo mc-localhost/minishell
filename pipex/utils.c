@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 20:19:56 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/21 20:32:19 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 14:37:18 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	error_exit(const char *msg)
 	if (ft_strlen(msg) == 0)
 		msg = strerror(errno);
 	write(STDERR_FILENO, msg, ft_strlen(msg));
-	write(STDERR_FILENO, "\n", 1);
-	exit(127);
+	ft_putstr_stderr("\n");
+	exit(errno);
 }
 
 int	ft_arr_size(char **arr)

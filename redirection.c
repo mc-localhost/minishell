@@ -6,11 +6,19 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 19:28:54 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/23 14:22:00 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/23 14:35:55 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static void	file_error(char *file)
+{
+	ft_putstr_stderr("minishell: ");
+	ft_putstr_stderr(file);
+	ft_putstr_stderr(": ");
+	error_exit("");
+}
 
 static t_redirection	*get_redirection(t_redirection *head, int out)
 {
@@ -29,12 +37,7 @@ static t_redirection	*get_redirection(t_redirection *head, int out)
 			if (fd == -1)
 			{
 				g_global.last_exit_code = errno;
-				ft_putstr_stderr("minishell: ");
-				ft_putstr_stderr(current->file);
-				ft_putstr_stderr(": ");
-				ft_putstr_stderr(strerror(errno));
-				ft_putstr_stderr("'\n");
-				exit(errno);
+				file_error(current->file);
 			}
 			close(fd);
 		}
@@ -55,15 +58,7 @@ void	set_redirect(t_token *token)
 	{
 		fd = open_file(input->type, input->file, 0);
 		if (fd == -1)
-		{
-			ft_putstr_stderr("minishell: ");
-			ft_putstr_stderr(input->file);
-			ft_putstr_stderr(": ");
-			ft_putstr_stderr(strerror(errno));
-			ft_putstr_stderr("'\n");
-			exit(errno);
-		}
-			// error_exit("");
+			file_error(input->file);
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
@@ -71,15 +66,7 @@ void	set_redirect(t_token *token)
 	{
 		fd = open_file(output->type, output->file, 1);
 		if (fd == -1)
-		{
-			ft_putstr_stderr("minishell: ");
-			ft_putstr_stderr(output->file);
-			ft_putstr_stderr(": ");
-			ft_putstr_stderr(strerror(errno));
-			ft_putstr_stderr("'\n");
-			exit(errno);
-		}
-			// error_exit("");
+			file_error(output->file);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
