@@ -21,22 +21,6 @@ bash: export: `==========': not a valid identifier
 bash-3.2$ echo $?
 1
 
-minishell> cd echo
-echo: No such file or directory
-minishell> echo $?
-2
-minishell> cd echo echo
-minishell> 
-
-Should be 
-
-bash-3.2$ cd echo
-bash: cd: echo: No such file or directory
-bash-3.2$ cd echo echo
-bash: cd: echo: No such file or directory
-bash-3.2$ echo $?
-1
-
 --------------------------------------------------
 after execution is done:
 - check why heredoc fails in tester

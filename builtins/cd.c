@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:31:13 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/23 17:58:24 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 18:59:11 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@
 
 int	error_notfound(char *str)
 {
+	ft_putstr_stderr("minishell: cd: ");
 	ft_putstr_stderr(str);
 	ft_putstr_stderr(": No such file or directory\n");
-	return (errno);
+	return (1);
 }
 
 // int	cd(t_token *token, t_data *data)
@@ -88,7 +89,7 @@ int	cd(t_token *token, t_data *data)
 	}
 	else
 		path = token->args[0];
-	if (change_dir(path, data) != 0 && token->args_count == 1)
+	if (change_dir(path, data) != 0)
 		return (error_notfound(path));
 	return (0);
 }
