@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 20:11:27 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/19 20:37:07 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 16:40:39 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,19 +63,14 @@ char	**optmize_cmd(char **cmd, char *argv)
 	return (cmd);
 }
 
-char	*find_path(char *cmd, char **envp)
+char	*get_path(char *cmd, char *envp)
 {
 	char	**paths;
 	char	*path;
 	int		i;
 	char	*part_path;
 
-	if (access(cmd, F_OK) == 0)
-		return (cmd);
-	i = 0;
-	while (ft_strnstr(envp[i], "PATH", 4) == 0)
-		i++;
-	paths = ft_split(envp[i] + 5, ':');
+	paths = ft_split(envp + 5, ':');
 	i = 0;
 	while (paths[i])
 	{
@@ -89,4 +84,18 @@ char	*find_path(char *cmd, char **envp)
 	}
 	free_arr(paths);
 	return (0);
+}
+
+char	*find_path(char *cmd, char **envp)
+{
+	int		i;
+
+	if (access(cmd, F_OK) == 0)
+		return (cmd);
+	i = 0;
+	while (envp[i] && ft_strnstr(envp[i], "PATH", 4) == 0)
+		i++;
+	if (!envp[i])
+		return (0);
+	return (get_path(cmd, envp[i]));
 }
