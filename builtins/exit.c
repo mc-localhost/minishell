@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:56 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/22 22:10:04 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 11:57:53 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,25 +58,24 @@ int	ft_isnum(char *str)
 
 int	custom_exit(t_token *token)
 {
-	g_global.last_exit_code = 0;
-	if (token->args_count != 0)
+	// ft_putstr_stderr("exit\n"); uncomment after testing is done
+	if (token->args_count >= 1)
 	{
-		if (token->args_count >= 1)
+		if (ft_isnum(token->args[0]) <= 0)
 		{
-			if (ft_isnum(token->args[0]) <= 0)
-			{
-				ft_putstr_stderr("minishell: exit: ");
-				ft_putstr_stderr(token->args[0]);
-				ft_putstr_stderr(": numeric argument required\n");
-				g_global.last_exit_code = 255;
-			}
-			else if (token->args_count > 1)
-				return (
-					ft_putstr_stderr("minishell: exit: too many arguments\n"),
-					1);
-			else if (token->args_count == 1)
-				g_global.last_exit_code = ft_atoi_exit(token->args[0]);
+			ft_putstr_stderr("minishell: exit: ");
+			ft_putstr_stderr(token->args[0]);
+			ft_putstr_stderr(": numeric argument required\n");
+			g_global.last_exit_code = 255;
 		}
+		else if (token->args_count > 1)
+		{
+			g_global.last_exit_code = 1;
+			return (ft_putstr_stderr("minishell: exit: too many arguments\n"),
+				1);
+		}
+		else if (token->args_count == 1)
+			g_global.last_exit_code = ft_atoi_exit(token->args[0]);
 	}
 	free_all();
 	unlink(HEREDOC_FILENAME);
