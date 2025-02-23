@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 20:11:27 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/23 17:10:54 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 18:26:58 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ char	*get_path(char *cmd, char *envp)
 	char	*part_path;
 
 	paths = ft_split(envp + 5, ':');
+	if (!paths)
+		return (0);
 	i = 0;
 	while (paths[i])
 	{
