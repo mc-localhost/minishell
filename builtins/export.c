@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 22:19:20 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/23 18:19:05 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 19:23:27 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,11 @@ int	upd_env(char *token, t_data *data)
 
 	a = ft_split(token, '=');
 	if (!a)
+	{
+		if (!is_valid_identifier(token))
+			return (print_export_error(token, "export"));
 		return (1);
+	}
 	if (a[0] && if_env_var(&data->envs, a[0]))
 		change_env_var(&data->envs, a[0], a[1]);
 	else if (a[0] && is_valid_identifier(a[0]))
