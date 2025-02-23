@@ -6,11 +6,13 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/23 20:14:50 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 20:51:01 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
+
+t_global					g_global;
 
 static void	init_global(void)
 {

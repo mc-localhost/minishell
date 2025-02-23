@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:05:01 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/23 13:30:23 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/23 20:50:38 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,6 @@ typedef struct s_global
 	int						cmd_running;
 }							t_global;
 
-t_global					g_global;
+extern t_global					g_global;
 
 #endif
