@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/23 13:30:13 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/23 18:18:08 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ size_t			ft_strlcpy_safe(char *dst, const char *src, size_t dstsize);
 char			*ft_substr_safe(char const *s, unsigned int start, size_t len);
 
 /*	ENVIRONMENT	*/
+int				if_env_var(t_env_node **head, const char *str);
 char			*find_env_var(t_env_node **head, const char *str);
 t_env_node		*create_env_var(char *key, char *value);
 void			add_env_var(t_env_node **head, t_env_node *new_node);

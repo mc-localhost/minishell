@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 22:19:20 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/23 18:02:08 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/23 18:19:05 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	upd_env(char *token, t_data *data)
 	a = ft_split(token, '=');
 	if (!a)
 		return (1);
-	if (a[0] && find_env_var(&data->envs, a[0]) != NULL)
+	if (a[0] && if_env_var(&data->envs, a[0]))
 		change_env_var(&data->envs, a[0], a[1]);
 	else if (a[0] && is_valid_identifier(a[0]))
 		add_env_var(&data->envs, create_env_var(ft_strdup(a[0]),
@@ -95,7 +95,7 @@ int	export(t_token *token, t_data *data)
 				if (upd_env(token->args[i], data) != 0)
 					r = 1;
 			}
-			else if (find_env_var(&data->envs, token->args[i]) == NULL)
+			else if (!if_env_var(&data->envs, token->args[i]))
 			{
 				if (emty_env_var(token->args[i], data) != 0)
 					r = 1;
