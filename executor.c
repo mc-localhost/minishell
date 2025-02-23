@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/23 15:03:09 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 15:11:08 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,7 @@ void	execute_pipeline(t_data *data)
 	int		pipe_fds[2];
 	int		prev_fd;
 	pid_t	pid;
+	int		r;
 
 	prev_fd = -1;
 	current = data->final_tokens;
@@ -223,7 +224,7 @@ void	execute_pipeline(t_data *data)
 				if (dup2(prev_fd, STDIN_FILENO) == -1)
 				{
 					perror("Dup2 failed (input)");
-					exit(1);
+					exit(errno);
 				}
 				close(prev_fd);
 			}
@@ -240,6 +241,7 @@ void	execute_pipeline(t_data *data)
 			prev_fd = pipe_fds[0];
 		}
 		current = current->next;
-		waitpid(pid, NULL, 0);
+		waitpid(pid, &r, 0);
+		g_global.last_exit_code = WEXITSTATUS(r);
 	}
 }
