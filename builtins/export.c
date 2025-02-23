@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 22:19:20 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/23 19:23:27 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 20:15:36 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	upd_env(char *token, t_data *data)
 	if (!a)
 	{
 		if (!is_valid_identifier(token))
-			return (print_export_error(token, "export"));
+			return (print_export_error(token, "minishell: export"));
 		return (1);
 	}
 	if (a[0] && if_env_var(&data->envs, a[0]))
@@ -70,7 +70,7 @@ int	upd_env(char *token, t_data *data)
 		add_env_var(&data->envs, create_env_var(ft_strdup(a[0]),
 				ft_strdup(a[1])));
 	else if (!is_valid_identifier(a[0]))
-		return (free_arr(a), print_export_error(token, "export"));
+		return (free_arr(a), print_export_error(token, "minishell: export"));
 	free_arr(a);
 	return (0);
 }

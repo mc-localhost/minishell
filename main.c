@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/23 18:44:58 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 20:14:50 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ static void	add_level(t_data *data)
 		new_level = ft_itoa(ft_atoi(level) + 1);
 		change_env_var(&data->envs, "SHLVL", new_level);
 		free(new_level);
+	}
+	if (if_env_var(&data->envs, "OLDPWD"))
+	{
+		delete_env_var(&data->envs, "OLDPWD");
+		add_env_var(&data->envs, create_env_var("OLDPWD", NULL));
 	}
 }
 
