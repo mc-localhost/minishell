@@ -10,6 +10,13 @@ bash-3.2$ echo $?
 
 Minishell returns 2 (and I don’t understand why, since it’s TOKEN_APPEND error)
 
+""
+is found in path and tries to execute even though should print
+command not found
+
+bash-3.2$ ""
+bash: : command not found
+
 -------------------------
 ❌ mstest m b (builtins) ❌
 -------------------------
@@ -61,8 +68,21 @@ bash: ./ls: No such file or directory
 bash-3.2$ echo $?
 127
 
+minishell> export PATH=""
+minishell> ls
+COMMENTS.txt            environment_to_list.c 
+
+should be 
+
+bash-3.2$ export PATH=""
+bash-3.2$ ls
+bash: ls: No such file or directory
+bash-3.2$ echo $?
+127
+
 --------------------------------------------------
 after execution is done:
+- check why heredoc fails in tester
 - check if signals work with heredoc
 - check what happens to expansion when PATH is unset or new var is added with export
 - check if signals work while input after minishell> is written
