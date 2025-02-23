@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/23 00:59:42 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 01:02:48 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,7 +228,6 @@ void	execute_pipeline(t_data *data)
 				child(current, pipe_fds, data);
 			else
 				parent(current, pipe_fds, data);
-			exit(0);
 		}
 		if (prev_fd != -1)
 			close(prev_fd);
