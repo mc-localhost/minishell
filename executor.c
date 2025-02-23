@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/23 16:41:18 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 18:07:17 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,8 +212,10 @@ void	execute_pipeline(t_data *data)
 	int		prev_fd;
 	pid_t	pid;
 	int		r;
+	int		i;
 
 	prev_fd = -1;
+	i = 0;
 	current = data->final_tokens;
 	while (current)
 	{
@@ -236,13 +238,13 @@ void	execute_pipeline(t_data *data)
 		if (pid == 0)
 			child(current, pipefd, data);
 		current = current->next;
-		// if (current)
-		// 	parent(current, pipefd, data);
 		if (prev_fd != -1)
 			close(prev_fd);
 		prev_fd = pipefd[0];
 		close(pipefd[1]);
-		waitpid(pid, &r, 0);
+		if (i != 0)
+			waitpid(pid, &r, 0);
+		i++;
 		g_global.last_exit_code = WEXITSTATUS(r);
 	}
 }
