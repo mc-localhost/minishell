@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_ext.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/19 16:54:10 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/23 18:02:37 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/23 22:37:08 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,8 @@ void	free_env_list(t_env_node *head)
 	{
 		temp = head;
 		head = head->next;
-		free(temp->key);
+		if (temp->key)
+			free(temp->key);
 		if (temp->value)
 			free(temp->value);
 		free(temp);

@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:36:24 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/19 20:41:42 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 22:42:02 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,12 @@ void	*safe_malloc(size_t size)
 	}
 	add_allocation(ptr);
 	return (ptr);
+}
+
+void	free_env(t_data *data)
+{
+	free_env_list(data->envs);
+	free(data->input);
 }
 
 void	free_all(void)

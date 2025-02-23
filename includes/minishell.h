@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/23 18:18:08 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 22:38:40 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 void			*safe_malloc(size_t size);
 void			free_all(void);
 void			free_arr(char **str);
+void			free_env(t_data *data);
 
 /*	SAFE LIBFT	*/
 char			*ft_itoa_safe(int n);
@@ -121,7 +122,7 @@ int				unset(t_token *token, t_data *data);
 int				pwd(t_data *data);
 int				echo(t_token *token);
 int				cd(t_token *token, t_data *data);
-int				custom_exit(t_token *token);
+int				custom_exit(t_token *token, t_data *data);
 
 /*	EXECUTOR	*/
 char			**list_to_arr(t_env_node *current);

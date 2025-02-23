@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:56 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/23 11:57:53 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/23 22:38:09 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_isnum(char *str)
 	return (1);
 }
 
-int	custom_exit(t_token *token)
+int	custom_exit(t_token *token, t_data *data)
 {
 	// ft_putstr_stderr("exit\n"); uncomment after testing is done
 	if (token->args_count >= 1)
@@ -78,6 +78,7 @@ int	custom_exit(t_token *token)
 			g_global.last_exit_code = ft_atoi_exit(token->args[0]);
 	}
 	free_all();
+	free_env(data);
 	unlink(HEREDOC_FILENAME);
 	exit(g_global.last_exit_code);
 }
