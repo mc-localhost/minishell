@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/23 15:11:08 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 15:56:22 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,11 +190,23 @@ void	execute(t_token *token, t_data *data)
 		free_arr(cmd);
 	}
 }
+void	redirect_to_prev_fd(int prev_fd)
+{
+	if (prev_fd != -1)
+	{
+		if (dup2(prev_fd, STDIN_FILENO) == -1)
+		{
+			perror("Dup2 failed (input)");
+			exit(errno);
+		}
+		close(prev_fd);
+	}
+}
 
 void	execute_pipeline(t_data *data)
 {
 	t_token	*current;
-	int		pipe_fds[2];
+	int		pipefd[2];
 	int		prev_fd;
 	pid_t	pid;
 	int		r;
@@ -205,7 +217,7 @@ void	execute_pipeline(t_data *data)
 	{
 		if (current->next)
 		{
-			if (pipe(pipe_fds) == -1)
+			if (pipe(pipefd) == -1)
 			{
 				perror("Pipe failed");
 				return ;
@@ -218,29 +230,16 @@ void	execute_pipeline(t_data *data)
 			return ;
 		}
 		if (pid == 0)
-		{
-			if (prev_fd != -1)
-			{
-				if (dup2(prev_fd, STDIN_FILENO) == -1)
-				{
-					perror("Dup2 failed (input)");
-					exit(errno);
-				}
-				close(prev_fd);
-			}
-			if (current->next)
-				child(current, pipe_fds, data);
-			else
-				parent(current, pipe_fds, data);
-		}
+			redirect_to_prev_fd(prev_fd);
+		if (pid == 0)
+			child(current, pipefd, data);
+		current = current->next;
+		// if (current)
+		// 	parent(current, pipefd, data);
 		if (prev_fd != -1)
 			close(prev_fd);
-		if (current->next)
-		{
-			close(pipe_fds[1]);
-			prev_fd = pipe_fds[0];
-		}
-		current = current->next;
+		prev_fd = pipefd[0];
+		close(pipefd[1]);
 		waitpid(pid, &r, 0);
 		g_global.last_exit_code = WEXITSTATUS(r);
 	}
