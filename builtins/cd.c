@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:31:13 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/21 23:59:00 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 17:58:24 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,33 @@ int	error_notfound(char *str)
 	return (errno);
 }
 
-int	cd(t_token *token, t_data *data)
+// int	cd(t_token *token, t_data *data)
+// {
+// 	char	cwd[1024];
+// 	char	*path;
+
+// 	if (token->args_count == 0 || !ft_strcmp(token->args[0], "~"))
+// 		path = find_env_var(&data->envs, "HOME");
+// 	else
+// 		path = token->args[0];
+// 	if (chdir(path) == 0)
+// 	{
+// 		if (getcwd(cwd, sizeof(cwd)) != NULL)
+// 		{
+// 			change_env_var(&data->envs, "OLDPWD", find_env_var(&data->envs,
+// 					"PWD"));
+// 			change_env_var(&data->envs, "PWD", cwd);
+// 		}
+// 	}
+// 	else if (token->args_count == 1)
+// 		return (error_notfound(path));
+// 	return (0);
+// }
+
+int	change_dir(char *path, t_data *data)
 {
 	char	cwd[1024];
-	char	*path;
 
-	if (token->args_count == 0 || !ft_strcmp(token->args[0], "~"))
-		path = find_env_var(&data->envs, "HOME");
-	else
-		path = token->args[0];
 	if (chdir(path) == 0)
 	{
 		if (getcwd(cwd, sizeof(cwd)) != NULL)
@@ -46,8 +64,31 @@ int	cd(t_token *token, t_data *data)
 					"PWD"));
 			change_env_var(&data->envs, "PWD", cwd);
 		}
+		return (0);
 	}
-	else if (token->args_count == 1)
+	return (1);
+}
+
+int	cd(t_token *token, t_data *data)
+{
+	char	*path;
+
+	if (token->args_count == 0 || !ft_strcmp(token->args[0], "~"))
+		path = find_env_var(&data->envs, "HOME");
+	else if (token->args[0][0] == '~')
+	{
+		path = ft_strtrim(token->args[0], "~");
+		if (!path)
+			return (error_notfound(path));
+		path = ft_strjoin(find_env_var(&data->envs, "HOME"), path);
+		if (change_dir(path, data) != 0)
+			return (free(path), error_notfound(path));
+		else
+			return (free(path), 0);
+	}
+	else
+		path = token->args[0];
+	if (change_dir(path, data) != 0 && token->args_count == 1)
 		return (error_notfound(path));
 	return (0);
 }
