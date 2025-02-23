@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:47:33 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/23 00:29:08 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 13:24:59 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	open_file(char *filename, int output)
+int	open_file(t_token_type type, char *filename, int output)
 {
 	int	fd;
 
@@ -20,7 +20,10 @@ int	open_file(char *filename, int output)
 		return (open(filename, O_RDONLY));
 	else if (output == 1)
 	{
-		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (type == TOKEN_APPEND)
+			fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		else
+			fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd > 0)
 			return (fd);
 	}

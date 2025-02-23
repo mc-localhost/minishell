@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 20:15:54 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/23 00:25:02 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 13:29:34 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@
 # include <errno.h>
 # include <string.h>
 # include "../libft/libft.h"
+# include "minishell.h"
 
-int		open_file(char *filename, int output);
+int		open_file(t_token_type type, char *filename, int output);
 void	error_exit(const char *msg);
 int		ft_arr_size(char **str);
 char	**optmize_cmd(char **cmd, char *argv);

@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/23 12:54:11 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/23 13:30:13 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-# include "pipex.h"
 # include "structs.h"
+# include "pipex.h"
 # include <stdio.h>  // printf, perror
 # include <stdlib.h> // malloc, free, getenv, exit
 // write, access, read, close, fork, dup, dup2, pipe, isatty
