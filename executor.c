@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/23 18:07:17 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/23 18:57:53 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,14 +110,16 @@ void	single_exec(char **cmd, char **env, t_token *token)
 	{
 		ft_putstr_stderr("minishell: ");
 		write(STDERR_FILENO, cmd[0], ft_strlen(cmd[0]));
-		error_exit(": command not found", 127);
+		write(STDERR_FILENO, ": ", 2);
+		error_exit("", 127);
 	}
 	if (execve(path, cmd, env) == -1)
 	{
 		ft_putstr_stderr("minishell: ");
 		write(STDERR_FILENO, cmd[0], ft_strlen(cmd[0]));
+		write(STDERR_FILENO, ": ", 2);
 		free(path);
-		error_exit(": is a directory", 126);
+		error_exit("", 126);
 	}
 	free(path);
 }

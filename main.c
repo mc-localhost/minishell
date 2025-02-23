@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/23 11:44:28 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/23 18:44:58 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,12 @@ int	main(int argc, char **argv, char **envp)
 			input = ft_strtrim(line, "\n");
 			free(line);
 		}
-		//END for tester - remove it all before submitting
+		//Call cleanup function on EOF (Ctrl + D)
+		if (!input)
+        {
+            tokens_cleanup(&data);
+            break;
+        }
 		if (*input)
 		{
 			add_history(input);
