@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 16:38:12 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/22 15:25:41 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/24 11:18:19 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	expand_token_values(t_token *token, t_data *data)
 		else if (!ft_strncmp(token->value, "$", 2) && token->next
 			&& is_q_string(token->next->type))
 		{
-			token->value = ft_strdup("");
+			token->value = ft_strdup_safe("");
 			return ;
 		}
 		expand_to_more(token, data);
