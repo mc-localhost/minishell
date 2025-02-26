@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 15:39:21 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:54:34 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,10 +140,9 @@ int	sys_cmd(char **cmd, char **envp, t_token *token)
 	if (pid == 0)
 		single_exec(cmd, envp, token);
 	waitpid(pid, &r, 0);
-	r =  WEXITSTATUS(r);
-	if (!r)
-		g_global.last_exit_code  = r;
-	return (r);
+	if (WIFEXITED(r))
+		g_global.last_exit_code = WEXITSTATUS(r);
+	return (g_global.last_exit_code);
 }
 
 int	exe_builtin_cmd(t_token *token, t_data *data, int fork)
@@ -251,6 +250,7 @@ void	execute_pipeline(t_data *data)
 		if (i != 0)
 			waitpid(pid, &r, 0);
 		i++;
-		g_global.last_exit_code = WEXITSTATUS(r);
+		if (WIFEXITED(r))
+			g_global.last_exit_code = WEXITSTATUS(r);
 	}
 }
