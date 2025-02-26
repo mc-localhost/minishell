@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 19:26:32 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:45:43 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 
 /*	F 	U 	N 	C 	T 	I 	O 	N 	S	*/
 
+void			tokens_cleanup(t_data *data);
 /*	GARBAGE COLLECTOR	*/
 void			*safe_malloc(size_t size);
 void			free_all(void);
@@ -122,6 +123,7 @@ int				pwd(t_data *data);
 int				echo(t_token *token);
 int				cd(t_token *token, t_data *data);
 int				custom_exit(t_token *token, t_data *data);
+int				clean_exit(t_data *data);
 
 /*	EXECUTOR	*/
 char			**list_to_arr(t_env_node *current);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 18:03:31 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:52:16 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	init_global(void)
 	g_global.cmd_running = 0;
 }
 
-static void	tokens_cleanup(t_data *data)
+void	tokens_cleanup(t_data *data)
 {
 	free_all();
 	unlink(HEREDOC_FILENAME);
@@ -70,7 +70,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 	char	*input;
-	char 	*line;
+	char	*line;
 
 	(void)argv;
 	if (argc != 1)
@@ -86,7 +86,6 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		// input = readline(PROMPT);
-		
 		//	mstest part
 		if (isatty(fileno(stdin)))
 			input = readline(PROMPT);
@@ -102,7 +101,6 @@ int	main(int argc, char **argv, char **envp)
 		if (!input)
 		{
 			tokens_cleanup(&data);
-			//add environment cleanup here or before final return
 			break ;
 		}
 		if (*input)
@@ -120,5 +118,5 @@ int	main(int argc, char **argv, char **envp)
 		free(input);
 		tokens_cleanup(&data);
 	}
-	return (g_global.last_exit_code);
+	return (clean_exit(&data));
 }
