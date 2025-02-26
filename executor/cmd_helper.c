@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 20:11:27 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/26 19:19:32 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:37:45 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ char	*find_path(char *cmd, char **envp)
 		return (0);
 	return (get_path(cmd, envp[i]));
 }
+
 // Creates an array of strings from the linked list
 char	**build_array(t_env_node *current, int len)
 {
