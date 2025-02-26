@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:44:45 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 15:34:08 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:29:23 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 /*
 
-Handle ctrl-C (SIGINT), ctrl-D (EOF) and ctrl-\ (SIGQUIT) which should behave like in bash.
+Handle ctrl-C (SIGINT), ctrl-D (EOF) and ctrl-\ (SIGQUIT)
+which should behave like in bash.
 
 In interactive mode:
 ◦ ctrl-C displays a new prompt on a new line.
@@ -30,8 +31,10 @@ ctrl-\ in a prompt should not do anything.
 ctrl-D in an empty prompt should quit minishell
 ctrl-D in a prompt should not do anything.
 
-The buffer should be clean too. Press "Enter" to make sure nothing from the previous line is executed.
-Try ctrl-C,D,\ after running a blocking command like cat without arguments or grep “something“.
+The buffer should be clean too. Press "Enter" to make sure nothing
+from the previous line is executed.
+Try ctrl-C,D,\ after running a blocking command like cat without arguments
+or grep “something“.
 */
 
 void	ctrl_c(int sig)
@@ -52,6 +55,14 @@ void	ctrl_c(int sig)
 	rl_replace_line("", 0);
 	rl_redisplay();
 }
+
+// void	ctrl_backslash(int sig)
+// {
+// 	g_global.last_exit_code = 131;
+// 	ft_putstr_fd("^\\Quit: ", STDERR_FILENO);
+// 	ft_putnbr_fd(sig, STDERR_FILENO);
+// 	ft_putchar_fd('\n', STDERR_FILENO);
+// }
 
 void	ctrl_c_heredoc(int sig)
 {

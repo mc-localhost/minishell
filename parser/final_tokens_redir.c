@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:35:49 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 15:30:24 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:46:12 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	add_redirection_to_cmd(t_token *cmd, t_token **current_ptr, t_data *data)
 	{
 		if (redir->type == TOKEN_HEREDOC)
 		{
-			if (handle_heredoc(current, data) == EXIT_FAILURE)
+			if (handle_heredoc(current, current->value, data) == EXIT_FAILURE)
 				return (EXIT_FAILURE);
 			redir->file = ft_strdup_safe(HEREDOC_FILENAME);
 		}

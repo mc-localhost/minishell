@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:08:08 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/23 12:03:12 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:20:33 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,32 +97,15 @@ int	parse(t_data *data)
 {
 	if (scan(data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
-	// printf("***		printing scanned	***\n\n");
-	// iterate_tokens(data, print_token);
-
 	if (first_is_pipe(&data->tokens) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	iterate_tokens(data, expand_token_values);
-	// printf("***		printing expanded	***\n\n");
-	// iterate_tokens(data, print_token);
-
 	unlink_processed(&data->tokens);
-	// printf("***		printing after PROCESSED removal	***\n\n");
-	// iterate_tokens(data, print_token);
-
 	merge_tokens(&data->tokens);
-	// printf("***		printing merged	***\n\n");
-	// iterate_tokens(data, print_token);
-
 	if (process_tokens(data) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	if (last_is_pipe(&data->final_tokens) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	unlink_pipes(&data->final_tokens);
-
-	// printf("number of pipes: %d\n", data->num_pipes);
-	// printf("***		printing procesed final		***\n\n");
-	// iterate_final_tokens(data, print_token);
-
 	return (EXIT_SUCCESS);
 }
