@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 22:19:20 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/26 15:03:12 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:27:29 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,27 +89,25 @@ int	export(t_token *token, t_data *data)
 {
 	int	i;
 	int	r;
+	int	e;
 
 	i = 0;
+	e = 0;
 	r = 0;
 	if (token->args_count > 0)
 	{
 		while (i < token->args_count)
 		{
 			if (ft_strchr(token->args[i], '=') && ft_strlen(token->args[i]) > 1)
-			{
-				if (upd_env(token->args[i], data) != 0)
-					r = 1;
-			}
+				r = upd_env(token->args[i], data);
 			else if (!if_env_var(&data->envs, token->args[i]))
-			{
-				if (emty_env_var(token->args[i], data) != 0)
-					r = 1;
-			}
+				r = emty_env_var(token->args[i], data);
+			if (r != 0)
+				e = r;
 			i++;
 		}
 	}
 	else
-		r = export_env_list_sorted(data->envs);
-	return (r);
+		e = export_env_list_sorted(data->envs);
+	return (e);
 }
