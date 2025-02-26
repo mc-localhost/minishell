@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:44:45 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 17:50:54 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:11:14 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ or grep “something“.
 void	ctrl_c(int sig)
 {
 	(void)sig;
-
 	g_global.last_exit_code = 1;
 	if (!g_global.heredoc_running)
 		ft_putstr_stderr("\n");
@@ -67,7 +66,6 @@ void	ctrl_backslash(int sig)
 void	ctrl_c_heredoc(int sig)
 {
 	(void)sig;
-
 	g_global.last_exit_code = 1;
 	g_global.heredoc_running = 0;
 	ioctl(STDIN_FILENO, TIOCSTI, "\n");
