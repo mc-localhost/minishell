@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:31:13 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/23 20:49:00 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:10:54 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,12 @@ int	cd(t_token *token, t_data *data)
 			return (free(path), error_notfound(token->args[0]));
 		else
 			return (free(path), 0);
+	}
+	else if (!ft_strcmp(token->args[0], "-"))
+	{
+		path = find_env_var(&data->envs, "OLDPWD");
+		if (!path)
+			return (ft_putstr_stderr("minishell: cd: OLDPWD not set\n"), 1);
 	}
 	else
 		path = token->args[0];
