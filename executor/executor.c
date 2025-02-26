@@ -6,112 +6,11 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 19:06:48 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:22:43 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-// Counts valid nodes in the linked list
-int	count_nodes(t_env_node *current)
-{
-	int	len;
-
-	len = 0;
-	while (current)
-	{
-		if (current->key && current->value)
-			len++;
-		current = current->next;
-	}
-	return (len);
-}
-
-// Joins key and value into a single string "key=value"
-char	*join_key_value(char *key, char *value)
-{
-	char	*result;
-	char	*final_result;
-
-	result = ft_strjoin(key, "=");
-	if (!result)
-		return (NULL);
-	final_result = ft_strjoin(result, value);
-	free(result);
-	return (final_result);
-}
-
-// Creates an array of strings from the linked list
-char	**build_array(t_env_node *current, int len)
-{
-	char	**result;
-	int		i;
-
-	result = (char **)malloc((len + 1) * sizeof(char *));
-	if (!result)
-		return (NULL);
-	i = 0;
-	while (current)
-	{
-		if (current->key && current->value)
-		{
-			result[i] = join_key_value(current->key, current->value);
-			if (!result[i])
-				return (free_arr(result), NULL);
-			i++;
-		}
-		current = current->next;
-	}
-	result[i] = NULL;
-	return (result);
-}
-
-char	**build_cmd_array(t_token *token)
-{
-	char	**result;
-	int		i;
-
-	result = (char **)malloc((token->args_count + 2) * sizeof(char *));
-	if (!result)
-		return (NULL);
-	result[0] = ft_strdup(token->value);
-	if (!result[0])
-		return (free(result), NULL);
-	i = 0;
-	while (token->args[i])
-	{
-		result[i + 1] = ft_strdup(token->args[i]);
-		if (!result[i + 1])
-			return (free_arr(result), NULL);
-		i++;
-	}
-	result[i + 1] = NULL;
-	return (result);
-}
-
-// Main function to convert linked list to array
-char	**list_to_arr(t_env_node *current)
-{
-	int	len;
-
-	len = count_nodes(current);
-	if (len == 0)
-		return (NULL);
-	return (build_array(current, len));
-}
-
-int	is_directory(const char *path)
-{
-	DIR	*dir;
-
-	if (ft_strcmp(path, ".") || ft_strcmp(path, ".."))
-		return (1);
-	dir = opendir(path);
-	if (dir == NULL)
-		return (0);
-	closedir(dir);
-	return (1);
-}
 
 void	single_exec(char **cmd, char **env, t_token *token)
 {

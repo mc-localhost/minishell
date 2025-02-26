@@ -6,7 +6,7 @@
 #    By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/10 15:49:58 by vvasiuko          #+#    #+#              #
-#    Updated: 2025/02/26 19:13:39 by aelaaser         ###   ########.fr        #
+#    Updated: 2025/02/26 19:28:01 by aelaaser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -Iincludes -Ilibft -g 
 # -fsanitize=address
 LFLAGS = -lreadline -Llibft -lft
-SRC = main.c garbage_collector.c environment.c environment_to_list.c \
+SRC = main.c garbage_collector.c environment.c \
 	parser/parser.c \
 	parser/scanner.c parser/scanner_handlers.c parser/tokens.c parser/heredoc.c \
 	parser/expander.c parser/expander_utils.c \
@@ -25,8 +25,7 @@ SRC = main.c garbage_collector.c environment.c environment_to_list.c \
 	parser/iter.c \
 	builtins/builtin_exec.c builtins/cd.c builtins/exit.c \
 	builtins/pwd.c builtins/echo.c builtins/env.c builtins/env_ext.c builtins/export.c builtins/export_ext.c builtins/unset.c \
-	executor/cmd_helper.c executor/pipex.c executor/utils.c \
-	executor.c \
+	executor/cmd_helper.c executor/cmd_helper_ext.c executor/pipex.c executor/utils.c executor/executor.c \
 	redirection.c \
 	signals.c \
 	safe_libft/ft_itoa_safe.c safe_libft/ft_split_safe.c safe_libft/ft_strdup_safe.c safe_libft/ft_strjoin_safe.c safe_libft/ft_strlcpy_safe.c safe_libft/ft_substr_safe.c \

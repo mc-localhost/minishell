@@ -6,11 +6,11 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 20:11:27 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/26 19:09:52 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:19:32 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "../includes/minishell.h"
 
 char	*get_path(char *cmd, char *envp)
 {
@@ -62,4 +62,62 @@ char	*find_path(char *cmd, char **envp)
 	if (!envp[i])
 		return (0);
 	return (get_path(cmd, envp[i]));
+}
+// Creates an array of strings from the linked list
+char	**build_array(t_env_node *current, int len)
+{
+	char	**result;
+	int		i;
+
+	result = (char **)malloc((len + 1) * sizeof(char *));
+	if (!result)
+		return (NULL);
+	i = 0;
+	while (current)
+	{
+		if (current->key && current->value)
+		{
+			result[i] = join_key_value(current->key, current->value);
+			if (!result[i])
+				return (free_arr(result), NULL);
+			i++;
+		}
+		current = current->next;
+	}
+	result[i] = NULL;
+	return (result);
+}
+
+char	**build_cmd_array(t_token *token)
+{
+	char	**result;
+	int		i;
+
+	result = (char **)malloc((token->args_count + 2) * sizeof(char *));
+	if (!result)
+		return (NULL);
+	result[0] = ft_strdup(token->value);
+	if (!result[0])
+		return (free(result), NULL);
+	i = 0;
+	while (token->args[i])
+	{
+		result[i + 1] = ft_strdup(token->args[i]);
+		if (!result[i + 1])
+			return (free_arr(result), NULL);
+		i++;
+	}
+	result[i + 1] = NULL;
+	return (result);
+}
+
+// Main function to convert linked list to array
+char	**list_to_arr(t_env_node *current)
+{
+	int	len;
+
+	len = count_nodes(current);
+	if (len == 0)
+		return (NULL);
+	return (build_array(current, len));
 }

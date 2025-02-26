@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 12:19:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/23 18:17:49 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:20:11 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,6 @@ char	*find_env_var(t_env_node **head, const char *str)
 		temp = temp->next;
 	}
 	return (NULL);
-}
-
-int	if_env_var(t_env_node **head, const char *str)
-{
-	t_env_node	*temp;
-
-	temp = *head;
-	while (temp)
-	{
-		if (ft_strcmp(temp->key, str) == 0)
-			return (1);
-		temp = temp->next;
-	}
-	return (0);
 }
 
 t_env_node	*create_env_var(char *key, char *value)

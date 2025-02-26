@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 19:08:15 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:26:32 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ void			add_env_var(t_env_node **head, t_env_node *new_node);
 void			change_env_var(t_env_node **head, const char *key,
 					const char *value);
 void			delete_env_var(t_env_node **head, const char *key);
-void			envp_to_list(t_data *data, char **envp, int i);
 
 t_env_node		*copy_env_list(t_env_node *original);
 void			sort_env_list(t_env_node *head);
@@ -134,6 +133,10 @@ void			execute(t_token *token, t_data *data);
 /*	PIPEX	*/
 void			execute_pipeline(t_data *data);
 
+/*	CMD_HELPERS	*/
+char			*join_key_value(char *key, char *value);
+int				count_nodes(t_env_node *current);
+void			envp_to_list(t_data *data, char **envp, int i);
 /*	REDIRECTION	*/
 void			set_redirect(t_token *token);
 
