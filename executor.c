@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 15:54:34 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:52:22 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,26 @@ char	**list_to_arr(t_env_node *current)
 	return (build_array(current, len));
 }
 
+int	is_directory(const char *path)
+{
+	DIR	*dir;
+
+	if (ft_strcmp(path, ".") || ft_strcmp(path, ".."))
+		return (1);
+	dir = opendir(path);
+	if (dir == NULL)
+		return (0);
+	closedir(dir);
+	return (1);
+}
+
 void	single_exec(char **cmd, char **env, t_token *token)
 {
 	char	*path;
 
 	set_redirect(token);
 	path = NULL;
-	if (ft_strlen(cmd[0]) > 0 || (ft_strlen(cmd[0]) == 1 && !is_valid_identifier(cmd[0])))
+	if (ft_strlen(cmd[0]) > 0)
 		path = find_path(cmd[0], env);
 	if (!path)
 	{

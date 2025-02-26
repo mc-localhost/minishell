@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 22:15:49 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/22 22:16:25 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:18:12 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,7 @@ int	print_export_error(char *identifier, char *name)
 	ft_putstr_stderr("': not a valid identifier\n");
 	if (ft_strchr(identifier, ';'))
 		return (127);
+	if (identifier[0] == '-')
+		return (2);
 	return (1);
 }
