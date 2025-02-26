@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:56 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/23 22:38:09 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:34:04 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,6 @@ int	custom_exit(t_token *token, t_data *data)
 	free_all();
 	free_env(data);
 	unlink(HEREDOC_FILENAME);
+	rl_clear_history();
 	exit(g_global.last_exit_code);
 }
