@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 15:49:49 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:53:31 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,10 @@ int	main(int argc, char **argv, char **envp)
 			input = ft_strtrim(line, "\n");
 			free(line);
 		}
-		//Call cleanup function on EOF (Ctrl + D)
 		if (!input)
         {
             tokens_cleanup(&data);
-            break;
+            break ;
         }
 		if (*input)
 		{
@@ -117,11 +116,13 @@ int	main(int argc, char **argv, char **envp)
 				continue ;
 			}
 			g_global.cmd_running = 1;
+			signal(SIGQUIT, ctrl_backslash);
 			if (data.num_pipes >= 1)
 				execute_pipeline(&data);
 			else
 				iterate_final_tokens(&data, execute);
 			g_global.cmd_running = 0;
+			signal(SIGQUIT, SIG_IGN);
 		}
 		free(input);
 		tokens_cleanup(&data);

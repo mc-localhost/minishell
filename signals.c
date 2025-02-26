@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:44:45 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 17:29:23 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:50:54 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,13 +56,13 @@ void	ctrl_c(int sig)
 	rl_redisplay();
 }
 
-// void	ctrl_backslash(int sig)
-// {
-// 	g_global.last_exit_code = 131;
-// 	ft_putstr_fd("^\\Quit: ", STDERR_FILENO);
-// 	ft_putnbr_fd(sig, STDERR_FILENO);
-// 	ft_putchar_fd('\n', STDERR_FILENO);
-// }
+void	ctrl_backslash(int sig)
+{
+	g_global.last_exit_code = 131;
+	ft_putstr_fd("Quit: ", STDERR_FILENO);
+	ft_putnbr_fd(sig, STDERR_FILENO);
+	ft_putchar_fd('\n', STDERR_FILENO);
+}
 
 void	ctrl_c_heredoc(int sig)
 {

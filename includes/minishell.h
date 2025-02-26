@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 16:46:23 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:48:59 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ void			set_redirect(t_token *token);
 /*	SIGNALS	*/
 void			ctrl_c(int sig);
 void			ctrl_c_heredoc(int sig);
+void			ctrl_backslash(int sig);
 void			setup_signals(void);
 
 /*	GET NEXT LINE FOR TESTER	*/
