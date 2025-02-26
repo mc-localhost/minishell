@@ -6,13 +6,13 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 17:53:31 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:03:31 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/minishell.h"
 
-t_global					g_global;
+t_global	g_global;
 
 static void	init_global(void)
 {
@@ -22,17 +22,10 @@ static void	init_global(void)
 	g_global.cmd_running = 0;
 }
 
-// void	leaks(void)
-// {
-// 	system("leaks minishell");
-// }
-
 static void	tokens_cleanup(t_data *data)
 {
 	free_all();
-	//printf("cleaned tokens\n");
 	unlink(HEREDOC_FILENAME);
-	//printf("cleaned heredoc\n");
 	data->input = NULL;
 	data->tokens = NULL;
 	data->final_tokens = NULL;
@@ -52,7 +45,8 @@ static void	add_level(t_data *data)
 		free(new_level);
 	}
 	else
-        add_env_var(&data->envs, create_env_var(ft_strdup("SHLVL"), ft_strdup("1")));
+		add_env_var(&data->envs, create_env_var(ft_strdup("SHLVL"),
+				ft_strdup("1")));
 	if (if_env_var(&data->envs, "OLDPWD"))
 	{
 		delete_env_var(&data->envs, "OLDPWD");
@@ -60,11 +54,23 @@ static void	add_level(t_data *data)
 	}
 }
 
+static void	execute_commands(t_data *data)
+{
+	g_global.cmd_running = 1;
+	signal(SIGQUIT, ctrl_backslash);
+	if (data->num_pipes >= 1)
+		execute_pipeline(data);
+	else
+		iterate_final_tokens(data, execute);
+	g_global.cmd_running = 0;
+	signal(SIGQUIT, SIG_IGN);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
 	char	*input;
-	int		active;
+	char 	*line;
 
 	(void)argv;
 	if (argc != 1)
@@ -77,34 +83,28 @@ int	main(int argc, char **argv, char **envp)
 	envp_to_list(&data, envp, 0);
 	add_level(&data);
 	setup_signals();
-	active = 1;
-	while (active == 1)
+	while (1)
 	{
 		// input = readline(PROMPT);
-
-		//START for tester
-		//to install tester
-		//	bash -c "$(curl -fsSL https://raw.githubusercontent.com/zstenger93/42_minishell_tester/master/install.sh)" 
-		//to run
-		//	mstest
+		
+		//	mstest part
 		if (isatty(fileno(stdin)))
-		{
 			input = readline(PROMPT);
-		}
 		else
 		{
-			char *line;
 			line = get_next_line(fileno(stdin));
 			if (!line)
-				break;
+				break ;
 			input = ft_strtrim(line, "\n");
 			free(line);
 		}
+		//enf of tester part
 		if (!input)
-        {
-            tokens_cleanup(&data);
-            break ;
-        }
+		{
+			tokens_cleanup(&data);
+			//add environment cleanup here or before final return
+			break ;
+		}
 		if (*input)
 		{
 			add_history(input);
@@ -115,14 +115,7 @@ int	main(int argc, char **argv, char **envp)
 				tokens_cleanup(&data);
 				continue ;
 			}
-			g_global.cmd_running = 1;
-			signal(SIGQUIT, ctrl_backslash);
-			if (data.num_pipes >= 1)
-				execute_pipeline(&data);
-			else
-				iterate_final_tokens(&data, execute);
-			g_global.cmd_running = 0;
-			signal(SIGQUIT, SIG_IGN);
+			execute_commands(&data);
 		}
 		free(input);
 		tokens_cleanup(&data);
