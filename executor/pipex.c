@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:47:33 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/26 19:06:58 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 23:46:45 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,16 @@ void	child(t_token *token, int *pipefd, t_data *data)
 	else
 	{
 		cmd = build_cmd_array(token);
-		if (!cmd)
+		if (cmd)
 		{
-			free_arr(envp);
-			exit(1);
+			single_exec(cmd, envp, token);
+			free(cmd);
 		}
-		single_exec(cmd, envp, token);
-		free(cmd);
+		else
+			g_global.last_exit_code = 1;
 	}
 	free_arr(envp);
+	clean_exit(data);
 }
 
 void	redirect_to_prev_fd(int prev_fd)
@@ -105,6 +106,7 @@ void	execute_pipeline(t_data *data)
 	int		parm[2];
 
 	parm[0] = -1;
+	parm[1] = 0;
 	current = data->final_tokens;
 	return (execute_pipx(current, pipefd, parm, data));
 }
