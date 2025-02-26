@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 13:44:45 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 13:24:54 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:34:08 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,8 @@ void	ctrl_c(int sig)
 	(void)sig;
 
 	g_global.last_exit_code = 1;
-	if (g_global.heredoc_running)
+	if (!g_global.heredoc_running)
 		ft_putstr_stderr("\n");
-	g_global.heredoc_running = 0;
 	if (g_global.cmd_running)
 	{
 		g_global.last_exit_code = 130;
@@ -52,6 +51,15 @@ void	ctrl_c(int sig)
 	rl_on_new_line();
 	rl_replace_line("", 0);
 	rl_redisplay();
+}
+
+void	ctrl_c_heredoc(int sig)
+{
+	(void)sig;
+
+	g_global.last_exit_code = 1;
+	g_global.heredoc_running = 0;
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");
 }
 
 void	setup_signals(void)

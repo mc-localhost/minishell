@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/23 22:38:40 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:32:08 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int				is_q_string(t_token_type type);
 int				is_string(t_token_type type);
 void			builtin_token(t_token *token);
 int				process_tokens(t_data *data);
-char			*handle_heredoc(t_token *token, t_data *data);
+int				handle_heredoc(t_token *token, t_data *data);
 int				parse(t_data *data);
 
 /*	SYNTAX	*/
@@ -142,6 +142,7 @@ void			set_redirect(t_token *token);
 
 /*	SIGNALS	*/
 void			ctrl_c(int sig);
+void			ctrl_c_heredoc(int sig);
 void			setup_signals(void);
 
 /*	GET NEXT LINE FOR TESTER	*/
