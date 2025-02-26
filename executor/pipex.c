@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:47:33 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/26 23:46:45 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 23:51:15 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	child(t_token *token, int *pipefd, t_data *data)
 	close(pipefd[0]);
 	close(pipefd[1]);
 	if (token->type == TOKEN_BUILTIN)
-		exe_builtin_cmd(token, data, 1);
+		g_global.last_exit_code = exe_builtin_cmd(token, data);
 	else
 	{
 		cmd = build_cmd_array(token);

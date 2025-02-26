@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 19:22:43 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 23:51:40 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	sys_cmd(char **cmd, char **envp, t_token *token)
 	return (g_global.last_exit_code);
 }
 
-int	exe_builtin_cmd(t_token *token, t_data *data, int fork)
+int	exe_builtin_cmd(t_token *token, t_data *data)
 {
 	int		saved_stdin;
 	int		saved_stdout;
@@ -71,8 +71,6 @@ int	exe_builtin_cmd(t_token *token, t_data *data, int fork)
 	dup2(saved_stdout, STDOUT_FILENO);
 	close(saved_stdin);
 	close(saved_stdout);
-	if (fork == 1)
-		exit(r);
 	return (r);
 }
 //	we don't need it anymore
@@ -95,7 +93,7 @@ void	execute(t_token *token, t_data *data)
 	char	**cmd;
 
 	if (token->type == TOKEN_BUILTIN && data->num_pipes == 0)
-		g_global.last_exit_code = exe_builtin_cmd(token, data, 0);
+		g_global.last_exit_code = exe_builtin_cmd(token, data);
 	else if (token->type == TOKEN_CMD)
 	{
 		cmd = build_cmd_array(token);

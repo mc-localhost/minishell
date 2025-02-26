@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 19:45:43 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 23:51:23 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int				clean_exit(t_data *data);
 char			**list_to_arr(t_env_node *current);
 char			**build_cmd_array(t_token *token);
 void			single_exec(char **cmd, char **env, t_token *token);
-int				exe_builtin_cmd(t_token *token, t_data *data, int fork);
+int				exe_builtin_cmd(t_token *token, t_data *data);
 void			execute(t_token *token, t_data *data);
 
 /*	PIPEX	*/
