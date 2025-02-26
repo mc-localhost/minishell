@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/23 18:57:53 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:30:46 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,9 @@ void	single_exec(char **cmd, char **env, t_token *token)
 	char	*path;
 
 	set_redirect(token);
-	path = find_path(cmd[0], env);
+	path = NULL;
+	if (ft_strlen(cmd[0]) > 0)
+		path = find_path(cmd[0], env);
 	if (!path)
 	{
 		ft_putstr_stderr("minishell: ");
