@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 17:48:59 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:08:15 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,12 +130,9 @@ char			**build_cmd_array(t_token *token);
 void			single_exec(char **cmd, char **env, t_token *token);
 int				exe_builtin_cmd(t_token *token, t_data *data, int fork);
 void			execute(t_token *token, t_data *data);
-void			execute_pipeline(t_data *data);
 
 /*	PIPEX	*/
-void			child(t_token *token, int *pipefd, t_data *data);
-void			parent(t_token *token, int *pipefd, t_data *data);
-int				pipex(t_token *token, t_data *data);
+void			execute_pipeline(t_data *data);
 
 /*	REDIRECTION	*/
 void			set_redirect(t_token *token);

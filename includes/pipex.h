@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 20:15:54 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/23 15:04:16 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:10:10 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 int		open_file(t_token_type type, char *filename, int output);
 void	error_exit(const char *msg, int r);
 int		ft_arr_size(char **str);
-char	**optmize_cmd(char **cmd, char *argv);
 void	free_arr(char **str);
 char	*find_path(char *cmd, char **envp);
 #endif

@@ -6,62 +6,11 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 20:11:27 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/26 18:27:59 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:09:52 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
-
-char	*quotation_fix(char *str)
-{
-	int	size;
-	int	x;
-
-	size = ft_strlen(str);
-	if (size > 2)
-	{
-		if (str[0] == 39 && str[1] == '"')
-		{
-			str = ft_strtrim(str, "\"'");
-			return (ft_strjoin("\"", ft_strjoin(str, "\"")));
-		}
-		if (str[0] == '"' && str[1] == 39)
-			return (ft_strtrim(str, "\""));
-		x = 0;
-		while (str[x])
-		{
-			if (str[x] == 39 || str[x] == '"')
-			{
-				str[x] = ' ';
-			}
-			x++;
-		}
-	}
-	return (str);
-}
-
-char	**optmize_cmd(char **cmd, char *argv)
-{
-	int	size;
-	int	x;
-
-	size = ft_arr_size(cmd);
-	x = 2;
-	if (size > 2 && (ft_strchr(argv, 39) || ft_strchr(argv, '"')))
-	{
-		while (size > 2)
-		{
-			cmd[1] = ft_strjoin(cmd[1], " ");
-			cmd[1] = ft_strjoin(cmd[1], cmd[x]);
-			free(cmd[x]);
-			cmd[x] = NULL;
-			x++;
-			size--;
-		}
-		cmd[1] = quotation_fix(cmd[1]);
-	}
-	return (cmd);
-}
 
 char	*get_path(char *cmd, char *envp)
 {

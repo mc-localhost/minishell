@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 19:02:20 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:06:48 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,56 +209,4 @@ void	execute(t_token *token, t_data *data)
 		free_arr(env);
 		free_arr(cmd);
 	}
-}
-void	redirect_to_prev_fd(int prev_fd)
-{
-	if (prev_fd != -1)
-	{
-		if (dup2(prev_fd, STDIN_FILENO) == -1)
-		{
-			perror("Dup2 failed (input)");
-			exit(errno);
-		}
-		close(prev_fd);
-	}
-}
-
-void	execute_pipeline_cmd(t_token *current, int pipefd[2], int parm[2], t_data *data)
-{
-	pid_t	pid;
-
-	while (current)
-	{
-		if (current->next && pipe(pipefd) == -1)
-			return (perror("Pipe failed"));
-		pid = fork();
-		if (pid == -1)
-			return (perror("Fork failed"));
-		if (pid == 0)
-			redirect_to_prev_fd(parm[0]);
-		if (pid == 0)
-			child(current, pipefd, data);
-		current = current->next;
-		if (parm[0] != -1)
-			close(parm[0]);
-		parm[0] = pipefd[0];
-		close(pipefd[1]);
-		if (!current)
-			waitpid(pid, &parm[1], 0);
-		if (WIFEXITED(parm[1]))
-			g_global.last_exit_code = WEXITSTATUS(parm[1]);
-	}
-}
-
-// parm[0] = prev_fd
-// parm[1] = r
-void	execute_pipeline(t_data *data)
-{
-	t_token	*current;
-	int		pipefd[2];
-	int		parm[2];
-
-	parm[0] = -1;
-	current = data->final_tokens;
-	return (execute_pipeline_cmd(current, pipefd, parm, data));
 }

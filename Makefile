@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+         #
+#    By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/10 15:49:58 by vvasiuko          #+#    #+#              #
-#    Updated: 2025/02/23 12:24:07 by vvasiuko         ###   ########.fr        #
+#    Updated: 2025/02/26 19:13:39 by aelaaser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SRC = main.c garbage_collector.c environment.c environment_to_list.c \
 	parser/iter.c \
 	builtins/builtin_exec.c builtins/cd.c builtins/exit.c \
 	builtins/pwd.c builtins/echo.c builtins/env.c builtins/env_ext.c builtins/export.c builtins/export_ext.c builtins/unset.c \
-	pipex/cmd_helper.c pipex/pipex.c pipex/utils.c \
+	executor/cmd_helper.c executor/pipex.c executor/utils.c \
 	executor.c \
 	redirection.c \
 	signals.c \

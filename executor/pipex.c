@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:47:33 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/23 13:24:59 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:06:58 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,47 +56,55 @@ void	child(t_token *token, int *pipefd, t_data *data)
 	free_arr(envp);
 }
 
-void	parent(t_token *token, int *pipefd, t_data *data)
+void	redirect_to_prev_fd(int prev_fd)
 {
-	char	**envp;
-	char	**cmd;
-
-	envp = list_to_arr(data->envs);
-	set_redirect(token);
-	dup2(pipefd[0], STDIN_FILENO);
-	close(pipefd[0]);
-	close(pipefd[1]);
-	if (token->type == TOKEN_BUILTIN)
-		exe_builtin_cmd(token, data, 1);
-	else
+	if (prev_fd != -1)
 	{
-		cmd = build_cmd_array(token);
-		if (!cmd)
+		if (dup2(prev_fd, STDIN_FILENO) == -1)
 		{
-			free_arr(envp);
-			exit(1);
+			perror("Dup2 failed (input)");
+			exit(errno);
 		}
-		single_exec(cmd, envp, token);
-		free(cmd);
+		close(prev_fd);
 	}
-	free_arr(envp);
 }
 
-int	pipex(t_token *token, t_data *data)
+void	execute_pipx(t_token *current, int pipefd[2], int parm[2], t_data *data)
 {
-	int		pipefd[2];
 	pid_t	pid;
 
-	if (pipe(pipefd) == -1)
-		return (errno);
-	pid = fork();
-	if (pid == -1)
-		return (errno);
-	if (pid == 0)
-		child(token, pipefd, data);
-	parent(token->next, pipefd, data);
-	waitpid(pid, NULL, 0);
-	close(pipefd[0]);
-	close(pipefd[1]);
-	return (0);
+	while (current)
+	{
+		if (current->next && pipe(pipefd) == -1)
+			return (perror("Pipe failed"));
+		pid = fork();
+		if (pid == -1)
+			return (perror("Fork failed"));
+		if (pid == 0)
+			redirect_to_prev_fd(parm[0]);
+		if (pid == 0)
+			child(current, pipefd, data);
+		current = current->next;
+		if (parm[0] != -1)
+			close(parm[0]);
+		parm[0] = pipefd[0];
+		close(pipefd[1]);
+		if (!current)
+			waitpid(pid, &parm[1], 0);
+		if (WIFEXITED(parm[1]))
+			g_global.last_exit_code = WEXITSTATUS(parm[1]);
+	}
+}
+
+// parm[0] = prev_fd
+// parm[1] = r
+void	execute_pipeline(t_data *data)
+{
+	t_token	*current;
+	int		pipefd[2];
+	int		parm[2];
+
+	parm[0] = -1;
+	current = data->final_tokens;
+	return (execute_pipx(current, pipefd, parm, data));
 }
