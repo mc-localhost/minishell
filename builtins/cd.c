@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 18:31:13 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/26 18:24:56 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:34:07 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,25 +70,30 @@ int	change_dir(char *path, t_data *data)
 	return (1);
 }
 
-int	cd(t_token *token, t_data *data)
+int	cd_on_home(t_token *token, t_data *data)
 {
 	char	*path;
 	char	*tmp;
 
+	tmp = ft_strtrim(token->args[0], "~");
+	if (!tmp)
+		return (error_notfound(token->args[0]));
+	path = ft_strjoin(find_env_var(&data->envs, "HOME"), tmp);
+	free(tmp);
+	if (change_dir(path, data) != 0)
+		return (free(path), error_notfound(token->args[0]));
+	else
+		return (free(path), 0);
+}
+
+int	cd(t_token *token, t_data *data)
+{
+	char	*path;
+
 	if (token->args_count == 0 || !ft_strcmp(token->args[0], "~"))
 		path = find_env_var(&data->envs, "HOME");
 	else if (token->args[0][0] == '~')
-	{
-		tmp = ft_strtrim(token->args[0], "~");
-		if (!tmp)
-			return (error_notfound(token->args[0]));
-		path = ft_strjoin(find_env_var(&data->envs, "HOME"), tmp);
-		free(tmp);
-		if (change_dir(path, data) != 0)
-			return (free(path), error_notfound(token->args[0]));
-		else
-			return (free(path), 0);
-	}
+		return (cd_on_home(token, data));
 	else if (!ft_strcmp(token->args[0], "-"))
 	{
 		path = find_env_var(&data->envs, "OLDPWD");
