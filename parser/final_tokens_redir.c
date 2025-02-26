@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 15:35:49 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 16:46:12 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:19:15 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,30 +59,28 @@ static void	skip_spaces(t_token **current)
 
 int	add_redirection_to_cmd(t_token *cmd, t_token **current_ptr, t_data *data)
 {
-	t_token			*current;
 	t_redirection	*redir;
 
-	current = *current_ptr;
-	redir = init_redir(&current);
-	skip_spaces(&current);
-	if (current && is_string(current->type))
+	redir = init_redir(current_ptr);
+	skip_spaces(current_ptr);
+	if (*current_ptr && is_string((*current_ptr)->type))
 	{
 		if (redir->type == TOKEN_HEREDOC)
 		{
-			if (handle_heredoc(current, current->value, data) == EXIT_FAILURE)
+			if (handle_heredoc(*current_ptr, (*current_ptr)->value,
+					data) == EXIT_FAILURE)
 				return (EXIT_FAILURE);
 			redir->file = ft_strdup_safe(HEREDOC_FILENAME);
 		}
 		else
-			redir->file = ft_strdup_safe(current->value);
-		current->type = PROCESSED;
+			redir->file = ft_strdup_safe((*current_ptr)->value);
+		(*current_ptr)->type = PROCESSED;
 	}
 	else
-		return (print_syntax_error(current));
+		return (print_syntax_error(*current_ptr));
 	if (redir->type == TOKEN_REDIRECT_IN || redir->type == TOKEN_HEREDOC)
 		add_redir_to_end(&cmd->redirections_in, redir);
 	else
 		add_redir_to_end(&cmd->redirections_out, redir);
-	*current_ptr = current;
 	return (EXIT_SUCCESS);
 }
