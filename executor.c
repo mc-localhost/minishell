@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 15:30:46 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:39:21 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	single_exec(char **cmd, char **env, t_token *token)
 
 	set_redirect(token);
 	path = NULL;
-	if (ft_strlen(cmd[0]) > 0)
+	if (ft_strlen(cmd[0]) > 0 || (ft_strlen(cmd[0]) == 1 && !is_valid_identifier(cmd[0])))
 		path = find_path(cmd[0], env);
 	if (!path)
 	{
@@ -141,6 +141,8 @@ int	sys_cmd(char **cmd, char **envp, t_token *token)
 		single_exec(cmd, envp, token);
 	waitpid(pid, &r, 0);
 	r =  WEXITSTATUS(r);
+	if (!r)
+		g_global.last_exit_code  = r;
 	return (r);
 }
 
