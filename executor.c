@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 18:50:58 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:02:20 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,19 +223,10 @@ void	redirect_to_prev_fd(int prev_fd)
 	}
 }
 
-// parm[0] = prev_fd
-// parm[1] = r
-// parm[2] = i
-void	execute_pipeline(t_data *data)
+void	execute_pipeline_cmd(t_token *current, int pipefd[2], int parm[2], t_data *data)
 {
-	t_token	*current;
 	pid_t	pid;
-	int		pipefd[2];
-	int		parm[3];
 
-	parm[0] = -1;
-	parm[2] = 0;
-	current = data->final_tokens;
 	while (current)
 	{
 		if (current->next && pipe(pipefd) == -1)
@@ -252,10 +243,22 @@ void	execute_pipeline(t_data *data)
 			close(parm[0]);
 		parm[0] = pipefd[0];
 		close(pipefd[1]);
-		if (parm[2] != 0)
+		if (!current)
 			waitpid(pid, &parm[1], 0);
-		parm[2]++;
 		if (WIFEXITED(parm[1]))
 			g_global.last_exit_code = WEXITSTATUS(parm[1]);
 	}
+}
+
+// parm[0] = prev_fd
+// parm[1] = r
+void	execute_pipeline(t_data *data)
+{
+	t_token	*current;
+	int		pipefd[2];
+	int		parm[2];
+
+	parm[0] = -1;
+	current = data->final_tokens;
+	return (execute_pipeline_cmd(current, pipefd, parm, data));
 }
