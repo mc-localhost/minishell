@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 20:11:27 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/26 16:55:33 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:27:59 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ char	*find_path(char *cmd, char **envp)
 	if (cmd[0] == '~')
 	{
 		cmd = ft_strtrim(cmd, "~");
-		cmd = ft_strtrim(cmd, "/");
 		while (envp[i] && ft_strnstr(envp[i], "HOME", 4) == 0)
 			i++;
 		if (!envp[i])
