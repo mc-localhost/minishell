@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 23:51:23 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 00:44:26 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,8 @@ int				clean_exit(t_data *data);
 /*	EXECUTOR	*/
 char			**list_to_arr(t_env_node *current);
 char			**build_cmd_array(t_token *token);
-void			single_exec(char **cmd, char **env, t_token *token);
+void			single_exec(char **cmd, char **env, t_token *token,
+					t_data *data);
 int				exe_builtin_cmd(t_token *token, t_data *data);
 void			execute(t_token *token, t_data *data);
 
@@ -140,7 +141,7 @@ char			*join_key_value(char *key, char *value);
 int				count_nodes(t_env_node *current);
 void			envp_to_list(t_data *data, char **envp, int i);
 /*	REDIRECTION	*/
-void			set_redirect(t_token *token);
+void			set_redirect(t_token *token, t_data *data);
 
 /*	SIGNALS	*/
 void			ctrl_c(int sig);

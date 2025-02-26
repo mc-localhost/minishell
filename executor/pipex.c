@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:47:33 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/26 23:51:15 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 00:37:48 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	child(t_token *token, int *pipefd, t_data *data)
 	char	**cmd;
 
 	envp = list_to_arr(data->envs);
-	set_redirect(token);
+	set_redirect(token, data);
 	dup2(pipefd[1], STDOUT_FILENO);
 	close(pipefd[0]);
 	close(pipefd[1]);
@@ -47,7 +47,7 @@ void	child(t_token *token, int *pipefd, t_data *data)
 		cmd = build_cmd_array(token);
 		if (cmd)
 		{
-			single_exec(cmd, envp, token);
+			single_exec(cmd, envp, token, data);
 			free(cmd);
 		}
 		else

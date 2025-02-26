@@ -6,13 +6,13 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 20:19:56 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/26 19:25:36 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 00:36:26 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 
-void	error_exit(const char *msg, int r)
+void	error_exit(const char *msg, int r, t_data *data)
 {
 	if (ft_strlen(msg) == 0)
 		msg = strerror(errno);
@@ -20,7 +20,8 @@ void	error_exit(const char *msg, int r)
 	ft_putstr_stderr("\n");
 	if (r == 0)
 		r = errno;
-	exit(r);
+	g_global.last_exit_code = r;
+	clean_exit(data);
 }
 
 int	ft_arr_size(char **arr)
