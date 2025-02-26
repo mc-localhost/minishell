@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 21:56:43 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/23 18:02:25 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:02:26 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ int	env_cmd_error(t_token *token)
 void	print_env_list_sorted(t_env_node *current)
 {
 	t_env_node	*sorted_list;
+	t_env_node	*env_copy;
 
 	sorted_list = copy_env_list(current);
+	env_copy = sorted_list;
 	bash_sort_env_list(sorted_list);
 	while (sorted_list)
 	{
@@ -46,7 +48,7 @@ void	print_env_list_sorted(t_env_node *current)
 			printf("%s=%s\n", sorted_list->key, sorted_list->value);
 		sorted_list = sorted_list->next;
 	}
-	free_env_list(sorted_list);
+	free_env_list(env_copy);
 }
 
 int	env(t_token *token, t_data *data)

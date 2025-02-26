@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 22:19:20 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/23 20:15:36 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:03:12 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,10 @@ int	is_valid_identifier(const char *str)
 int	export_env_list_sorted(t_env_node *current)
 {
 	t_env_node	*env;
+	t_env_node	*env_copy;
 
 	env = copy_env_list(current);
+	env_copy = env;
 	sort_env_list(env);
 	while (env)
 	{
@@ -49,7 +51,7 @@ int	export_env_list_sorted(t_env_node *current)
 			printf("declare -x %s\n", env->key);
 		env = env->next;
 	}
-	free_env_list(env);
+	free_env_list(env_copy);
 	return (0);
 }
 
