@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/27 01:17:00 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 01:44:55 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ int	main(int argc, char **argv, char **envp)
 	data = init_global(argc, argv, envp);
 	while (1)
 	{
-		//	mstest part
 		if (isatty(fileno(stdin)))
 			data.input = readline(PROMPT);
 		else
@@ -100,15 +99,12 @@ int	main(int argc, char **argv, char **envp)
 			data.input = ft_strtrim(line, "\n");
 			free(line);
 		}
-		//enf of tester part
 		if (!data.input)
 			break ;
 		if (*data.input)
-		{
 			add_history(data.input);
-			if (parse(&data) != EXIT_FAILURE)
-				execute_commands(&data);
-		}
+		if (parse(&data) != EXIT_FAILURE)
+			execute_commands(&data);
 		tokens_cleanup(&data);
 	}
 	return (clean_exit(&data));

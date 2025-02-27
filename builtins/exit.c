@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:56 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 19:46:59 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 01:48:09 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int	ft_isnum(char *str)
 
 int	custom_exit(t_token *token, t_data *data)
 {
-	// ft_putstr_stderr("exit\n"); uncomment after testing is done
 	if (token->args_count >= 1)
 	{
 		if (ft_isnum(token->args[0]) <= 0)
@@ -71,17 +70,16 @@ int	custom_exit(t_token *token, t_data *data)
 		else if (token->args_count > 1)
 		{
 			g_global.last_exit_code = 1;
-			return (ft_putstr_stderr("minishell: exit: too many arguments\n"),
+			return (
+				ft_putstr_stderr("exit\nminishell: exit: too many arguments\n"),
 				1);
 		}
 		else if (token->args_count == 1)
 			g_global.last_exit_code = ft_atoi_exit(token->args[0]);
 	}
-	free_all();
-	free_env(data);
-	unlink(HEREDOC_FILENAME);
-	rl_clear_history();
-	exit(g_global.last_exit_code);
+	// if (g_global.last_exit_code != 255)
+	// 	printf("exit\n");
+	return (clean_exit(data));
 }
 
 int	clean_exit(t_data *data)
