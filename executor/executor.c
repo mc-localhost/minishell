@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/27 05:39:00 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 08:14:56 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ void	single_exec(char **cmd, char **env, t_token *token, t_data *data)
 		print_exec_error(cmd[0], data, 127);
 	if (execve(path, cmd, env) == -1)
 	{
-		// free(path);
 		if (errno == 2)
 			print_exec_error(path, data, 127);
 		print_exec_error(path, data, 126);
