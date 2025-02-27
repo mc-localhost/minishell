@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 19:52:16 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 01:17:00 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,12 @@
 
 t_global	g_global;
 
-static void	init_global(void)
-{
-	g_global.last_exit_code = 0;
-	g_global.garbage_list = NULL;
-	g_global.heredoc_running = 0;
-	g_global.cmd_running = 0;
-}
-
 void	tokens_cleanup(t_data *data)
 {
 	free_all();
 	unlink(HEREDOC_FILENAME);
+	if (data->input)
+		free(data->input);
 	data->input = NULL;
 	data->tokens = NULL;
 	data->final_tokens = NULL;
@@ -66,11 +60,9 @@ static void	execute_commands(t_data *data)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-int	main(int argc, char **argv, char **envp)
+static t_data	init_global(int argc, char **argv, char **envp)
 {
 	t_data	data;
-	char	*input;
-	char	*line;
 
 	(void)argv;
 	if (argc != 1)
@@ -78,44 +70,45 @@ int	main(int argc, char **argv, char **envp)
 		printf("This program doesn't take any arguments.\n");
 		exit(EXIT_FAILURE);
 	}
-	init_global();
+	g_global.last_exit_code = 0;
+	g_global.garbage_list = NULL;
+	g_global.heredoc_running = 0;
+	g_global.cmd_running = 0;
 	ft_memset(&data, 0, sizeof(data));
 	envp_to_list(&data, envp, 0);
 	add_level(&data);
 	setup_signals();
+	return (data);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_data	data;
+	char	*line;
+
+	data = init_global(argc, argv, envp);
 	while (1)
 	{
-		// input = readline(PROMPT);
 		//	mstest part
 		if (isatty(fileno(stdin)))
-			input = readline(PROMPT);
+			data.input = readline(PROMPT);
 		else
 		{
 			line = get_next_line(fileno(stdin));
 			if (!line)
 				break ;
-			input = ft_strtrim(line, "\n");
+			data.input = ft_strtrim(line, "\n");
 			free(line);
 		}
 		//enf of tester part
-		if (!input)
-		{
-			tokens_cleanup(&data);
+		if (!data.input)
 			break ;
-		}
-		if (*input)
+		if (*data.input)
 		{
-			add_history(input);
-			data.input = input;
-			if (parse(&data) == EXIT_FAILURE)
-			{
-				free(input);
-				tokens_cleanup(&data);
-				continue ;
-			}
-			execute_commands(&data);
+			add_history(data.input);
+			if (parse(&data) != EXIT_FAILURE)
+				execute_commands(&data);
 		}
-		free(input);
 		tokens_cleanup(&data);
 	}
 	return (clean_exit(&data));
