@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:56 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/27 08:03:18 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 15:55:07 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	custom_exit(t_token *token, t_data *data)
 		{
 			g_global.last_exit_code = 1;
 			return (
-				ft_putstr_stderr("exit\nminishell: exit: too many arguments\n"),
+				ft_putstr_stderr("minishell: exit: too many arguments\n"),
 				1);
 		}
 		else if (token->args_count == 1)

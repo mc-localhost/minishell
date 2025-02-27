@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 19:19:07 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/27 06:03:30 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 16:18:54 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,8 @@ char	*join_key_value(char *key, char *value)
 
 int	is_directory(const char *path)
 {
-	DIR	*dir;
+	DIR			*dir;
 
-	if (ft_strcmp(path, ".") || ft_strcmp(path, ".."))
-		return (1);
 	dir = opendir(path);
 	if (dir == NULL)
 		return (0);
