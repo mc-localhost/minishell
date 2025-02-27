@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:55 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/27 18:33:57 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 19:07:21 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,39 @@ char	*esc_chart(char	*str)
 	return (s);
 }
 
+
+void	echo_out(char *str, int c)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\\')
+		{
+			if (str[i + 1] == '\\')
+			{
+				printf("\\");
+				i++;
+			}
+    		else if (str[i + 1] == 'n')
+			{
+				printf("\\n");
+				i++;
+			} 
+			else if (str[i + 1] == 't')
+			{
+				printf("\\t");
+				i++;
+			}
+		}
+		else
+			printf("%c", str[i]);
+        i++;
+    }
+	printf("%c", c);
+}
+
 int	echo(t_token *token)
 {
 	int	i;
@@ -94,10 +127,10 @@ int	echo(t_token *token)
 			i = 0;
 			while (i < token->args_count - 1)
 			{
-				printf("%s ", token->args[i]);
+				echo_out(token->args[i], ' ');
 				i++;
 			}
-			printf("%s\n", token->args[i]);
+			echo_out(token->args[i], '\n');
 		}
 	}
 	else
