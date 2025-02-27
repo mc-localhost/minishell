@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/27 16:31:18 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:17:07 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,13 @@ void	print_exec_error(char *cmd, t_data *data, int type)
 	{
 		ft_putstr_stderr(cmd);
 		ft_putstr_stderr(": ");
-		if (is_directory(cmd) && !ft_strchr(cmd, '/'))
+		if (!is_directory(cmd) && !ft_strchr(cmd, '/'))
 			type = 127;
 		free(cmd);
 		if (type == 127)
 			error_exit("command not found", type, data);
+		if (type == 126)
+			error_exit("Permission denied", type, data);
 		error_exit("", type, data);
 	}
 }
