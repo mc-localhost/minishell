@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
+/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/27 08:02:34 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 10:51:08 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,21 +85,11 @@ static t_data	init_global(int argc, char **argv, char **envp)
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
-	char	*line;
 
 	data = init_global(argc, argv, envp);
 	while (1)
 	{
-		if (isatty(fileno(stdin)))
-			data.input = readline(PROMPT);
-		else
-		{
-			line = get_next_line(fileno(stdin));
-			if (!line)
-				break ;
-			data.input = ft_strtrim(line, "\n");
-			free(line);
-		}
+		data.input = readline(PROMPT);
 		if (!data.input)
 			break ;
 		if (*data.input)
@@ -110,3 +100,16 @@ int	main(int argc, char **argv, char **envp)
 	}
 	return (clean_exit(&data));
 }
+
+/* for tester */
+// char	*line;
+		// if (isatty(fileno(stdin)))
+		// 	data.input = readline(PROMPT);
+		// else
+		// {
+		// 	line = get_next_line(fileno(stdin));
+		// 	if (!line)
+		// 		break ;
+		// 	data.input = ft_strtrim(line, "\n");
+		// 	free(line);
+		// }
