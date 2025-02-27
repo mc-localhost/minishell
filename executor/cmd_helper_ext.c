@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 19:19:07 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/26 19:23:32 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 06:03:30 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,27 @@ int	count_nodes(t_env_node *current)
 		current = current->next;
 	}
 	return (len);
+}
+
+char	**build_cmd_array(t_token *token)
+{
+	char	**result;
+	int		i;
+
+	result = (char **)malloc((token->args_count + 2) * sizeof(char *));
+	if (!result)
+		return (NULL);
+	result[0] = ft_strdup(token->value);
+	if (!result[0])
+		return (free(result), NULL);
+	i = 0;
+	while (token->args[i])
+	{
+		result[i + 1] = ft_strdup(token->args[i]);
+		if (!result[i + 1])
+			return (free_arr(result), NULL);
+		i++;
+	}
+	result[i + 1] = NULL;
+	return (result);
 }

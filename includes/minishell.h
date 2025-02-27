@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/27 04:01:29 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 04:55:24 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ void			execute(t_token *token, t_data *data);
 void			execute_pipeline(t_data *data);
 
 /*	CMD_HELPERS	*/
+int				is_directory(const char *path);
 char			*join_key_value(char *key, char *value);
 int				count_nodes(t_env_node *current);
 void			envp_to_list(t_data *data, char **envp, int i);

@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 20:11:27 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/26 19:37:45 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 06:03:38 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,23 @@ char	*get_path(char *cmd, char *envp)
 	return (0);
 }
 
+char	*get_path_with_home(char *cmd, char **envp)
+{
+	char	*path;
+	int		i;
+	char	*tmp;
+
+	i = 0;
+	while (envp[i] && ft_strnstr(envp[i], "HOME", 4) == 0)
+		i++;
+	if (!envp[i])
+		return (0);
+	tmp = ft_strtrim(cmd, "~");
+	path = ft_strjoin(envp[i] + 5, tmp);
+	free(tmp);
+	return (path);
+}
+
 char	*find_path(char *cmd, char **envp)
 {
 	int		i;
@@ -47,14 +64,7 @@ char	*find_path(char *cmd, char **envp)
 		return (cmd);
 	i = 0;
 	if (cmd[0] == '~')
-	{
-		cmd = ft_strtrim(cmd, "~");
-		while (envp[i] && ft_strnstr(envp[i], "HOME", 4) == 0)
-			i++;
-		if (!envp[i])
-			return (0);
-		return (get_path(cmd, envp[i]));
-	}
+		return (get_path_with_home(cmd, envp));
 	if (ft_strchr(cmd, '/'))
 		return (0);
 	while (envp[i] && ft_strnstr(envp[i], "PATH", 4) == 0)
@@ -89,29 +99,6 @@ char	**build_array(t_env_node *current, int len)
 	return (result);
 }
 
-char	**build_cmd_array(t_token *token)
-{
-	char	**result;
-	int		i;
-
-	result = (char **)malloc((token->args_count + 2) * sizeof(char *));
-	if (!result)
-		return (NULL);
-	result[0] = ft_strdup(token->value);
-	if (!result[0])
-		return (free(result), NULL);
-	i = 0;
-	while (token->args[i])
-	{
-		result[i + 1] = ft_strdup(token->args[i]);
-		if (!result[i + 1])
-			return (free_arr(result), NULL);
-		i++;
-	}
-	result[i + 1] = NULL;
-	return (result);
-}
-
 // Main function to convert linked list to array
 char	**list_to_arr(t_env_node *current)
 {
@@ -122,3 +109,4 @@ char	**list_to_arr(t_env_node *current)
 		return (NULL);
 	return (build_array(current, len));
 }
+

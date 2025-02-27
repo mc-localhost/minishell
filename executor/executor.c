@@ -6,11 +6,38 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/27 00:37:40 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 05:39:00 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	print_exec_error(char *cmd, t_data *data, int type)
+{
+	ft_putstr_stderr("minishell: ");
+	if (!ft_strcmp(cmd, "."))
+	{
+		ft_putstr_stderr("filename argument required\n");
+		error_exit(".: usage: . filename [arguments]", 127, data);
+	}
+	else if (is_directory(cmd) && ft_strchr(cmd, '/'))
+	{
+		ft_putstr_stderr(cmd);
+		free(cmd);
+		error_exit(": is a directory", type, data);
+	}
+	else
+	{
+		ft_putstr_stderr(cmd);
+		ft_putstr_stderr(": ");
+		if (is_directory(cmd) && !ft_strchr(cmd, '/'))
+			type = 127;
+		free(cmd);
+		if (type == 127)
+			error_exit("command not found", type, data);
+		error_exit("", type, data);
+	}
+}
 
 void	single_exec(char **cmd, char **env, t_token *token, t_data *data)
 {
@@ -21,19 +48,13 @@ void	single_exec(char **cmd, char **env, t_token *token, t_data *data)
 	if (ft_strlen(cmd[0]) > 0)
 		path = find_path(cmd[0], env);
 	if (!path)
-	{
-		ft_putstr_stderr("minishell: ");
-		write(STDERR_FILENO, cmd[0], ft_strlen(cmd[0]));
-		write(STDERR_FILENO, ": ", 2);
-		error_exit("", 127, data);
-	}
+		print_exec_error(cmd[0], data, 127);
 	if (execve(path, cmd, env) == -1)
 	{
-		ft_putstr_stderr("minishell: ");
-		write(STDERR_FILENO, cmd[0], ft_strlen(cmd[0]));
-		write(STDERR_FILENO, ": ", 2);
-		free(path);
-		error_exit("", 126, data);
+		// free(path);
+		if (errno == 2)
+			print_exec_error(path, data, 127);
+		print_exec_error(path, data, 126);
 	}
 	free(path);
 }
