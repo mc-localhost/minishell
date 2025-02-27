@@ -6,7 +6,7 @@
 /*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:56 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/27 11:22:42 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/27 12:13:46 by vvasiuko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ int	ft_isnum(char *str)
 
 int	custom_exit(t_token *token, t_data *data)
 {
-	ft_putstr_stderr("exit\n");
+	if (!data->is_active)
+		ft_putstr_stderr("exit\n");
 	if (token->args_count >= 1)
 	{
 		if (ft_isnum(token->args[0]) <= 0)
@@ -72,7 +73,7 @@ int	custom_exit(t_token *token, t_data *data)
 		{
 			g_global.last_exit_code = 1;
 			return (
-				ft_putstr_stderr("exit\nminishell: exit: too many arguments\n"),
+				ft_putstr_stderr("minishell: exit: too many arguments\n"),
 				1);
 		}
 		else if (token->args_count == 1)
