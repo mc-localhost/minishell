@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 12:14:06 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/26 16:47:26 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/27 02:55:59 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,25 +48,25 @@ int	handle_heredoc(t_token *token, char	*delim, t_data *data)
 {
 	char	*input;
 	int		to_expand;
+	char	*expanded_input;
 	int		fd;
 
 	fd = open(HEREDOC_FILENAME, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	to_expand = !is_q_string(token->type);
 	g_global.heredoc_running = 1;
 	signal(SIGINT, ctrl_c_heredoc);
-	while (g_global.heredoc_running)
+	while (g_global.heredoc_running && to_expand)
 	{
 		input = readline(HEREDOC_PROMPT);
 		if (!input || !ft_strcmp(input, delim))
 			break ;
-		if (to_expand)
-			input = expand(input, data);
+		expanded_input = expand(input, data);
+		free(input);
+		input = expanded_input;
 		if (!g_global.heredoc_running)
 			return (heredoc_exit(fd, EXIT_FAILURE));
 		write(fd, input, ft_strlen(input));
 		write(fd, "\n", 1);
-		if (!to_expand)
-			free(input);
 	}
 	if (input)
 		free(input);
