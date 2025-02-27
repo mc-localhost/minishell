@@ -6,29 +6,11 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 22:19:20 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/26 17:27:29 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 09:57:26 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	is_valid_identifier(const char *str)
-{
-	int	i;
-
-	if (str == NULL || str[0] == '\0')
-		return (0);
-	if (!(ft_isalpha(str[0]) || str[0] == '_'))
-		return (0);
-	i = 1;
-	while (str[i] != '\0')
-	{
-		if (!(ft_isalnum(str[i]) || str[i] == '_'))
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 int	export_env_list_sorted(t_env_node *current)
 {
@@ -85,29 +67,60 @@ int	emty_env_var(char *token, t_data *data)
 	return (0);
 }
 
+int	export_plus(char *token, t_data *data)
+{
+	char	**arr;
+	char	*key;
+	char	*oldval;
+	char	*newval;
+
+	arr = ft_split(token, '=');
+	if (arr[0] && arr[0][ft_strlen(arr[0]) - 1] == '+'
+		&& arr[0][ft_strlen(arr[0]) - 2] != '+')
+	{
+		key = ft_strtrim(arr[0], "+");
+		newval = NULL;
+		oldval = find_env_var(&data->envs, key);
+		if (!if_env_var(&data->envs, key))
+			emty_env_var(key, data);
+		if (arr[1])
+		{
+			newval = ft_strjoin(oldval, arr[1]);
+			change_env_var(&data->envs, key, newval);
+			free(newval);
+		}
+		free(key);
+	}
+	else
+		return (free_arr(arr), print_export_error(token, "export"));
+	return (free_arr(arr), 0);
+}
+
 int	export(t_token *token, t_data *data)
 {
-	int	i;
-	int	r;
-	int	e;
+	int	i[3];
 
-	i = 0;
-	e = 0;
-	r = 0;
+	i[0] = 0;
+	i[1] = 0;
+	i[2] = 0;
 	if (token->args_count > 0)
 	{
-		while (i < token->args_count)
+		while (i[0] < token->args_count)
 		{
-			if (ft_strchr(token->args[i], '=') && ft_strlen(token->args[i]) > 1)
-				r = upd_env(token->args[i], data);
-			else if (!if_env_var(&data->envs, token->args[i]))
-				r = emty_env_var(token->args[i], data);
-			if (r != 0)
-				e = r;
-			i++;
+			if (ft_strchr(token->args[i[0]], '+')
+				&& ft_strchr(token->args[i[0]], '='))
+				i[1] = export_plus(token->args[i[0]], data);
+			else if (ft_strchr(token->args[i[0]], '=')
+				&& ft_strlen(token->args[i[0]]) > 1)
+				i[1] = upd_env(token->args[i[0]], data);
+			else if (!if_env_var(&data->envs, token->args[i[0]]))
+				i[1] = emty_env_var(token->args[i[0]], data);
+			if (i[1] != 0)
+				i[2] = i[1];
+			i[0]++;
 		}
 	}
 	else
-		e = export_env_list_sorted(data->envs);
-	return (e);
+		i[2] = export_env_list_sorted(data->envs);
+	return (i[2]);
 }
