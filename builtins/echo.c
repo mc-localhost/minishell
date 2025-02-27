@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:55 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/27 19:07:21 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 19:15:34 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,6 @@ static int	check_n_flag(t_token *token)
 	return (start);
 }
 
-static int	echo_n(t_token *token, int start)
-{
-	int	i;
-
-	i = start;
-	while (i < token->args_count - 1)
-	{
-		printf("%s ", token->args[i]);
-		i++;
-	}
-	if (token->args[i])
-		printf("%s", token->args[i]);
-	return (0);
-}
 // in case if we want to use esc chart
 char	*esc_chart(char	*str)
 {
@@ -109,7 +95,23 @@ void	echo_out(char *str, int c)
 			printf("%c", str[i]);
         i++;
     }
-	printf("%c", c);
+	if (c != '0')
+		printf("%c", c);
+}
+
+static int	echo_n(t_token *token, int start)
+{
+	int	i;
+
+	i = start;
+	while (i < token->args_count - 1)
+	{
+		echo_out(token->args[i], ' ');
+		i++;
+	}
+	if (token->args[i])
+		echo_out(token->args[i], '0');
+	return (0);
 }
 
 int	echo(t_token *token)
