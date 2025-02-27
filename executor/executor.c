@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/27 08:14:56 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 08:17:01 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,19 +93,6 @@ int	exe_builtin_cmd(t_token *token, t_data *data)
 	close(saved_stdout);
 	return (r);
 }
-//	we don't need it anymore
-// int	builtin_cmd(t_token *token, t_data *data)
-// {
-// 	pid_t	pid;
-
-//     pid = fork();
-//     if (pid == -1)
-//         error_exit("Fork failed");
-//     if (pid == 0)
-//         exe_builtin_cmd(token, data, 1);
-//     waitpid(pid, NULL, 0);
-// 	return (0);
-// }
 
 void	execute(t_token *token, t_data *data)
 {
