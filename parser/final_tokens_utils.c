@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   final_tokens_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vvasiuko <vvasiuko@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/16 18:11:18 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/23 12:53:15 by vvasiuko         ###   ########.fr       */
+/*   Updated: 2025/02/27 04:02:45 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ void	builtin_token(t_token *token)
 	i = 0;
 	while (i < num_builtins)
 	{
-		if (!ft_strcmp(token->value, builtins[i]))
+		if (!ft_strcmp(token->value, builtins[i])
+			|| (ft_strlen(token->value) == 4 && ist_echo(token->value))
+			|| (ft_strlen(token->value) == 3 && ist_env(token->value)))
 		{
 			token->type = TOKEN_BUILTIN;
 			break ;

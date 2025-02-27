@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/27 00:44:26 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 04:01:29 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ void			builtin_token(t_token *token);
 int				process_tokens(t_data *data);
 int				handle_heredoc(t_token *token, char *delim, t_data *data);
 int				parse(t_data *data);
+int				ist_echo(char *str);
+int				ist_env(char *str);
 
 /*	SYNTAX	*/
 int				print_syntax_error(t_token *token);
