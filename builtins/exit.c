@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:56 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/27 01:48:09 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 08:03:18 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,10 @@ int	custom_exit(t_token *token, t_data *data)
 int	clean_exit(t_data *data)
 {
 	tokens_cleanup(data);
+	if (!data->is_active)
+		unlink(HEREDOC_FILENAME);
 	free_all();
 	free_env(data);
-	unlink(HEREDOC_FILENAME);
 	rl_clear_history();
 	exit(g_global.last_exit_code);
 }

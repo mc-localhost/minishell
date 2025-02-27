@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/27 01:44:55 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 08:02:34 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ t_global	g_global;
 void	tokens_cleanup(t_data *data)
 {
 	free_all();
-	unlink(HEREDOC_FILENAME);
+	if (!data->is_active)
+		unlink(HEREDOC_FILENAME);
 	if (data->input)
 		free(data->input);
 	data->input = NULL;

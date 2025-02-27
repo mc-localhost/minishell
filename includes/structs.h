@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:05:01 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/23 20:50:38 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 08:02:00 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_data
 	t_token					*tokens;
 	t_token					*final_tokens;
 	int						num_pipes;
+	int						is_active;
 	t_env_node				*envs;
 }							t_data;
 

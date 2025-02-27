@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:47:33 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/27 00:37:48 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 08:03:58 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void	execute_pipx(t_token *current, int pipefd[2], int parm[2], t_data *data)
 {
 	pid_t	pid;
 
+	data->is_active = 1;
 	while (current)
 	{
 		if (current->next && pipe(pipefd) == -1)
@@ -95,6 +96,7 @@ void	execute_pipx(t_token *current, int pipefd[2], int parm[2], t_data *data)
 		if (WIFEXITED(parm[1]))
 			g_global.last_exit_code = WEXITSTATUS(parm[1]);
 	}
+	data->is_active = 0;
 }
 
 // parm[0] = prev_fd
