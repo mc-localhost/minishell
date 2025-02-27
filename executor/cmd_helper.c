@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 20:11:27 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/27 06:03:38 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/02/27 08:08:10 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,3 @@ char	**list_to_arr(t_env_node *current)
 		return (NULL);
 	return (build_array(current, len));
 }
-
