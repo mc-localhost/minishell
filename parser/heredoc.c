@@ -44,29 +44,52 @@ static int	heredoc_exit(int fd, int flag)
 	return (flag);
 }
 
+int	handle_heredoc_expanded(char	*delim, t_data *data)
+{
+	char	*input;
+	int		fd;
+	char	*expanded;
+
+	fd = open(HEREDOC_FILENAME, O_CREAT | O_RDWR | O_TRUNC, 0644);
+	while (g_global.heredoc_running)
+	{
+		input = readline(HEREDOC_PROMPT);
+		if (!input || !ft_strcmp(input, delim))
+			break ;
+		expanded = expand(input, data);
+		free(input);
+		if (!g_global.heredoc_running)
+			return (heredoc_exit(fd, EXIT_FAILURE));
+		write(fd, expanded, ft_strlen(expanded));
+		write(fd, "\n", 1);
+	}
+	if (input)
+		free(input);
+	return (heredoc_exit(fd, EXIT_SUCCESS));
+}
+
 int	handle_heredoc(t_token *token, char	*delim, t_data *data)
 {
 	char	*input;
 	int		to_expand;
 	int		fd;
 
-	fd = open(HEREDOC_FILENAME, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	to_expand = !is_q_string(token->type);
 	g_global.heredoc_running = 1;
 	signal(SIGINT, ctrl_c_heredoc);
+	if (to_expand)
+		return (handle_heredoc_expanded(delim, data));
+	fd = open(HEREDOC_FILENAME, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	while (g_global.heredoc_running)
 	{
 		input = readline(HEREDOC_PROMPT);
 		if (!input || !ft_strcmp(input, delim))
 			break ;
-		if (to_expand)
-			input = expand(input, data);
 		if (!g_global.heredoc_running)
-			return (heredoc_exit(fd, EXIT_FAILURE));
+			return (free(input), heredoc_exit(fd, EXIT_FAILURE));
 		write(fd, input, ft_strlen(input));
 		write(fd, "\n", 1);
-		if (!to_expand)
-			free(input);
+		free(input);
 	}
 	if (input)
 		free(input);
