@@ -49,7 +49,7 @@ static void	add_level(t_data *data)
 	}
 }
 
-static void	execute_commands(t_data *data)
+void	execute_commands(t_data *data)
 {
 	g_global.cmd_running = 1;
 	signal(SIGQUIT, ctrl_backslash);

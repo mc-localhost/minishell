@@ -42,6 +42,7 @@
 /*	F 	U 	N 	C 	T 	I 	O 	N 	S	*/
 
 void			tokens_cleanup(t_data *data);
+void			execute_commands(t_data *data);
 /*	GARBAGE COLLECTOR	*/
 void			*safe_malloc(size_t size);
 void			free_all(void);
