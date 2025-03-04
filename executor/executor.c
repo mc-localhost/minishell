@@ -67,8 +67,8 @@ int	sys_cmd(char **cmd, char **envp, t_token *token, t_data *data)
 	int		r;
 
 	r = 0;
-	if (!envp)
-		error_exit("\nError: No environment variables found.", 127, data);
+	// if (!envp)
+	// 	error_exit("\nError: No environment variables found.", 127, data);
 	pid = fork();
 	if (pid == -1)
 		error_exit("Fork failed", 127, data);
@@ -110,8 +110,6 @@ void	execute(t_token *token, t_data *data)
 		if (!cmd)
 			return ;
 		env = list_to_arr(data->envs);
-		if (!env)
-			return (free_arr(cmd));
 		g_global.last_exit_code = sys_cmd(cmd, env, token, data);
 		free_arr(env);
 		free_arr(cmd);
