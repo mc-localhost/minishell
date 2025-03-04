@@ -31,9 +31,9 @@ void	builtin_token(t_token *token)
 {
 	int		i;
 	int		num_builtins;
-	char	*builtins[8];
+	char	*builtins[7];
 
-	num_builtins = 8;
+	num_builtins = 7;
 	builtins[0] = "cd";
 	builtins[1] = "echo";
 	builtins[2] = "pwd";
@@ -41,7 +41,6 @@ void	builtin_token(t_token *token)
 	builtins[4] = "export";
 	builtins[5] = "unset";
 	builtins[6] = "exit";
-	builtins[7] = "clear";
 	i = 0;
 	while (i < num_builtins)
 	{
