@@ -61,14 +61,14 @@ void	single_exec(char **cmd, char **env, t_token *token, t_data *data)
 	free(path);
 }
 
+// if (!envp)
+// 	error_exit("\nError: No environment variables found.", 127, data);
 int	sys_cmd(char **cmd, char **envp, t_token *token, t_data *data)
 {
 	pid_t	pid;
 	int		r;
 
 	r = 0;
-	// if (!envp)
-	// 	error_exit("\nError: No environment variables found.", 127, data);
 	pid = fork();
 	if (pid == -1)
 		error_exit("Fork failed", 127, data);
