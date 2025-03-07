@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/25 11:32:59 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/03/07 13:18:05 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/03/07 13:44:57 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,43 +82,14 @@ static t_data	init_global(int argc, char **argv, char **envp)
 	return (data);
 }
 
-int	main(int argc, char **argv, char **envp)
-{
-	t_data	data;
-
-	data = init_global(argc, argv, envp);
-	while (1)
-	{
-		data.input = readline(PROMPT);
-		if (!data.input)
-			break ;
-		if (*data.input)
-			add_history(data.input);
-		if (parse(&data) != EXIT_FAILURE)
-			execute_commands(&data);
-		tokens_cleanup(&data);
-	}
-	return (clean_exit(&data));
-}
-
 // int	main(int argc, char **argv, char **envp)
 // {
 // 	t_data	data;
-// 	char	*line;
 
 // 	data = init_global(argc, argv, envp);
 // 	while (1)
 // 	{
-// 		if (isatty(fileno(stdin)))
-// 			data.input = readline(PROMPT);
-// 		else
-// 		{
-// 			line = get_next_line(fileno(stdin));
-// 			if (!line)
-// 				break ;
-// 			data.input = ft_strtrim(line, "\n");
-// 			free(line);
-// 		}
+// 		data.input = readline(PROMPT);
 // 		if (!data.input)
 // 			break ;
 // 		if (*data.input)
@@ -129,3 +100,32 @@ int	main(int argc, char **argv, char **envp)
 // 	}
 // 	return (clean_exit(&data));
 // }
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_data	data;
+	char	*line;
+
+	data = init_global(argc, argv, envp);
+	while (1)
+	{
+		if (isatty(STDIN_FILENO))
+			data.input = readline(PROMPT);
+		else
+		{
+			line = get_next_line(STDIN_FILENO);
+			if (!line)
+				break ;
+			data.input = ft_strtrim(line, "\n");
+			free(line);
+		}
+		if (!data.input)
+			break ;
+		if (*data.input)
+			add_history(data.input);
+		if (parse(&data) != EXIT_FAILURE)
+			execute_commands(&data);
+		tokens_cleanup(&data);
+	}
+	return (clean_exit(&data));
+}
