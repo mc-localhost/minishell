@@ -48,7 +48,8 @@ int	handle_builtin(t_token *token, t_data *data)
 		return (unset(token, data));
 	else if (!ft_strcmp(token->value, "exit"))
 		return (custom_exit(token, data));
-	else if (!ft_strcmp(token->value, "clear"))
-		printf("\033[H\033[J");
 	return (0);
 }
+
+// else if (!ft_strcmp(token->value, "clear"))
+// printf("\033[H\033[J");

@@ -62,6 +62,8 @@ char	*find_path(char *cmd, char **envp)
 		return (0);
 	if (access(cmd, F_OK) == 0)
 		return (cmd);
+	if (!envp)
+		return (0);
 	i = 0;
 	if (cmd[0] == '~')
 		return (get_path_with_home(cmd, envp));

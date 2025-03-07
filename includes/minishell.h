@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/24 17:26:37 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/27 04:55:24 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/03/07 12:59:44 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@
 /*	F 	U 	N 	C 	T 	I 	O 	N 	S	*/
 
 void			tokens_cleanup(t_data *data);
+void			execute_commands(t_data *data);
 /*	GARBAGE COLLECTOR	*/
 void			*safe_malloc(size_t size);
 void			free_all(void);
@@ -134,7 +135,8 @@ void			single_exec(char **cmd, char **env, t_token *token,
 					t_data *data);
 int				exe_builtin_cmd(t_token *token, t_data *data);
 void			execute(t_token *token, t_data *data);
-
+void			print_exec_error(char *cmd, t_data *data, int type);
+int				env_cmd_error(t_token *token);
 /*	PIPEX	*/
 void			execute_pipeline(t_data *data);
 

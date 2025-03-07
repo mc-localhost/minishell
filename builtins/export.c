@@ -17,6 +17,8 @@ int	export_env_list_sorted(t_env_node *current)
 	t_env_node	*env;
 	t_env_node	*env_copy;
 
+	if (!current)
+		return (0);
 	env = copy_env_list(current);
 	env_copy = env;
 	sort_env_list(env);

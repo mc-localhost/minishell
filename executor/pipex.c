@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:47:33 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/27 08:03:58 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/03/07 12:48:31 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	redirect_to_prev_fd(int prev_fd, int pipefd[2], t_token *current)
 
 void	parent(int *pid_list, int i)
 {
-	int j;
+	int	j;
 	int	status;
 
 	j = 0;

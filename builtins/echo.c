@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:55 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/27 19:15:34 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/03/07 12:55:53 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ char	*esc_chart(char	*str)
 	return (s);
 }
 
-
 void	echo_out(char *str, int c)
 {
 	int	i;
@@ -76,25 +75,17 @@ void	echo_out(char *str, int c)
 		if (str[i] == '\\')
 		{
 			if (str[i + 1] == '\\')
-			{
 				printf("\\");
-				i++;
-			}
-    		else if (str[i + 1] == 'n')
-			{
+			else if (str[i + 1] == 'n')
 				printf("\\n");
-				i++;
-			} 
 			else if (str[i + 1] == 't')
-			{
 				printf("\\t");
-				i++;
-			}
+			i++;
 		}
 		else
 			printf("%c", str[i]);
-        i++;
-    }
+		i++;
+	}
 	if (c != '0')
 		printf("%c", c);
 }
