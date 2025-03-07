@@ -6,7 +6,7 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 16:01:56 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/27 17:12:12 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/03/07 13:19:12 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	ft_isnum(char *str)
 
 int	custom_exit(t_token *token, t_data *data)
 {
-	// ft_putstr_stderr("exit\n");
+	ft_putstr_stderr("exit\n");
 	if (token->args_count >= 1)
 	{
 		if (ft_isnum(token->args[0]) <= 0)
