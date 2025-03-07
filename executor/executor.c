@@ -14,31 +14,32 @@
 
 void	print_exec_error(char *cmd, t_data *data, int type)
 {
-	ft_putstr_stderr("minishell: ");
+	char	*err;
+	err = ft_strdup_safe("minishell: ");
 	if (!ft_strcmp(cmd, "."))
 	{
-		ft_putstr_stderr("filename argument required\n");
-		error_exit(".: usage: . filename [arguments]", 127, data);
+		err = ft_strjoin_safe(err, "filename argument required\n.: usage: . filename [arguments]");
+		type = 127;
 	}
 	else if (is_directory(cmd) && ft_strchr(cmd, '/'))
 	{
-		ft_putstr_stderr(cmd);
+		err = ft_strjoin_safe(err, ft_strjoin_safe(cmd, ": is a directory"));
 		free(cmd);
-		error_exit(": is a directory", type, data);
 	}
 	else
 	{
-		ft_putstr_stderr(cmd);
-		ft_putstr_stderr(": ");
+		err = ft_strjoin_safe(err, ft_strjoin_safe(cmd, ": "));
 		if (!is_directory(cmd) && !ft_strchr(cmd, '/'))
 			type = 127;
 		free(cmd);
 		if (type == 127)
-			error_exit("command not found", type, data);
-		if (type == 126)
-			error_exit("Permission denied", type, data);
-		error_exit("", type, data);
+			err = ft_strjoin_safe(err, "command not found");
+		else if (type == 126)
+			err = ft_strjoin_safe(err, "Permission denied");
+		else
+			err = ft_strjoin_safe(err, strerror(errno));
 	}
+	error_exit(err, type, data);
 }
 
 void	single_exec(char **cmd, char **env, t_token *token, t_data *data)

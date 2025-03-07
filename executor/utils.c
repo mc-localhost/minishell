@@ -32,10 +32,13 @@ int	open_file(t_token_type type, char *filename, int output)
 
 void	error_exit(const char *msg, int r, t_data *data)
 {
+	char	*errmsg;
+
 	if (ft_strlen(msg) == 0)
 		msg = strerror(errno);
-	write(STDERR_FILENO, msg, ft_strlen(msg));
-	ft_putstr_stderr("\n");
+	errmsg = ft_strjoin(msg, "\n");
+	write(STDERR_FILENO, errmsg, ft_strlen(errmsg));
+	free(errmsg);
 	if (r == 0)
 		r = errno;
 	g_global.last_exit_code = r;
