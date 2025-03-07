@@ -6,29 +6,11 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:47:33 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/27 08:03:58 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/03/07 12:48:31 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-int	open_file(t_token_type type, char *filename, int output)
-{
-	int	fd;
-
-	if (output == 0)
-		return (open(filename, O_RDONLY));
-	else if (output == 1)
-	{
-		if (type == TOKEN_APPEND)
-			fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		else
-			fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd > 0)
-			return (fd);
-	}
-	return (-1);
-}
 
 void	child(t_token *token, int *pipefd, t_data *data)
 {
@@ -57,7 +39,7 @@ void	child(t_token *token, int *pipefd, t_data *data)
 	clean_exit(data);
 }
 
-void	redirect_to_prev_fd(int prev_fd)
+void	redirect_to_prev_fd(int prev_fd, int pipefd[2], t_token *current)
 {
 	if (prev_fd != -1)
 	{
@@ -68,11 +50,31 @@ void	redirect_to_prev_fd(int prev_fd)
 		}
 		close(prev_fd);
 	}
+	if (current->next)
+		dup2(pipefd[1], STDOUT_FILENO);
+	close(pipefd[0]);
+	close(pipefd[1]);
+}
+
+void	parent(int *pid_list, int i)
+{
+	int	j;
+	int	status;
+
+	j = 0;
+	while (j < i)
+	{
+		waitpid(pid_list[j], &status, 0);
+		j++;
+	}
+	if (WIFEXITED(status))
+		g_global.last_exit_code = WEXITSTATUS(status);
 }
 
 void	execute_pipx(t_token *current, int pipefd[2], int parm[2], t_data *data)
 {
 	pid_t	pid;
+	int		pid_list[1024];
 
 	data->is_active = 1;
 	while (current)
@@ -83,24 +85,23 @@ void	execute_pipx(t_token *current, int pipefd[2], int parm[2], t_data *data)
 		if (pid == -1)
 			return (perror("Fork failed"));
 		if (pid == 0)
-			redirect_to_prev_fd(parm[0]);
+			redirect_to_prev_fd(parm[0], pipefd, current);
 		if (pid == 0)
 			child(current, pipefd, data);
-		current = current->next;
+		else
+			pid_list[parm[1]++] = pid;
 		if (parm[0] != -1)
 			close(parm[0]);
 		parm[0] = pipefd[0];
 		close(pipefd[1]);
-		if (!current)
-			waitpid(pid, &parm[1], 0);
-		if (WIFEXITED(parm[1]))
-			g_global.last_exit_code = WEXITSTATUS(parm[1]);
+		current = current->next;
 	}
+	parent(pid_list, parm[1]);
 	data->is_active = 0;
 }
 
 // parm[0] = prev_fd
-// parm[1] = r
+// parm[1] = pid_counter
 void	execute_pipeline(t_data *data)
 {
 	t_token	*current;

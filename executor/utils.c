@@ -12,12 +12,33 @@
 
 #include "../includes/pipex.h"
 
+int	open_file(t_token_type type, char *filename, int output)
+{
+	int	fd;
+
+	if (output == 0)
+		return (open(filename, O_RDONLY));
+	else if (output == 1)
+	{
+		if (type == TOKEN_APPEND)
+			fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		else
+			fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd > 0)
+			return (fd);
+	}
+	return (-1);
+}
+
 void	error_exit(const char *msg, int r, t_data *data)
 {
+	char	*errmsg;
+
 	if (ft_strlen(msg) == 0)
 		msg = strerror(errno);
-	write(STDERR_FILENO, msg, ft_strlen(msg));
-	ft_putstr_stderr("\n");
+	errmsg = ft_strjoin(msg, "\n");
+	write(STDERR_FILENO, errmsg, ft_strlen(errmsg));
+	free(errmsg);
 	if (r == 0)
 		r = errno;
 	g_global.last_exit_code = r;
@@ -39,6 +60,8 @@ void	free_arr(char **str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return ;
 	while (str[i])
 	{
 		free(str[i]);
