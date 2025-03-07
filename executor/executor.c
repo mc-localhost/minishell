@@ -6,41 +6,11 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/15 15:59:48 by vvasiuko          #+#    #+#             */
-/*   Updated: 2025/02/27 17:17:07 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/03/07 12:45:17 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	print_exec_error(char *cmd, t_data *data, int type)
-{
-	char	*err;
-	err = ft_strdup_safe("minishell: ");
-	if (!ft_strcmp(cmd, "."))
-	{
-		err = ft_strjoin_safe(err, "filename argument required\n.: usage: . filename [arguments]");
-		type = 127;
-	}
-	else if (is_directory(cmd) && ft_strchr(cmd, '/'))
-	{
-		err = ft_strjoin_safe(err, ft_strjoin_safe(cmd, ": is a directory"));
-		free(cmd);
-	}
-	else
-	{
-		err = ft_strjoin_safe(err, ft_strjoin_safe(cmd, ": "));
-		if (!is_directory(cmd) && !ft_strchr(cmd, '/'))
-			type = 127;
-		free(cmd);
-		if (type == 127)
-			err = ft_strjoin_safe(err, "command not found");
-		else if (type == 126)
-			err = ft_strjoin_safe(err, "Permission denied");
-		else
-			err = ft_strjoin_safe(err, strerror(errno));
-	}
-	error_exit(err, type, data);
-}
 
 void	single_exec(char **cmd, char **env, t_token *token, t_data *data)
 {

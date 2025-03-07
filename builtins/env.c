@@ -6,32 +6,24 @@
 /*   By: aelaaser <aelaaser@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 21:56:43 by aelaaser          #+#    #+#             */
-/*   Updated: 2025/02/26 15:02:26 by aelaaser         ###   ########.fr       */
+/*   Updated: 2025/03/07 12:58:43 by aelaaser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*ft_strtoupper(char *str) // don't need this
-{
-	int	i;
+// char	*ft_strtoupper(char *str) // don't need this
+// {
+// 	int	i;
 
-	i = 0;
-	while (str[i] && str[i] != '\0')
-	{
-		str[i] = ft_toupper(str[i]);
-		i++;
-	}
-	return (str);
-}
-
-int	env_cmd_error(t_token *token)
-{
-	ft_putstr_stderr("env: ");
-	ft_putstr_stderr(token->args[0]);
-	ft_putstr_stderr(": No such file or directory\n");
-	return (1);
-}
+// 	i = 0;
+// 	while (str[i] && str[i] != '\0')
+// 	{
+// 		str[i] = ft_toupper(str[i]);
+// 		i++;
+// 	}
+// 	return (str);
+// }
 
 // Function to print the environment list, sorted by key
 void	print_env_list_sorted(t_env_node *current)
@@ -51,7 +43,7 @@ void	print_env_list_sorted(t_env_node *current)
 	free_env_list(env_copy);
 }
 
-static	int use_env(char	**args)
+static	int	use_env(char	**args)
 {
 	int	i;
 
@@ -67,7 +59,7 @@ static	int use_env(char	**args)
 
 static char	**tmp_env(char **args)
 {
-	char **envp;
+	char	**envp;
 	int		i;
 	int		j;
 
@@ -118,10 +110,12 @@ int	env(t_token *token, t_data *data)
 	i = 0;
 	tmp = NULL;
 	g_global.last_exit_code = 0;
-	if (token->args_count >= 1) {
+	if (token->args_count >= 1)
+	{
 		while (token->args[i])
 		{
-			if (ft_strcmp(token->args[i], "-i") && !ft_strchr(token->args[i], '='))
+			if (ft_strcmp(token->args[i], "-i")
+				&& !ft_strchr(token->args[i], '='))
 			{
 				if (tmp)
 					tmp = ft_strjoin_safe(tmp, " ");
@@ -130,9 +124,9 @@ int	env(t_token *token, t_data *data)
 			i++;
 		}
 		env_exec(data, token->args, tmp);
-	} else {
-		print_env_list_sorted(data->envs);
 	}
+	else
+		print_env_list_sorted(data->envs);
 	return (g_global.last_exit_code);
 }
 
